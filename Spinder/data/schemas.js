@@ -34,22 +34,33 @@ let musicalProfile = {
 
 let song = {
     "_id" : "6066381ac70d3c9512ae492d",
-    "user_ids": [],
-    "spotify_id":,
-    "spotify_url" : [],
-    "name" : ,
-    "artists" : ,
+    "user_ids": ["60662c937aca080f54785a85","70662c937aca080f54785a77"],
+    "spotify_id": "6yEPxDjbbzUzyauGtnmTEC",
+    "spotify_url" : "https://open.spotify.com/album/6S9qcfPMsqtYQXVyeC7Hip",
+    "name" : "Cut To The Feeling" ,
+    "album_name": "Cut To The Feeling",
+    "artists" : ["Carly Rae Jepsen"],
     "img" : "https://i.scdn.co/image/966ade7a8c43b72faa53822b74a899c675aaafee",
-    "audio_features" :
+    "audio_features" :{ 
+      "danceability": 0.735,
+      "energy": 0.578,
+      "key": 5,
+      "loudness": -11.84,
+      "mode": 0,
+      "speechiness": 0.0461,
+      "acousticness": 0.514,
+      "instrumentalness": 0.0902,
+      "liveness": 0.159,
+      "valence": 0.624,
+      "tempo": 98.002,
+    }  
   };
 
 let artist = {
     "_id" : "60662c937aca080f54785a85",
-    "user_ids" : [],
-    "spotify_id":,
-    "spotify_url" : [],
-    "name" : ,
-    "artists" : ,
-    "img" : "https://i.scdn.co/image/32bd9707b42a2c081482ec9cd3ffa8879f659f95" ,
-    "audio_features" :
+    "user_ids" : ["57052c937bbb080f54785a85","70662c937aca080f54785a77"],
+    "spotify_id": "6yEPxDjbbzUzyauGtnmTEC",
+    "spotify_url" : "https://open.spotify.com/album/6S9qcfPMsqtYQXVyeC7Hip",
+    "name" : "Carly Rae Jepsen" ,
+    "img" : "https://i.scdn.co/image/32bd9707b42a2c081482ec9cd3ffa8879f659f95"
   };
