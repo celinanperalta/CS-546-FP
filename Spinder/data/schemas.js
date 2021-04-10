@@ -1,3 +1,7 @@
+const Joi = require('joi');
+
+
+
 let user = {
     "_id" : "60662c937aca080f54785a85",
     "firstName" : "Bob",
