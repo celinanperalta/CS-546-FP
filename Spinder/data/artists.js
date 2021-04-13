@@ -50,11 +50,12 @@ let exportedMethods = {
         if(!id || typeof id !== 'string' || id == ""){
             throw new Error("Must provide valid string id");
         }
-        const result = schemas.artistSchema.validate(artist);//validate artist
-        const artistsCollection = await artists(); 
+        const result = schemas.artistSchema.validate(updatedArtist);//validate artist
+        
         if(result.error){//throw if error
             throw new Error(result.error);
         }
+        const artistsCollection = await artists();
         const updatedArtistData = {};
         //Check for what fields are being updated
         if(updatedArtist.user_ids){
@@ -90,7 +91,7 @@ let exportedMethods = {
         //Delete from DB
         const deletionInfo = await artistsCollection.deleteOne({_id: ObjectID.ObjectId(id)})
         if (deletionInfo.deletedCount === 0) {
-            throw `Could not delete artist with id of ${id}`;
+            throw new Error(`Could not delete artist with id of ${id}`);
         }
         return artist;
     }
