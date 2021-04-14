@@ -4,7 +4,7 @@
   "description": "",
   "main": "Spinder/app.js",
   "scripts": {
-    "test": "cd Spinder && npm ci && node app.js && npm ci"
+    "test": "node Spinder/app.js"
   },
   "repository": {
     "type": "git",
