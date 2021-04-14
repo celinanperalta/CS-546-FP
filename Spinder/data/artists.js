@@ -6,7 +6,7 @@ let exportedMethods = {
 
     async getAllArtists() {
         const artistsCollection = await artists();//obtain artist collection
-        const artistsList = artistsCollection.find();//get list of artist objects
+        const artistsList = await artistsCollection.find();//get list of artist objects
         return artistsList;
     },
 

@@ -7,7 +7,7 @@ let exportedMethods = {
 
     async getAllProfiles() {
         const profilesCollection = await profiles();//Obtain profiles colllection
-        const profilesList = profilesCollection.find();//Get all profiles
+        const profilesList = await profilesCollection.find();//Get all profiles
         return profilesList;
     },
 
@@ -16,7 +16,7 @@ let exportedMethods = {
             throw new Error("Must provide valid string id");
         }
         const profilesCollection = await profiles();//Obtain profiles colllection
-        const profile = profilesCollection.findOne({ _id: ObjectID.ObjectID(id)});//get profile by id
+        const profile = await profilesCollection.findOne({ _id: ObjectID.ObjectID(id)});//get profile by id
         if(profile === null){
             throw new Error("Profile not found with that id.");
         }
