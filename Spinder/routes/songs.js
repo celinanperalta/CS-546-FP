@@ -97,6 +97,9 @@ router.patch('/:id', async (req, res) => {
     if(updatedInfo.img && updatedInfo.img != oldSong.img){
         updatedData.img = updatedInfo.img;
     }
+    if(updatedInfo.audio_features && updatedInfo.audio_features != oldSong.audio_features){
+        updatedData.audio_features = updatedInfo.audio_features;
+    }
     if(updatedInfo.user_ids){
         for (id of updatedInfo.user_ids){
             if (oldSong.user_ids.includes(id)===false){
