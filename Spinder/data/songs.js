@@ -96,7 +96,7 @@ let exportedMethods = {
             throw new Error("Must provide valid string id");
         }
         const songsCollection = await songs();
-        const song = this.getSongById(id);
+        const song = await this.getSongById(id);
         //Delete from DB
         const deletionInfo = await songsCollection.deleteOne({_id: ObjectID.ObjectId(id)});
         if(deletionInfo.deletedCount ===0){
