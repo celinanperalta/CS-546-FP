@@ -7,7 +7,7 @@ let exportedMethods = {
 
     async getAllSongs() {
         const songsCollection = await songs();//Obtain song collection
-        const songsList = songsCollection.find();//get all songs
+        const songsList = await songsCollection.find();//get all songs
         return songsList;
     },
 
@@ -16,7 +16,7 @@ let exportedMethods = {
             throw new Error("Must provide valid string id");
         }
         const songsCollection = await songs();//Obtain song collection
-        const song = songsCollection.findOne({ _id: ObjectID.ObjectID(id)});//get song by id
+        const song = await songsCollection.findOne({ _id: ObjectID.ObjectID(id)});//get song by id
         if(song === null){//if no song found throw an error
             throw new Error("Song not found with that id");
         }
