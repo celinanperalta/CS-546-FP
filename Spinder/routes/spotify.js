@@ -3,8 +3,8 @@ const router = express.Router();
 var request = require('request'); // "Request" library
 var querystring = require('querystring');
 
-var client_id = 'e97f38bd92194e64813508e2c4ae40a3'; // Your client id
-var client_secret = '9cbba06d06ff4bdfb59749eead189c96'; // Your secret
+var client_id = 'will do this later'; // Your client id
+var client_secret = 'this too'; // Your secret
 var redirect_uri = 'http://localhost:3000/callback'; // Your redirect uri - used after first login call to return access/refresh token
 var stateKey = 'spotify_auth_state'; // Sent in 1st call as state, not required but highly suggested
 
