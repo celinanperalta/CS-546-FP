@@ -118,7 +118,7 @@ router.patch('/:id', async (req, res) => {
         return;
     }
     try{
-        const updatedSong = await artistData.updateArtist(req.params.id, updatedData.user_ids, updatedData.spotify_id, updatedData.spotify_url, updatedData.name, updatedData.album_name, updatedData.artists, updatedData.img);
+        const updatedSong = await songData.updateSong(req.params.id, updatedData.user_ids, updatedData.spotify_id, updatedData.spotify_url, updatedData.name, updatedData.album_name, updatedData.artists, updatedData.img);
         res.status(200).json(updatedSong);
     }
     catch(e){
