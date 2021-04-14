@@ -33,7 +33,7 @@ router.post('/', async (req, res) => {
     }
     let newArtist=result.value;
     try {
-        const addedArtist = await bookData.addArtist(newArtist.id, newArtist.user_id, newArtist.spotify_id, newArtist.spotify_url, newArtist.name, newArtist.img);
+        const addedArtist = await bookData.addArtist(newArtist);
         res.status(200).json(addedArtist);
     }
     catch(e){
@@ -58,7 +58,7 @@ router.put('/:id', async(req, res)=> {
         return;
     }
     try {
-        const updatedArtist = await artistData.updateArtist(updatedInfo.id, updatedInfo.user_id, updatedInfo.spotify_id, updatedInfo.spotify_url, updatedInfo.name, updatedInfo.img);
+        const updatedArtist = await artistData.updateArtist(req.params.id, updatedInfo);
         res.status(200).json(updatedArtist);
     }
     catch(e){
@@ -108,7 +108,7 @@ router.patch('/:id', async (req, res) => {
         return;
     }
     try{
-        const updatedArtist = await artistData.updateArtist(req.params.id, updatedData.user_ids, updatedData.spotify_id, updatedData.spotify_url, updatedData.name, updatedData.img);
+        const updatedArtist = await artistData.updateArtist(req.params.id, updatedData);
         res.status(200).json(updatedArtist);
     }
     catch(e){
@@ -131,7 +131,5 @@ router.delete('/:id', async (req, res) => {
         res.status(500).send({error: e});
     }
 });
-
-
 
 module.exports = router;
