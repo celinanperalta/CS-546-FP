@@ -33,7 +33,7 @@ router.post('/', async (req, res) => {
     }
     let newSong=result.value;
     try {
-        const addedSong = await songData.addSong(newSong.id, newSong.user_ids, newSong.spotify_id, newSong.spotify_url, newSong.name, newSong.album_name, newSong.artists, newSong.img);
+        const addedSong = await songData.addSong(newSong);
         res.status(200).json(addedSong);
     }
     catch(e){
@@ -57,7 +57,7 @@ router.put('/:id', async(req, res)=> {
         return;
     }
     try {
-        const updatedSong = await songData.updateSong(updatedInfo.id, updatedInfo.user_ids, updatedInfo.spotify_id, updatedInfo.spotify_url, updatedInfo.name, updatedInfo.album_name, updatedInfo.artists, updatedInfo.img);
+        const updatedSong = await songData.updateSong(req.params.id, updatedInfo);
         res.status(200).json(updatedSong);
     }
     catch(e){
@@ -108,7 +108,7 @@ router.patch('/:id', async (req, res) => {
     if(updatedInfo.artists){
         for (artist of updatedInfo.artists){
             if (oldSong.artists.includes(id)===false){
-                updatedData.artists = updatedInfo.asrtists;
+                updatedData.artists = updatedInfo.artists;
                 break;
             }
         }
@@ -118,7 +118,7 @@ router.patch('/:id', async (req, res) => {
         return;
     }
     try{
-        const updatedSong = await songData.updateSong(req.params.id, updatedData.user_ids, updatedData.spotify_id, updatedData.spotify_url, updatedData.name, updatedData.album_name, updatedData.artists, updatedData.img);
+        const updatedSong = await songData.updateSong(req.params.id, updatedData);
         res.status(200).json(updatedSong);
     }
     catch(e){
