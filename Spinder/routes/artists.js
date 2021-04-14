@@ -74,8 +74,8 @@ router.patch('/:id', async (req, res) => {
         res.status(404).json({ error: 'Artist not found' });
         return;
     }
-    const updatedData = req.body;
-    const result=schemas.artistSchema.validate(updatedData);
+    const updatedBody = req.body;
+    const result=schemas.artistSchema.validate(updatedBody);
     if(result.error){
         res.status(400).json({error:result.error});
         return;

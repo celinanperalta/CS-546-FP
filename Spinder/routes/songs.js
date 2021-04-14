@@ -73,8 +73,8 @@ router.patch('/:id', async (req, res) => {
         res.status(404).json({ error: 'Song not found' });
         return;
     }
-    const updatedData = req.body;
-    const result=schemas.songSchema.validate(updatedData);
+    const updatedBody = req.body;
+    const result=schemas.songSchema.validate(updatedBody);
     if(result.error){
         res.status(400).json({error:result.error});
         return;
