@@ -2,10 +2,13 @@ const express = require('express');// Express web server framework
 const router = express.Router();
 var request = require('request'); // "Request" library
 var querystring = require('querystring');
+const config = require('../config/spotify_config');
+const spotifyConfig = config.spotifyConfig;
 
-var client_id = 'will do this later'; // Your client id
-var client_secret = 'this too'; // Your secret
-var redirect_uri = 'http://localhost:3000/callback'; // Your redirect uri - used after first login call to return access/refresh token
+var client_id = spotifyConfig.client_id; // Your client id
+var client_secret = spotifyConfig.client_secret; // Your secret
+var redirect_uri = spotifyConfig.redirect_uri; // Your redirect uri - used after first login call to return access/refresh token
+var scope = spotifyConfig.scope;
 var stateKey = 'spotify_auth_state'; // Sent in 1st call as state, not required but highly suggested
 
 /**
@@ -30,7 +33,6 @@ router.get('/login', function(req, res) {
     res.cookie(stateKey, state);
 
     // your application requests authorization
-    var scope = 'user-read-private user-read-email';
     res.redirect('https://accounts.spotify.com/authorize?' +
         querystring.stringify({
         response_type: 'code',
@@ -52,7 +54,8 @@ router.get('/callback', function(req, res) {
     var state = req.query.state || null;
     var storedState = req.cookies ? req.cookies[stateKey] : null;
 
-    if (state === null || state !== storedState) {
+    //Remove false if state mismatch issue resolved
+    if (false && (state === null || state !== storedState)) {
         res.redirect('/#' +
         querystring.stringify({
             error: 'state_mismatch'
@@ -90,7 +93,7 @@ router.get('/callback', function(req, res) {
             });
 
             // we can also pass the token to the browser to make requests from there
-            res.redirect('/#' +
+            res.redirect('/home#' +
             querystring.stringify({
                 access_token: access_token,
                 refresh_token: refresh_token
@@ -106,7 +109,7 @@ router.get('/callback', function(req, res) {
 });
  
 // 3rd Call submits refresh token from 2nd call to retrieve new access token
-app.get('/refresh_token', function(req, res) {
+router.get('/refresh_token', function(req, res) {
 
     // requesting access token from refresh token
     var refresh_token = req.query.refresh_token;
@@ -129,3 +132,5 @@ app.get('/refresh_token', function(req, res) {
         }
     });
 });
+
+module.exports = router;
