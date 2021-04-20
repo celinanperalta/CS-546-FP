@@ -10,6 +10,18 @@ const data_limit = 20;
 let exportedMethods = {
 
     async sendWebAPIRequest(token, endpoint) {
+
+        var options = {
+            url: 'https://api.spotify.com/v1/me',
+            headers: { 'Authorization': 'Bearer ' + access_token },
+            json: true
+            };
+
+            // use the access token to access the Spotify Web API
+            request.get(options, function(error, response, body) {
+            console.log(body);
+            });
+
         const apiData = await request({
             method: 'GET',
             uri: `https://api.spotify.com/v1/${endpoint}`,
