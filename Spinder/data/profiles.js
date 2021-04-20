@@ -24,7 +24,6 @@ let exportedMethods = {
         return profile;
     },
 
-
     async addProfile(profile) {
         const result = schemas.profileSchema.validate(profile);
         if(result.errors){

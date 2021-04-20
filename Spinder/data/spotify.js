@@ -49,7 +49,7 @@ let exportedMethods = {
             
             for(let i = 0; i < 5 && artists.length; i++){//loop through at most 5 artists, or the length of array if smaller
                 /**--------------------------------ADD/UPDATE ARTIST IN THE DB---------------------------------- */
-                try{//Try to get the artist from the DB, if it is already there, then we do not need to add it again,
+                try {//Try to get the artist from the DB, if it is already there, then we do not need to add it again,
                     const artist = await artistData.getArtistById(artists[i].id);//instead just add the user_id to the user_ids array
                     let user_id_arr = artist.user_ids;//get the old user_ids array
                     user_id_arr.push(user_id);//add the new user to this array

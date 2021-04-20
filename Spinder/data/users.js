@@ -8,7 +8,7 @@ let exportedMethods = {
 
     async getAllUsers() {
         const usersCollection = await users();//Obtain user collection
-        const usersList = await usersCollection.find();//get all users
+        const usersList = await usersCollection.find({});//get all users
         return usersList;
     },
 
@@ -17,7 +17,7 @@ let exportedMethods = {
             throw new Error("Must provide valid string id");
         }
         const usersCollection = await users();//obtain users collection
-        const user = await usersCollection.find({ _id: ObjectID.ObjectID(id)});
+        const user = await usersCollection.findOne({ _id: ObjectID.ObjectID(id)});
         if(user === null){
             throw new Error("User not found with that id");
         }
@@ -25,35 +25,38 @@ let exportedMethods = {
         return user;
     },
 
+    async getUserBySpotifyUsername(username) {
+        if(!username || typeof username !== 'string'|| username == ""){//Check that id exists and is of correct type
+            throw new Error("Must provide valid string username");
+        }
+        const usersCollection = await users();//obtain users collection
+        const user = await usersCollection.findOne({ username: username});
+        if(user === null){
+            throw new Error("User not found with username " + username);
+        }
+        console.log(user);
+        user._id = user._id.toString();
+        return user;
+    },
+
+    // This should only be called when a new user logs in!
     async addUser(user) {
         const result = schemas.userSchema.validate(user);
-        if(result.error){//if not valid user, throw an error
+        if(result.error) {//if not valid user, throw an error
             throw new Error(result.error);
         }
         const usersCollection = await users();
-        let newUser = {
-            _id: user._id,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            username: user.username,
-            email: user.email,
-            location: user.location,
-            img: user.img,
-            topArtist: user.topArtist,
-            topSongs: user.topSongs,
-            playlists: user.playlists,
-            likedProfiles: user.likedProfiles,
-            musicalProfile: user.musicalProfile
-        }
+        let newUser = result.value;
+
         const insertInfo = await usersCollection.insertOne(newUser);
-        if(insertInfo.insertedCount ===0){
+        if(insertInfo.insertedCount ===0) {
             throw new Error("Insert failed");
         }
         newUser._id = newUser._id.toString();
         return newUser;
     },
 
-    async updateUser(id,updatedUser) {
+    async updateUser(id, updatedUser) {
         if(!id || typeof id !== 'string' || id == ""){
             throw new Error("Must provide valid string id");
         }
