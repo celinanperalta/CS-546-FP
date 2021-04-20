@@ -57,7 +57,8 @@ let exportedMethods = {
         newUser._id = newUser._id.toString();
         // TODO: Get top artists and songs for user and populate fields
         console.log("Getting user artists...");
-        await spotifyData.getUserTopArtistsTest(newUser.access_token);
+        let topArtistsData = await spotifyData.getUserTopArtists(newUser.access_token);
+        console.log(topArtistsData);
 
         // TODO: After getting top songs, create musical profile object
         

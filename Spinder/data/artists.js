@@ -1,6 +1,7 @@
 const mongoCollections = require('../config/mongoCollections');
 const schemas = require('./schemas');
 const artists = mongoCollections.artists;
+const userData = require('./users');
 let { ObjectID } = require('mongodb');
 let exportedMethods = {
 
@@ -44,6 +45,10 @@ let exportedMethods = {
         }
         newArtist._id = newArtist._id.toString();
         return newArtist;
+    },
+
+    async addArtistToUser(aritist_id, user_id) {
+
     },
 
     async updateArtist(id, updatedArtist) {
