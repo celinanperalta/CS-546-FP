@@ -57,8 +57,8 @@ const userSchema = Joi.object({
   playlists: Joi.array().items(Joi.string().uri()).default([]),
   likedProfiles: Joi.array().items(objectIdSchema).default([]),
   musicalProfile: objectIdSchema,
-  access_token: Joi.string().min(1),
-  refresh_token: Joi.string().min(1)
+  access_token: Joi.string().min(1).required(),
+  refresh_token: Joi.string().min(1).required()
 });
 
 module.exports = {

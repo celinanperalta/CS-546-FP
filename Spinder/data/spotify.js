@@ -4,6 +4,7 @@ const request = require('request');
 const userData = require('./users');
 const artistData = require('./artists');
 const songData = require('./songs');
+const bcrypt = require('bcrypt');
 
 const data_limit = 20;
 
@@ -13,12 +14,12 @@ let exportedMethods = {
 
         var options = {
             url: 'https://api.spotify.com/v1/me',
-            headers: { 'Authorization': 'Bearer ' + access_token },
+            headers: { 'Authorization': 'Bearer ' + token },
             json: true
             };
 
             // use the access token to access the Spotify Web API
-            request.get(options, function(error, response, body) {
+        request.get(options, function(error, response, body) {
             console.log(body);
             });
 
@@ -31,21 +32,38 @@ let exportedMethods = {
             json: true
           });
 
-        const data = (data && data.items) || [];
+        const data = (apiData && apiData.items) || [];
 
         return data;
+    },
+
+    async getUserTopArtistsTest(token) {
+        let endpoint = "me/top/artists/";
+        const data = await this.sendWebAPIRequest(token, endpoint);
+        if (data.items) {
+            console.log(data.items);
+        } else {
+            console.log(data);
+        }
     },
 
     async getUserTopArtists(user_id) {
         // TODO: Validate user
         let endpoint = "me/top/artists/";
-        let token = "";
+        let user = undefined;
+
+        try {
+            user = await userData.getUserById(user_id); //try to get user
+        } catch (e) {
+            throw Error(e);
+        }
+
+        // let token = await bcryptuser.access_token;
 
         const data = await this.sendWebAPIRequest(token, endpoint);
         const artists = data.items; //array of artist objects
         try{ //Try to get user from DB
-            let user = await userData.getUserById(user_id);//try to get user
-            let top_artist_arr = user.topArtist;//Get topArtist array
+            let top_artist_arr = user.topArtists;//Get topArtist array
             
             for(let i = 0; i < 5 && artists.length; i++){//loop through at most 5 artists, or the length of array if smaller
                 /**--------------------------------ADD/UPDATE ARTIST IN THE DB---------------------------------- */
@@ -89,7 +107,7 @@ let exportedMethods = {
                 /**---------------------------------------------------------------------------------------------------- */
                 top_artist_arr.push(artist[i].name);//push the artist into the top artist array
             }//Out of for loop
-            user.topArtist = top_artist_arr;//update the user's top artist
+            user.topArtists = top_artist_arr;//update the user's top artist
             try{
                 await userData.updateUser(user._id,user);
             }catch(e){//unable to update the user
@@ -98,6 +116,7 @@ let exportedMethods = {
         }catch(e){//User was not found in the DB with that ID
             console.log(e);
         }
+        console.log(user);
         return artists;//return full top artists array
     },
 
@@ -113,4 +132,5 @@ let exportedMethods = {
 
 }
 
+module.exports.spotifyData = exportedMethods;
 module.exports = exportedMethods;

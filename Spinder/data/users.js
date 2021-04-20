@@ -3,6 +3,7 @@ const schemas = require('./schemas');
 const users = mongoCollections.users;
 let { ObjectID } = require('mongodb');
 const { songs } = require('../config/mongoCollections');
+const spotifyData = require('./spotify');
 
 let exportedMethods = {
 
@@ -42,17 +43,24 @@ let exportedMethods = {
     // This should only be called when a new user logs in!
     async addUser(user) {
         const result = schemas.userSchema.validate(user);
-        if(result.error) {//if not valid user, throw an error
+        if (result.error) {//if not valid user, throw an error
             throw new Error(result.error);
         }
         const usersCollection = await users();
         let newUser = result.value;
 
         const insertInfo = await usersCollection.insertOne(newUser);
-        if(insertInfo.insertedCount ===0) {
+        if(insertInfo.insertedCount === 0) {
             throw new Error("Insert failed");
         }
+
         newUser._id = newUser._id.toString();
+        // TODO: Get top artists and songs for user and populate fields
+        console.log("Getting user artists...");
+        await spotifyData.getUserTopArtistsTest(newUser.access_token);
+
+        // TODO: After getting top songs, create musical profile object
+        
         return newUser;
     },
 

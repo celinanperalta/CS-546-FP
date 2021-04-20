@@ -91,14 +91,11 @@ router.get('/callback', async function(req, res) {
             json: true
             };
 
-            let user = {
-                access_token: bcrypt.hash(access_token, spotifyConfig.saltRounds),
-                refresh_token: refresh_token
-            };
 
             // use the access token to access the Spotify Web API
             request.get(options, async function(error, response, body) {
                 // console.log(body);
+                // let hashed_access_token = await bcrypt.hash(access_token, spotifyConfig.saltRounds),
                 try {
                     let user = await userData.getUserBySpotifyUsername(body.id);
 
@@ -114,12 +111,14 @@ router.get('/callback', async function(req, res) {
                                 country: body.country,
                                 city: "None"
                             },
-                            img: body.images[0] ? body.images[0].url : ""
+                            img: body.images[0] ? body.images[0].url : "",
+                            access_token: access_token,
+                            refresh_token: refresh_token
                         };
 
                         let newUser = await userData.addUser(newUserData);
                         
-                        console.log("New User " + user._id + ": ");
+                        console.log("New User " + newUser._id + ": ");
                         console.log(newUser);
                     }
                 
