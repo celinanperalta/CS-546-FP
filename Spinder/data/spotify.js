@@ -70,6 +70,7 @@ let exportedMethods = {
                 spotify_url: artists[i].external_urls.spotify,
                 name: artists[i].name,
                 img: artists[i].images[0].url,
+                genres: artists[i].genres
             };
 
             try {

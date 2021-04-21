@@ -25,16 +25,17 @@ const profileSchema = Joi.object({
 
 const artistSchema = Joi.object({
     _id: Joi.string(),
-    user_ids : Joi.array().items(objectIdSchema).default([]).required(),
+    user_ids : Joi.array().items(objectIdSchema).default([]),
     spotify_id: spotifyIdSchema.required(),
     spotify_url: Joi.string().uri().required(),
     name: Joi.string().min(1).required(),
-    img: Joi.string().default("../public/images/default_user.jpg")
+    img: Joi.string().default("../public/images/default_user.jpg"),
+    genres: Joi.array().items(Joi.string()).default([])
 });
 
 const songSchema = Joi.object({
-  _id: Joi.string(),
-  user_ids : Joi.array().items(objectIdSchema).default([]).required(),
+    _id: Joi.string(),
+    user_ids : Joi.array().items(objectIdSchema).default([]),
     spotify_id: spotifyIdSchema.required(),
     spotify_url: Joi.string().uri().required(),
     name: Joi.string().min(1).required(),

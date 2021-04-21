@@ -74,6 +74,8 @@ let exportedMethods = {
         // TODO: After getting top songs, create musical profile object
         await this.loadUserTopSongs(newUser._id);
 
+        await this.loadUserMusicProfile(newUser._id);
+
         let insertedUser = await this.getUserById(newUser._id);
         return insertedUser;
     },
@@ -215,7 +217,9 @@ let exportedMethods = {
 
         let user = await this.getUserById(user_id);
 
-        let songs = user.topSongs.map((song) => song.spotify_id) || [];
+
+        let artists = user.topArtists;
+        let songs = user.topSongs;
 
         let profile = {
             user_id: user._id,
@@ -223,7 +227,43 @@ let exportedMethods = {
             averageAudioFeatures: {}
         };
 
-        return profile;
+        let topGenreCount = {};
+
+        for (let artist of artists) {
+            for (let genre of artist.genres) {
+                if (topGenreCount[genre])
+                    topGenreCount[genre]++
+                else
+                    topGenreCount[genre] = 1
+            }
+        }
+
+        profile.topGenres = Object.entries(topGenreCount).sort((a,b) => b[1] - a[1]);
+
+        profile.topGenres = profile.topGenres.slice(0, Math.min(5, profile.topGenres.length));
+
+        for (let song of songs) {
+            let features = song.audio_features;
+            for (let key of Object.keys(features)) {
+                if (profile.averageAudioFeatures[key])
+                    profile.averageAudioFeatures[key] += features[key]
+                else
+                    profile.averageAudioFeatures[key] = features[key]
+            }
+        }
+
+        for (let [key, value] of Object.entries(profile.averageAudioFeatures)) {
+            profile.averageAudioFeatures[key] = value / songs.length;
+        }
+
+        const musicalProfile = await profileData.addProfile(profile);
+
+        user.musicalProfile = musicalProfile._id;
+
+        await this.updateUser(user_id, user);
+
+        console.log(musicalProfile);
+        return musicalProfile;
     }
 
 };
