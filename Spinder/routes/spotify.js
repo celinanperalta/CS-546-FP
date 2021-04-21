@@ -6,8 +6,8 @@ const config = require('../config/spotify_config');
 const spotifyConfig = config.spotifyConfig;
 const bcrypt = require('bcrypt');
 
-const userData = require('../data/users');
-const { users } = require('../config/mongoCollections');
+const data = require('../data');
+const userData = data.users;
 
 var client_id = spotifyConfig.client_id; // Your client id
 var client_secret = spotifyConfig.client_secret; // Your secret

@@ -44,11 +44,12 @@ let exportedMethods = {
             throw new Error("Insert failed.");
         }
         newArtist._id = newArtist._id.toString();
+
         return newArtist;
     },
 
     async addArtistToUser(aritist_id, user_id) {
-
+        return -1;
     },
 
     async updateArtist(id, updatedArtist) {
@@ -82,9 +83,6 @@ let exportedMethods = {
         //Update in the DB
         await artistsCollection.updateOne({_id: ObjectID.ObjectId(id)}, {$set: updatedArtistData});
         return await this.getArtistById(id);
-
-
-
     },
 
     async removeArtist(id) {
