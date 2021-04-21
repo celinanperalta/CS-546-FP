@@ -3,6 +3,7 @@ const axios = require('axios');
 const request = require('request');
 const artistData = require('./artists');
 const songData = require('./songs');
+const profileData = require('./profiles');
 const bcrypt = require('bcrypt');
 const config = require('../config/spotify_config.json');
 const spotifyConfig = config.spotifyConfig;

@@ -208,6 +208,14 @@ let exportedMethods = {
         } catch(e) {
             console.log(e);
         }
+    },
+
+    async loadUserMusicProfile(user_id, profile) {
+
+        let user = await this.getUserById(user_id);
+        let profile = {};
+
+        return profile;
     }
 
 };
