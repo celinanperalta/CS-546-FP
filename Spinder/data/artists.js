@@ -1,6 +1,7 @@
 const mongoCollections = require('../config/mongoCollections');
 const schemas = require('./schemas');
 const artists = mongoCollections.artists;
+const userData = require('./users');
 let { ObjectID } = require('mongodb');
 let exportedMethods = {
 
@@ -43,7 +44,12 @@ let exportedMethods = {
             throw new Error("Insert failed.");
         }
         newArtist._id = newArtist._id.toString();
+
         return newArtist;
+    },
+
+    async addArtistToUser(aritist_id, user_id) {
+        return -1;
     },
 
     async updateArtist(id, updatedArtist) {
@@ -77,9 +83,6 @@ let exportedMethods = {
         //Update in the DB
         await artistsCollection.updateOne({_id: ObjectID.ObjectId(id)}, {$set: updatedArtistData});
         return await this.getArtistById(id);
-
-
-
     },
 
     async removeArtist(id) {

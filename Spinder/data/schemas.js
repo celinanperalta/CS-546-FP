@@ -24,6 +24,7 @@ const profileSchema = Joi.object({
 });
 
 const artistSchema = Joi.object({
+    _id: Joi.string(),
     user_ids : Joi.array().items(objectIdSchema).default([]).required(),
     spotify_id: spotifyIdSchema.required(),
     spotify_url: Joi.string().uri().required(),
@@ -32,6 +33,7 @@ const artistSchema = Joi.object({
 });
 
 const songSchema = Joi.object({
+  _id: Joi.string(),
   user_ids : Joi.array().items(objectIdSchema).default([]).required(),
     spotify_id: spotifyIdSchema.required(),
     spotify_url: Joi.string().uri().required(),
@@ -43,6 +45,7 @@ const songSchema = Joi.object({
 });
 
 const userSchema = Joi.object({
+  _id: Joi.string(),
   firstName: Joi.string().min(1).required(),
   lastName: Joi.string().min(1).required(),
   username: Joi.string().alphanum().min(3).max(30).required(),
@@ -55,6 +58,15 @@ const userSchema = Joi.object({
   topArtists: Joi.array().items(artistSchema).default([]),
   topSongs: Joi.array().items(songSchema).default([]),
   playlists: Joi.array().items(Joi.string().uri()).default([]),
-  likedProfiles: Joi.array().items(objectIdSchema),
-  musicalProfile: objectIdSchema.default("").required()
+  likedProfiles: Joi.array().items(objectIdSchema).default([]),
+  musicalProfile: objectIdSchema,
+  access_token: Joi.string().min(1).required(),
+  refresh_token: Joi.string().min(1).required()
 });
+
+module.exports = {
+  userSchema: userSchema,
+  artistSchema: artistSchema,
+  songSchema: songSchema,
+  profileSchema: profileSchema
+}
