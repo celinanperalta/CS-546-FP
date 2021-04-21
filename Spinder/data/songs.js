@@ -24,6 +24,19 @@ let exportedMethods = {
         return song;
     },
 
+    async getSongBySpotifyId(id) {
+        if(!id || typeof id !== 'string'|| id == ""){//Check that id exists and is of correct type
+            throw new Error("Must provide valid string id");
+        }
+        const songsCollection = await songs();//Obtain song collection
+        const song = await songsCollection.findOne({ spotify_id: id});//get song by id
+        if(song === null){//if no song found throw an error
+            throw new Error("Song not found with that id");
+        }
+        song._id = song._id.toString();
+        return song;
+    },
+
     async addSong(song) {
         const result = schemas.songSchema.validate(song);
         if(result.error){//if not a valid song throw an error

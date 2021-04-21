@@ -71,6 +71,7 @@ let exportedMethods = {
         // console.log(topArtistsData);
         await this.loadUserTopArtists(newUser._id);
         // TODO: After getting top songs, create musical profile object
+        await this.loadUserTopSongs(newUser._id);
 
         let insertedUser = await this.getUserById(newUser._id);
         return insertedUser;
@@ -147,7 +148,7 @@ let exportedMethods = {
         return user;
     },
 
-    async refreshAuthToken(user_id) {
+    async refreshAuthToken(user_id, callback) {
 
         let user = await this.getUserById(user_id);
         let access_token = null;
@@ -174,6 +175,8 @@ let exportedMethods = {
 
         if (access_token)
             await this.updateUser(user_id, user);
+        if (callback)
+            callback();
 
     },
 
@@ -186,6 +189,21 @@ let exportedMethods = {
             let artists = await spotifyData.getUserTopArtists(user._id, user.access_token);
             console.log(artists);
             user.topArtists = artists;
+            await this.updateUser(user_id, user);
+        } catch(e) {
+            console.log(e);
+        }
+    },
+
+    async loadUserTopSongs(user_id) {
+
+        let user = await this.getUserById(user_id);
+        // Flow: Call spotifyData, have that get the data, add to artist db, return artist names
+
+        try {
+            let songs = await spotifyData.getUserTopSongs(user._id, user.access_token);
+            console.log(songs);
+            user.topSongs = songs;
             await this.updateUser(user_id, user);
         } catch(e) {
             console.log(e);

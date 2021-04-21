@@ -9,6 +9,16 @@ const spotifyConfig = config.spotifyConfig;
 
 const data_limit = 20;
 
+const pick = (obj, keys) => 
+  Object.keys(obj)
+    .filter(i => keys.includes(i))
+    .reduce((acc, key) => {
+      acc[key] = obj[key];
+      return acc;
+    }, {});
+
+const audioFeatureKeys = ["danceability", "energy", "key", "loudness", "mode", "speechiness", "acousticness", "instrumentalness", "liveness", "valence", "tempo"];
+
 let exportedMethods = {
 
     async sendWebAPIRequest(token, endpoint, params) {
@@ -40,8 +50,8 @@ let exportedMethods = {
 
         try {
             data = await this.sendWebAPIRequest(token, endpoint);
-        } catch(e) {
-            if (e.message == "401" ) {
+        } catch (e) {
+            if (e.message == "401") {
                 throw Error("Refresh token");
             } else {
                 throw Error(e.message);
@@ -56,16 +66,16 @@ let exportedMethods = {
             let currArtist = {
                 user_ids: [],
                 spotify_id: artists[i].id,
-                spotify_url: artists[i].href,
+                spotify_url: artists[i].external_urls.spotify,
                 name: artists[i].name,
-                img: artists[i].images[0].url
+                img: artists[i].images[0].url,
             };
 
             try {
-                const artist = await artistData.getArtistById(artists[i].id); //instead just add the user_id to the user_ids array
+                const artist = await artistData.getArtistBySpotifyId(artists[i].id); //instead just add the user_id to the user_ids array
                 let user_id_arr = artist.user_ids; //get the old user_ids array
                 user_id_arr.push(user_id); //add the new user to this array
-                currArtist.user_ids = user_id_arr;
+                artist.user_ids = user_id_arr;
                 try {
                     let updatedArtist = await artistData.updateArtist(artist._id, currArtist);
                     artist_arr.push(updatedArtist._id);
@@ -89,14 +99,62 @@ let exportedMethods = {
         return artist_arr; //return full top artists array
     },
 
+    async getSeveralSongFeatures(song_ids, token) {
+
+        let ids = song_ids.join(',');
+        let endpoint = `audio-features/?ids=${ids}`;
+        let data = undefined;
+
+        try {
+            data = await this.sendWebAPIRequest(token, endpoint);
+        } catch (e) {
+            if (e.message == "401") {
+                throw Error("Refresh token");
+            } else {
+                throw Error(e.message);
+            }
+        }
+
+        const features = data.audio_features || []; //array of artist objects
+
+
+        let picked_features = features.map((x) => pick(x, audioFeatureKeys));
+
+        return picked_features;
+
+    },
+
+    async getSingleSongFeatures(song_id, token) {
+
+        let endpoint = `audio-features/${song_id}/`;
+        let data = undefined;
+
+        try {
+            data = await this.sendWebAPIRequest(token, endpoint);
+        } catch (e) {
+            if (e.message == "401") {
+                throw Error("Refresh token");
+            } else {
+                throw Error(e.message);
+            }
+        }
+
+        const features = data || {};
+
+        picked_features = pick(features, audioFeatureKeys);
+
+        return picked_features;
+
+    },
+
     async getUserTopSongs(user_id, token) {
         let endpoint = "me/top/tracks/";
         let data = undefined;
 
         try {
             data = await this.sendWebAPIRequest(token, endpoint);
-        } catch(e) {
-            if (e.message == "401" ) {
+        } catch (e) {
+            if (e.message == "401") {
                 throw Error("Refresh token");
             } else {
                 throw Error(e.message);
@@ -108,20 +166,44 @@ let exportedMethods = {
 
         for (let i = 0; i != songs.length && i != 10; ++i) {
             let currSong = {
-                  user_ids : [],
-                  spotify_id: songs[i].id,
-                  spotify_url: songs[i].url,
-                  name: songs[i].name,
-                  album_name: songs[i].album.name,
-                  artists: Array.map((x) => x.name, songs[i].artists),
-                  img: songs[i].album.images[0].url,
-                  audio_features: {}
-              };
+                user_ids: [],
+                spotify_id: songs[i].id,
+                spotify_url: songs[i].external_urls.spotify,
+                name: songs[i].name,
+                album_name: songs[i].album.name,
+                artists: songs[i].artists.map((x) => x.name),
+                img: songs[i].album.images[0].url,
+                audio_features: {}
+            };
 
-            //   TODO: get audio features then do the thing
+            try {
+                const song = await songData.getSongBySpotifyId(songs[i].id); //instead just add the user_id to the user_ids array
+                let user_id_arr = song.user_ids; //get the old user_ids array
+                user_id_arr.push(user_id); //add the new user to this array
+                currSong.user_ids = user_id_arr;
+                try {
+                    let updatedSong = await songData.updateSong(song._id, currSong);
+                    songs_arr.push(updatedSong._id);
+                } catch (e) {
+                    //artist was unable to be updated
+                    console.log(e);
+                }
+            } catch (e) {
+                let songFeatures = await this.getSingleSongFeatures(currSong.spotify_id, token);
+                currSong.user_ids = [user_id];
+                currSong.audio_features = songFeatures;
+                try {
+                    let newSong = await songData.addSong(currSong);
+                    songs_arr.push(newSong);
+                } catch (e) {
+                    //artist was unable to be added
+                    console.log(e);
+                }
+            }
+
         }
 
-        return songs; //return full top artists array
+        return songs_arr; //return full top artists array
     },
 
     async getUserPlaylists(user_id) {

@@ -24,6 +24,19 @@ let exportedMethods = {
         return artist;
     },
 
+    async getArtistBySpotifyId(id) {
+        if(!id || typeof id !== 'string'|| id == ""){//Check that id exists and is of correct type
+            throw new Error("Must provide valid string id");
+        }
+        const artistsCollection = await artists();//obtain artist collection
+        const artist = await artistsCollection.findOne({ spotify_id: id});//find artist with ID
+        if(artist === null){//if not found then throw error
+            throw new Error("Artist not found with that id");
+        }
+        artist._id = artist._id.toString();
+        return artist;
+    },
+
     async addArtist(artist) {
         const result = schemas.artistSchema.validate(artist);//validate artist
         if(result.error){//throw if error
