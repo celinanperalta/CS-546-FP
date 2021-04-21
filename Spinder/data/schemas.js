@@ -29,7 +29,7 @@ const artistSchema = Joi.object({
     spotify_id: spotifyIdSchema.required(),
     spotify_url: Joi.string().uri().required(),
     name: Joi.string().min(1).required(),
-    img: Joi.string().uri()
+    img: Joi.string().default("../public/images/default_user.jpg")
 });
 
 const songSchema = Joi.object({
@@ -40,7 +40,7 @@ const songSchema = Joi.object({
     name: Joi.string().min(1).required(),
     album_name: Joi.string().min(1).required(),
     artists: Joi.array().items(Joi.string().min(1)).required(),
-    img: Joi.string().uri(),
+    img: Joi.string().default("../public/images/default_user.jpg"),
     audio_features: audioFeatureSchema.required()
 });
 
@@ -54,7 +54,7 @@ const userSchema = Joi.object({
     country: Joi.string().min(1).required(),
     city: Joi.string().min(1).required()
   }).required(),
-  img : Joi.string().uri(),
+  img : Joi.string().default("../public/images/default_user.jpg"),
   topArtists: Joi.array().items(artistSchema).default([]),
   topSongs: Joi.array().items(songSchema).default([]),
   playlists: Joi.array().items(Joi.string().uri()).default([]),
