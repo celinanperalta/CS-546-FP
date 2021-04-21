@@ -54,7 +54,7 @@ const userSchema = Joi.object({
     country: Joi.string().min(1).required(),
     city: Joi.string().min(1).required()
   }).required(),
-  img : Joi.string().uri(),
+  img : Joi.string().default(""),
   topArtists: Joi.array().items(artistSchema).default([]),
   topSongs: Joi.array().items(songSchema).default([]),
   playlists: Joi.array().items(Joi.string().uri()).default([]),

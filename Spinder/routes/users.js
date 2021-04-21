@@ -27,7 +27,9 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try{
         const user = await userData.getUserById(req.params.id);
-        res.status(200).json(user);
+        res.render('profile',{user: user, topArtists: user.topArtists, topSongs: user.topSongs, playlists: user.playlists});
+        console.log(user);
+        //res.status(200).json(user);
     }
     catch(e){
         res.status(500).send({error:e});
