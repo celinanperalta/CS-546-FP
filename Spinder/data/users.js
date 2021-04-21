@@ -8,6 +8,7 @@ const config = require('../config/spotify_config.json');
 const spotifyConfig = config.spotifyConfig;
 const request = require('request');
 const spotifyData = require('./spotify');
+const profileData = require('./profiles');
 
 let exportedMethods = {
 
@@ -210,10 +211,17 @@ let exportedMethods = {
         }
     },
 
-    async loadUserMusicProfile(user_id, profile) {
+    async loadUserMusicProfile(user_id) {
 
         let user = await this.getUserById(user_id);
-        let profile = {};
+
+        let songs = user.topSongs.map((song) => song.spotify_id) || [];
+
+        let profile = {
+            user_id: user._id,
+            topGenres: [],
+            averageAudioFeatures: {}
+        };
 
         return profile;
     }
