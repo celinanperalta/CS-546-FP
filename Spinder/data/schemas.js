@@ -4,17 +4,17 @@ const {ObjectId} = require('mongodb');
 const objectIdSchema = Joi.string().regex(/^[0-9a-fA-F]{24}$/);
 const spotifyIdSchema = Joi.string().regex(/^[0-9A-Za-z_-]{22}$/);
 const audioFeatureSchema = Joi.object({
-  danceability: Joi.number().required(),
-  energy: Joi.number().required(),
-  key: Joi.number().required(),
-  loudness: Joi.number().required(),
-  mode: Joi.number().required(),
-  speechiness: Joi.number().required(),
-  acousticness: Joi.number().required(),
-  instrumentalness: Joi.number().required(),
-  liveness: Joi.number().required(),
-  valence: Joi.number().required(),
-  tempo: Joi.number().required(),
+  danceability: Joi.number().default(0),
+  energy: Joi.number().default(0),
+  key: Joi.number().default(0),
+  loudness: Joi.number().default(0),
+  mode: Joi.number().default(0),
+  speechiness: Joi.number().default(0),
+  acousticness: Joi.number().default(0),
+  instrumentalness: Joi.number().default(0),
+  liveness: Joi.number().default(0),
+  valence: Joi.number().default(0),
+  tempo: Joi.number().default(0)
 });
 
 const profileSchema = Joi.object({
