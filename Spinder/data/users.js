@@ -181,7 +181,6 @@ let exportedMethods = {
 
         let user = await this.getUserById(user_id);
         // Flow: Call spotifyData, have that get the data, add to artist db, return artist names
-
         try {
             let artists = await spotifyData.getUserTopArtists(user._id, user.access_token);
             console.log(artists);
