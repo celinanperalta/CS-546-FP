@@ -1,0 +1,28 @@
+<div class="allUsers">
+    {{#each user}}
+    <div class="indUser">
+        <img src="{{this.img}}" alt="user image">
+        <p class="username">{{this.username}}</p>
+        <p class="name">{{this.firstName}} {{this.lastName}}</p>   
+        <ul class="topArtists">  
+        {{#each this.topArtists}}
+            <li>
+                <a href="/artists/{{this.id}}">{{this}}</a>
+            </li>
+        {{/each}}  
+        </ul>   
+        <ul class="topSongs">  
+            <li>
+                {{#each this.topSongs}}
+                    <a href="/songs/{{this.id}}">{{this}}</a>
+                {{/each}}  
+            </li>
+        </ul>    
+        {{!-- <ul class="playlists">  
+        {{#each this.playlists}}
+                <a href="/playlists?/{{this.id}}">{{this}}</a>
+        {{/each}}  
+        </ul>     --}}
+    </div>
+    {{/each}}
+</div>
