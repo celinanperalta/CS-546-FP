@@ -5,6 +5,11 @@ const static = express.static(__dirname + '/public');
 const configRoutes = require('./routes');
 const exphbs = require('express-handlebars');
 
+// const cookieParser = require('cookie-parser');
+// const session = require('express-session')
+
+
+// app.use(cookieParser());
 app.use('/public', static);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
