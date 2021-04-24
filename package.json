@@ -1,0 +1,19 @@
+{
+  "name": "cs-546-fp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Spinder/app.js",
+  "scripts": {
+    "test": "node Spinder/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/celinanperalta/CS-546-FP.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/celinanperalta/CS-546-FP/issues"
+  },
+  "homepage": "https://github.com/celinanperalta/CS-546-FP#readme"
+}

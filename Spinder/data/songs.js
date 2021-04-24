@@ -7,7 +7,7 @@ let exportedMethods = {
 
     async getAllSongs() {
         const songsCollection = await songs();//Obtain song collection
-        const songsList = songsCollection.find();//get all songs
+        const songsList = await songsCollection.find();//get all songs
         return songsList;
     },
 
@@ -16,7 +16,20 @@ let exportedMethods = {
             throw new Error("Must provide valid string id");
         }
         const songsCollection = await songs();//Obtain song collection
-        const song = songsCollection.findOne({ _id: ObjectID.ObjectID(id)});//get song by id
+        const song = await songsCollection.findOne({ _id: ObjectID.ObjectID(id)});//get song by id
+        if(song === null){//if no song found throw an error
+            throw new Error("Song not found with that id");
+        }
+        song._id = song._id.toString();
+        return song;
+    },
+
+    async getSongBySpotifyId(id) {
+        if(!id || typeof id !== 'string'|| id == ""){//Check that id exists and is of correct type
+            throw new Error("Must provide valid string id");
+        }
+        const songsCollection = await songs();//Obtain song collection
+        const song = await songsCollection.findOne({ spotify_id: id});//get song by id
         if(song === null){//if no song found throw an error
             throw new Error("Song not found with that id");
         }
@@ -96,7 +109,7 @@ let exportedMethods = {
             throw new Error("Must provide valid string id");
         }
         const songsCollection = await songs();
-        const song = this.getSongById(id);
+        const song = await this.getSongById(id);
         //Delete from DB
         const deletionInfo = await songsCollection.deleteOne({_id: ObjectID.ObjectId(id)});
         if(deletionInfo.deletedCount ===0){

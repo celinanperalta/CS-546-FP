@@ -1,12 +1,13 @@
 const mongoCollections = require('../config/mongoCollections');
 const schemas = require('./schemas');
 const artists = mongoCollections.artists;
+const userData = require('./users');
 let { ObjectID } = require('mongodb');
 let exportedMethods = {
 
     async getAllArtists() {
         const artistsCollection = await artists();//obtain artist collection
-        const artistsList = artistsCollection.find();//get list of artist objects
+        const artistsList = await artistsCollection.find();//get list of artist objects
         return artistsList;
     },
 
@@ -16,6 +17,19 @@ let exportedMethods = {
         }
         const artistsCollection = await artists();//obtain artist collection
         const artist = await artistsCollection.findOne({ _id: ObjectID.ObjectID(id)});//find artist with ID
+        if(artist === null){//if not found then throw error
+            throw new Error("Artist not found with that id");
+        }
+        artist._id = artist._id.toString();
+        return artist;
+    },
+
+    async getArtistBySpotifyId(id) {
+        if(!id || typeof id !== 'string'|| id == ""){//Check that id exists and is of correct type
+            throw new Error("Must provide valid string id");
+        }
+        const artistsCollection = await artists();//obtain artist collection
+        const artist = await artistsCollection.findOne({ spotify_id: id});//find artist with ID
         if(artist === null){//if not found then throw error
             throw new Error("Artist not found with that id");
         }
@@ -43,7 +57,12 @@ let exportedMethods = {
             throw new Error("Insert failed.");
         }
         newArtist._id = newArtist._id.toString();
+
         return newArtist;
+    },
+
+    async addArtistToUser(aritist_id, user_id) {
+        return -1;
     },
 
     async updateArtist(id, updatedArtist) {
@@ -77,9 +96,6 @@ let exportedMethods = {
         //Update in the DB
         await artistsCollection.updateOne({_id: ObjectID.ObjectId(id)}, {$set: updatedArtistData});
         return await this.getArtistById(id);
-
-
-
     },
 
     async removeArtist(id) {
@@ -87,7 +103,7 @@ let exportedMethods = {
             throw new Error("Must provide valid string id");
         }
         const artistsCollection = await artists(); 
-        const artist = this.getArtistById(id);
+        const artist = await this.getArtistById(id);
         //Delete from DB
         const deletionInfo = await artistsCollection.deleteOne({_id: ObjectID.ObjectId(id)})
         if (deletionInfo.deletedCount === 0) {
