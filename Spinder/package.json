@@ -6,9 +6,9 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "clean-dev" : "node tasks/cleanDB.js && nodemon app.js",
+    "clean-dev": "node tasks/cleanDB.js && nodemon app.js",
     "test": "node app.js",
-    "clean" : "node tasks/cleanDB.js"
+    "clean": "node tasks/cleanDB.js"
   },
   "author": "",
   "license": "ISC",

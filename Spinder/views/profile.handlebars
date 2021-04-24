@@ -1,19 +1,46 @@
+<script>
+    function OpenForm(){
+        document.getElementById('edit-profile-form').style.display = 'block';
+        document.getElementById('cancel-button').style.display = 'block';
+        document.getElementById('profile').style.display = 'none';
+
+    }
+    function CloseForm(){
+        document.getElementById('edit-profile-form').style.display = 'none';
+        document.getElementById('cancel-button').style.display = 'none';
+        document.getElementById('profile').style.display = 'block';
+    }
+</script>
+
 <img src="{{user.img}}">
-<h1>{{user.username}}</h1>
-<h3>{{user.firstName}} {{user.lastName}}</h3>
-<h4>{{user.location.city}}, {{user.location.country}}</h4>
-<ol>Top Artists
-    {{#each topArtists}}
-        <li>{{this.name}}</li>
-    {{/each}}
-</ol>
-<ol>Top Songs
-    {{#each topSongs}}
-        <li>{{this.name}}</li>
-    {{/each}}
-</ol>
-<ol>Top Playlists
-    {{#each playlists}}
-        <li>{{this.name}}</li>
-    {{/each}}
-</ol>
+<button onclick="OpenForm();">Edit Profile</button>
+<button id ="cancel-button" onclick="CloseForm();" style="display: none">Cancel</button>
+<form id="edit-profile-form"action="/users/{{user._id}}" method="POST" style="display: none">
+    <input name = "firstName" placeholder="Update First Name"\>
+    <input name = "lastName" placeholder="Update Last Name"\>
+    <input name = "bio" placeholder="Update Bio"\>
+    <input name = "country" placeholder="Update Country"/>
+    <input name = "city" placeholder="Update City"/>
+    <button type="submit">Submit</button>
+    
+</form>
+<div id="profile">
+    <h1>{{user.username}}</h1>
+    <h3>{{user.firstName}} {{user.lastName}}</h3>
+    <h4>{{user.location.city}}, {{user.location.country}}</h4>
+    <ol>Top Artists
+        {{#each topArtists}}
+            <li>{{this.name}}</li>
+        {{/each}}
+    </ol>
+    <ol>Top Songs
+        {{#each topSongs}}
+            <li>{{this.name}}</li>
+        {{/each}}
+    </ol>
+    <ol>Top Playlists
+        {{#each playlists}}
+            <li>{{this.name}}</li>
+        {{/each}}
+    </ol>
+</div>
