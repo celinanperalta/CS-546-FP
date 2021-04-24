@@ -81,7 +81,7 @@ let exportedMethods = {
         if (!id || typeof id !== 'string' || id == "") {
             throw new Error("Must provide valid string id");
         }
-        const result = schemas.userSchema.validate(updatedUser);
+        const result = schemas.userOptional.validate(updatedUser);
         if (result.error) {
             throw new Error(result.error);
         }
@@ -184,7 +184,6 @@ let exportedMethods = {
 
         let user = await this.getUserById(user_id);
         // Flow: Call spotifyData, have that get the data, add to artist db, return artist names
-
         try {
             let artists = await spotifyData.getUserTopArtists(user._id, user.access_token);
             console.log(artists);
