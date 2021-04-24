@@ -170,4 +170,28 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
+router.post('/login', async (req, res) => {
+    try{
+        const {username, password} = req.body;
+        let user=userData.getUserBySpotifyUsername(username);
+        if(user){
+            let valid = await bcrypt.compare(password, user.hashedPassword);
+            if (valid){
+            //make cookie/add session
+            res.redirect('/home');
+            }
+            else{
+                res.status(401).render('login', {title: "Error", error: "Invalid username or password"});
+            }
+        }
+        else{
+            res.status(401).render('login', {title: "Error", error: "Invalid username or password"});
+        }
+    }
+    catch(e){
+        res.status(401).render('login', {title: "Error", error: e});
+
+    }
+});
+
 module.exports = router;
