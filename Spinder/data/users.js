@@ -84,7 +84,7 @@ let exportedMethods = {
         if (!id || typeof id !== 'string' || id == "") {
             throw new Error("Must provide valid string id");
         }
-        const result = schemas.userSchema.validate(updatedUser);
+        const result = schemas.userOptional.validate(updatedUser);
         if (result.error) {
             throw new Error(result.error);
         }
