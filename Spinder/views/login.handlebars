@@ -1,1 +1,14 @@
 <a href="/spotify/login">Login</a>
+
+<form action="/login" method="POST" id="login-form">
+    {{#if error}}
+        <div id="error">{{error}}</div>
+    {{/if}}
+    <label for="username"> Username:
+        <input id="username" name="username"/>
+    </label>
+    <label for="password"> Password:
+        <input id="password" name="password"/>
+    </label>
+    <button class="form" type="submit">submit</button>
+</form>
