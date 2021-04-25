@@ -87,22 +87,28 @@ router.get('/callback', async function(req, res) {
                 refresh_token = body.refresh_token;
 
             var options = {
-            url: 'https://api.spotify.com/v1/me',
-            headers: { 'Authorization': 'Bearer ' + access_token },
-            json: true
+                url: 'https://api.spotify.com/v1/me',
+                headers: { 'Authorization': 'Bearer ' + access_token },
+                json: true
             };
-
 
             // use the access token to access the Spotify Web API
             request.get(options, async function(error, response, body) {
                 // console.log(body);
                 // let hashed_access_token = await bcrypt.hash(access_token, spotifyConfig.saltRounds),
                 try {
-                    let user = await userData.getUserBySpotifyUsername(body.id);
-
+                    let user = await userData.getUserByUsername(body.id);
+                    userId = user._id;
                     console.log("User " + user._id + ": ");
                     console.log(user);
+
+                    res.redirect('/home#' +
+                    querystring.stringify({
+                        access_token: access_token,
+                        refresh_token: refresh_token
+                    }));
                 } catch (e) {
+                        isNewUser = true;
                         let newUserData = {
                             firstName: "First Name",
                             lastName: "Last Name",
@@ -121,18 +127,12 @@ router.get('/callback', async function(req, res) {
                         
                         console.log("New User " + newUser._id + ": ");
                         console.log(newUser);
+
+                        res.redirect('/users/' + newUser._id);
                     }
                 
             });
 
-            
-
-            // we can also pass the token to the browser to make requests from there
-            res.redirect('/home#' +
-            querystring.stringify({
-                access_token: access_token,
-                refresh_token: refresh_token
-            }));
         } else {
             res.redirect('/#' +
             querystring.stringify({

@@ -62,9 +62,10 @@ const userSchema = Joi.object({
   likedProfiles: Joi.array().items(objectIdSchema).default([]),
   musicalProfile: objectIdSchema,
   access_token: Joi.string().min(1).required(),
-  refresh_token: Joi.string().min(1).required()
+  refresh_token: Joi.string().min(1).required(),
+  bio: Joi.string().default("")
 });
-const userOptional = Joi.object({
+const userOptionalSchema = Joi.object({
   _id: Joi.string(),
   firstName: Joi.string().min(1),
   lastName: Joi.string().min(1),
@@ -74,20 +75,22 @@ const userOptional = Joi.object({
     country: Joi.string().min(1),
     city: Joi.string().min(1)
   }),
-  img : Joi.string().default(""),
-  topArtists: Joi.array().items(artistSchema).default([]),
-  topSongs: Joi.array().items(songSchema).default([]),
-  playlists: Joi.array().items(Joi.string().uri()).default([]),
-  likedProfiles: Joi.array().items(objectIdSchema).default([]),
+  img : Joi.string(),
+  topArtists: Joi.array().items(artistSchema),
+  topSongs: Joi.array().items(songSchema),
+  playlists: Joi.array().items(Joi.string().uri()),
+  likedProfiles: Joi.array().items(objectIdSchema),
   musicalProfile: objectIdSchema,
   access_token: Joi.string().min(1),
-  refresh_token: Joi.string().min(1)
+  refresh_token: Joi.string().min(1),
+  bio: Joi.string().allow("")
 });
 
 module.exports = {
   userSchema: userSchema,
+  userOptionalSchema: userOptionalSchema,
   artistSchema: artistSchema,
   songSchema: songSchema,
   profileSchema: profileSchema,
-  userOptional: userOptional
+  userOptional: userOptionalSchema
 }

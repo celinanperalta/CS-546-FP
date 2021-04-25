@@ -22,21 +22,24 @@ router.post('/:id', async (req,res)=>{
         location: {
             country: country,
             city: city
-        }
+        },
+        bio: bio
     }
     try{
         const user = await userData.updateUser(req.params.id, updatedUser);
         console.log(user);
-        res.redirect('/users/'+req.params.id);
+        res.redirect('/'+req.params.id);
     }catch(e){
-        res.json({error: e});
+        console.log(e);
+        res.json({error: e.message});
     }
 });
 
 router.get('/', async (req, res) => {
     try{
         const userList = await userData.getAllUsers();
-        res.status(200).json(userList);
+        console.log(userList);
+        res.status(200).render('users', {user : userList});
     }
     catch(e){
         res.status(500).send({error:e});

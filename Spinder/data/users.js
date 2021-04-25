@@ -12,9 +12,15 @@ const profileData = require('./profiles');
 
 let exportedMethods = {
 
+
     async getAllUsers() {
         const usersCollection = await users(); //Obtain user collection
-        const usersList = await usersCollection.find({}); //get all users
+        const usersList = await usersCollection.find({}).toArray(); //get all users
+
+        // usersList.map((d) => {
+        //     d._id = d._id.toString();
+        // });
+
         return usersList;
     },
 
@@ -33,7 +39,7 @@ let exportedMethods = {
         return user;
     },
 
-    async getUserBySpotifyUsername(username) {
+    async getUserByUsername(username) {
         if (!username || typeof username !== 'string' || username == "") { //Check that id exists and is of correct type
             throw new Error("Must provide valid string username");
         }
@@ -84,46 +90,15 @@ let exportedMethods = {
         if (!id || typeof id !== 'string' || id == "") {
             throw new Error("Must provide valid string id");
         }
-        const result = schemas.userOptional.validate(updatedUser);
+        const result = schemas.userOptionalSchema.validate(updatedUser);
         if (result.error) {
             throw new Error(result.error);
         }
         const usersCollections = await users();
-        const updatedUserData = {};
-        //Check for what fields are being updated
-        if (updatedUser.firstName) {
-            updatedUserData.firstName = updatedUser.firstName;
-        }
-        if (updatedUser.lastName) {
-            updatedUserData.lastName = updatedUser.lastName;
-        }
-        if (updatedUser.username) {
-            updatedUserData.username = updatedUser.username;
-        }
-        if (updatedUser.email) {
-            updatedUserData.email = updatedUser.email;
-        }
-        if (updatedUser.location) {
-            updatedUserData.location = updatedUser.location;
-        }
-        if (updatedUser.img) {
-            updatedUserData.img = updatedUser.img;
-        }
-        if (updatedUser.topArtists) {
-            updatedUserData.topArtists = updatedUser.topArtists;
-        }
-        if (updatedUser.topSongs) {
-            updatedUserData.topSongs = updatedUser.topSongs;
-        }
-        if (updatedUser.playlists) {
-            updatedUserData.playlists = updatedUser.playlists;
-        }
-        if (updatedUser.likedProfiles) {
-            updatedUserData.likedProfiles = updatedUser.likedProfiles;
-        }
-        if (updatedUser.musicalProfile) {
-            updatedUserData.musicalProfile = updatedUser.musicalProfile;
-        }
+        const updatedUserData = result.value;
+        
+        // id already exists
+        delete updatedUserData["_id"];
 
         //Updated in the DB
         await usersCollections.updateOne({
@@ -169,7 +144,7 @@ let exportedMethods = {
 
         request.post(authOptions, async function(error, response, body) {
             if (!error && response.statusCode === 200) {
-            var access_token = body.access_token;
+            access_token = body.access_token;
             user.access_token = body.access_token;
             if (body.refresh_token)
                 user.refresh_token = body.refresh_token;

@@ -214,5 +214,4 @@ let exportedMethods = {
 
 }
 
-module.exports.spotifyData = exportedMethods;
 module.exports = exportedMethods;
