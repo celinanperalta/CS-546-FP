@@ -27,7 +27,6 @@ router.post('/:id', async (req,res)=> {
     }
     try{
         const user = await userData.updateUser(req.params.id, updatedUser);
-        console.log(user);
         res.redirect('/'+req.params.id);
     }catch(e){
         console.log(e);
@@ -38,6 +37,7 @@ router.post('/:id', async (req,res)=> {
 router.get('/', async (req, res) => {
     try{
         const userList = await userData.getAllUsers();
+
         console.log(userList);
         res.status(200).render('users', {title: "Users", user : userList, isLoggedIn: true});
 
@@ -51,6 +51,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try{
         const user = await userData.getUserById(req.params.id);
+
         res.render('profile',{user: user, topArtists: user.topArtists, topSongs: user.topSongs, playlists: user.playlists, isLoggedIn: true});
         console.log(user);
         //res.status(200).json(user);
