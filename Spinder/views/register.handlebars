@@ -1,15 +1,15 @@
-<form action="/register" method="POST" id="new-user-form" class="row g-3">
+<form action="/register" method="POST" onsubmit="return validateRegistrationForm();" id="new-user-form" class="row g-3">
     <div class="col-md-4">
         <label for="username" class="form-label">Username</label>
-        <input type="text" class="form-control" id="username" value="" required>
+        <input type="text" class="form-control" id="username" value="" min="5" max="25" required>
     </div>
     <div class="col-md-4">
         <label for="firstName" class="form-label">First Name</label>
-        <input type="text" class="form-control" id="firstName" value="" required>
+        <input type="text" class="form-control" id="firstName" value="" min="1" required>
     </div>
     <div class="col-md-4">
         <label for="lastName" class="form-label">Last Name</label>
-        <input type="text" class="form-control" id="lastName" value="" required>
+        <input type="text" class="form-control" id="lastName" value="" min="1" required>
     </div>
     <div class="col-md-4">
         <label for="city" class="form-label">City</label>
@@ -21,11 +21,11 @@
     </div>
     <div class="col-md-4">
         <label for="password" class="form-label">Password</label>
-        <input type="text" class="form-control" id="password" value="" required>
+        <input type="password" class="form-control" id="password" value="" min="5" required>
     </div>
     <div class="col-md-4">
         <label for="confirm-password" class="form-label">Confirm Password</label>
-        <input type="text" class="form-control" id="confirm-password" value="" required>
+        <input type="password" class="form-control" id="confirm-password" value="" min="5" required>
     </div>
     <div class="row g-3">
         <div class="col-md-4">
