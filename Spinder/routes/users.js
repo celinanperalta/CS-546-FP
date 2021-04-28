@@ -202,6 +202,7 @@ router.post('/login', async (req, res) => {
             let valid = await bcrypt.compare(password, user.hashedPassword);
             if (valid){
             //make cookie/add session
+            req.session.AuthCookie = true;
             res.redirect('/home');
             }
             else{
