@@ -37,12 +37,14 @@ router.post('/:id', async (req,res)=> {
 router.get('/', async (req, res) => {
     try{
         const userList = await userData.getAllUsers();
-
+        console.log(req.session.user);
+        // const curr_user = await userData.getUserById(req.session.user);
         console.log(userList);
-        res.status(200).render('users', {title: "Users", user : userList, isLoggedIn: true});
+        res.status(200).render('users', {title: "Users", users : userList, isLoggedIn: true});
 
     }
     catch(e){
+        console.log(e);
         res.status(500).send({error:e});
     }
 });
@@ -51,13 +53,14 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try{
         const user = await userData.getUserById(req.params.id);
-
-        res.render('profile',{user: user, topArtists: user.topArtists, topSongs: user.topSongs, playlists: user.playlists, isLoggedIn: true});
+        // const curr_user = await userData.getUserById(req.session.user);
+        res.render('profile',{user : user, topArtists: user.topArtists, topSongs: user.topSongs, playlists: user.playlists, isLoggedIn: true});
         console.log(user);
         //res.status(200).json(user);
     }
     catch(e){
-        res.status(500).send({error:e});
+        console.log(e);
+        res.status(500).send({error:e.message});
     }
 });
 
