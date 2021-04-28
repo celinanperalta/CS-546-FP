@@ -2,7 +2,7 @@
     class="row g-3 needs-validation" novalidate>
     <div class="col-md-4">
         <label for="username" class="form-label">Username</label>
-        <input type="text" class="form-control" id="username" value="" minlength="5" maxlength="25"
+        <input name="username" type="text" class="form-control" id="username" value="" minlength="5" maxlength="25"
             pattern="^[a-zA-Z0-9_]*$" required>
         <div class="invalid-feedback">
             Please choose a username.
@@ -10,7 +10,7 @@
     </div>
     <div class="col-md-4">
         <label for="firstName" class="form-label">First Name</label>
-        <input type="text" class="form-control" id="firstName" value="" minlength="1" pattern="^[a-zA-Z]+( [a-zA-Z]+)*$"
+        <input name="firstName" type="text" class="form-control" id="firstName" value="" minlength="1" pattern="^[a-zA-Z]+( [a-zA-Z]+)*$"
             required>
         <div class="invalid-feedback">
             Please enter your first name.
@@ -18,7 +18,7 @@
     </div>
     <div class="col-md-4">
         <label for="lastName" class="form-label">Last Name</label>
-        <input type="text" class="form-control" id="lastName" value="" minlength="1" pattern="^[a-zA-Z]+( [a-zA-Z]+)*$"
+        <input name="lastName" type="text" class="form-control" id="lastName" value="" minlength="1" pattern="^[a-zA-Z]+( [a-zA-Z]+)*$"
             required>
         <div class="invalid-feedback">
             Please enter your last name.
@@ -26,7 +26,7 @@
     </div>
     <div class="col-md-4">
         <label for="city" class="form-label">City</label>
-        <input type="text" class="form-control" id="city" value="" minlength="1" pattern="^[a-zA-Z]+( [a-zA-Z]+)*$"
+        <input name="city" type="text" class="form-control" id="city" value="" minlength="1" pattern="^[a-zA-Z]+( [a-zA-Z]+)*$"
             required>
         <div class="invalid-feedback">
             Please enter the name of your city.
@@ -34,7 +34,7 @@
     </div>
     <div class="col-md-4">
         <label for="country" class="form-label">Country</label>
-        <select class="form-select" id="country" required></select>
+        <select name="country" class="form-select" id="country" required></select>
         <div class="invalid-feedback">
             Please select a country.
         </div>
@@ -48,7 +48,7 @@
      --}}
     <div class="col-md-4">
         <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" value=""
+        <input name="password" type="password" class="form-control" id="password" value=""
             pattern="^(?=.*\d)(?=(.*\W){2})(?=.*[a-zA-Z])(?!.*\s).{1,15}$" required>
         <div class="invalid-feedback">
             <ul>

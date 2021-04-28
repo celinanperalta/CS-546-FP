@@ -41,12 +41,12 @@ const constructorMethod = (app) => {
 
   app.post('/register', async (req, res) => {
 
-    console.log("In register");
-    bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
-      // Store hash in database here
-    });
+    console.log(req.body);
+    // bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
+    //   // Store hash in database here
+    // });
 
-    res.redirect('/users');
+    return;
 
   }),
 
