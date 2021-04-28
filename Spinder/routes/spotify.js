@@ -104,7 +104,7 @@ router.get('/callback', async function(req, res) {
             user.topSongs = topSongs;
             user.playlists = playlists;
             let update = await userData.updateUser(req.session.user, user);
-            res.render('profile',{user: user, topArtists: user.topArtists, topSongs: user.topSongs, playlists: user.playlists, username: req.session.user});
+            res.render('profile',{user: user, topArtists: user.topArtists, topSongs: user.topSongs, playlists: user.playlists});
         } else {
           res.redirect('/#' +
             querystring.stringify({

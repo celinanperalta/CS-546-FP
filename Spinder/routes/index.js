@@ -20,7 +20,6 @@ const constructorMethod = (app) => {
 
   app.get("/", async (req, res) => {
     if(req.session.AuthCookie){
-      console.log("Here");
       res.redirect('/home');
     } else {
       res.render('login', {
@@ -96,7 +95,7 @@ const constructorMethod = (app) => {
           error: `User ${username} not found.`
         });
       }
-      
+
       let match = false;
 
       try {
