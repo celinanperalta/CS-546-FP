@@ -151,7 +151,7 @@ let exportedMethods = {
 
     async refreshAuthToken(user_id, callback) {
         let user = await this.getUserById(user_id);
-        let access_token = null;
+        let access_token = user.access_token;
 
         var refresh_token = user.refresh_token;
         var authOptions = {
@@ -163,21 +163,18 @@ let exportedMethods = {
             },
             json: true
         };
-        console.log("here");
 
         request.post(authOptions, async function(error, response, body) {
             if (!error && response.statusCode === 200) {
-            access_token = body.access_token;
-            user.access_token = body.access_token;
-            if (body.refresh_token)
+                access_token = body.access_token;
+                user.access_token = body.access_token;
+            }
+            if (body.refresh_token) {
                 user.refresh_token = body.refresh_token;
             }
         });
 
-        console.log("here agin");
-        console.log(access_token);
         if (access_token){
-            console.log(access_token);
             await this.updateUser(user_id, user);
         }
         if (callback){

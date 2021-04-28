@@ -23,11 +23,11 @@
     <input name = "city" placeholder="Update City"/>
     <button type="submit">Submit</button>
 </form>
-{{#if user.access_token}}
+{{#unless user.access_token}}
 <form action="/spotify/login" onload="CheckConnected()" id="spotify-connect">
     <input type="submit" value="Connect to Spotify." />
 </form>
-{{/if}}
+{{/unless}}
 <div id="profile">
     <h1>{{user.username}}</h1>
     <h3>{{user.firstName}} {{user.lastName}}</h3>
