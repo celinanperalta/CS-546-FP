@@ -10,11 +10,20 @@
         document.getElementById('cancel-button').style.display = 'none';
         document.getElementById('profile').style.display = 'block';
     }
+    function CheckConnected(){
+        // eventually make this ACTUALLY check if ur logged in
+        let button = document.getElementById('spotify-connect');
+        button.addEventListener("load", (event) => {
+            if({{connected}}){
+                button.style.display= 'none';
+            }
+        });
+    }
 </script>
 
 <img src="{{user.img}}">
 <button onclick="OpenForm();">Edit Profile</button>
-<button id ="cancel-button" onclick="CloseForm();" style="display: none">Cancel</button>
+<button id ="cancel-button" style="display: none">Cancel</button>
 <form id="edit-profile-form"action="/users/{{user._id}}" method="POST" style="display: none">
     <input name = "firstName" placeholder="Update First Name"/>
     <input name = "lastName" placeholder="Update Last Name"/>
@@ -22,6 +31,9 @@
     <input name = "country" placeholder="Update Country"/>
     <input name = "city" placeholder="Update City"/>
     <button type="submit">Submit</button>
+</form>
+<form action="/spotify/login" id="spotify-connect">
+    <input type="submit" onclick="CheckConnected();" value="Connect to Spotify." />
 </form>
 <div id="profile">
     <h1>{{user.username}}</h1>

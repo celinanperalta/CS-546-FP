@@ -20,6 +20,7 @@ const constructorMethod = (app) => {
 
   app.get("/", async (req, res) => {
     if(req.session.AuthCookie){
+      console.log("Here");
       res.redirect('/home');
     } else {
       res.render('login', {
@@ -105,11 +106,11 @@ const constructorMethod = (app) => {
         console.log("Error: " + e);
       }
       if (match) {
-        req.session.AuthCookie = "true";
+        req.session.AuthCookie = true;
         req.session.user = user._id;
         res.redirect('/users/' + user._id);
       } else {
-        return res.status(401).render('pages/login', {
+        return res.status(401).render('login', {
           title: "Login",
           error: true
         });

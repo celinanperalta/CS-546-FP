@@ -50,7 +50,7 @@ router.get('/login', async function(req, res) {
  
 // 2nd Call submits authorization code from 1st call, to retrieve refresh / access tokens
 // Access token expires in 1 hour.
-router.get('/callback', function(req, res) {
+router.get('/callback', async function(req, res) {
 
     // your application requests refresh and access tokens
     // after checking the state parameter
@@ -79,29 +79,53 @@ router.get('/callback', function(req, res) {
         json: true
       };
   
-      request.post(authOptions, function(error, response, body) {
+      request.post(authOptions, async function(error, response, body) {
         if (!error && response.statusCode === 200) {
   
           var access_token = body.access_token,
               refresh_token = body.refresh_token;
   
-          var options = {
-            url: 'https://api.spotify.com/v1/me',
+          var artists = {
+            url: 'https://api.spotify.com/v1/me/top/artists',
+            headers: { 'Authorization': 'Bearer ' + access_token },
+            json: true
+          };
+
+          var tracks = {
+            url: 'https://api.spotify.com/v1/me/top/tracks',
             headers: { 'Authorization': 'Bearer ' + access_token },
             json: true
           };
   
           // use the access token to access the Spotify Web API
-          request.get(options, function(error, response, body) {
-            console.log(body);
+          request.get(artists, function(error, response, body) {
+                console.log("spotify response");
+                let topArtists = body;
           });
-  
+
+          // use the access token to access the Spotify Web API
+          request.get(tracks, function(error, response, body) {
+            console.log("spotify response");
+            console.log(body);
+            let topTracks = body;
+            });
+
           // we can also pass the token to the browser to make requests from there
-          res.redirect('/#' +
-            querystring.stringify({
-              access_token: access_token,
-              refresh_token: refresh_token
-            }));
+          // for now ignore this, just display the profile
+        //   res.redirect('/#' +
+        //     querystring.stringify({
+        //       access_token: access_token,
+        //       refresh_token: refresh_token
+        //     }));
+            
+            let user = await userData.getUserById(req.session.user);
+            user.access_token = access_token;
+            user.refresh_token = refresh_token;
+            user.
+            // update the user person with the spotify info
+
+
+            res.render('profile',{user: user, topArtists: user.topArtists, topSongs: user.topSongs, playlists: user.playlists, connected: true});
         } else {
           res.redirect('/#' +
             querystring.stringify({

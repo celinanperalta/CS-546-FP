@@ -49,7 +49,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try{
         const user = await userData.getUserById(req.params.id);
-        res.render('profile',{user: user, topArtists: user.topArtists, topSongs: user.topSongs, playlists: user.playlists});
+        res.render('profile',{user: user, topArtists: user.topArtists, topSongs: user.topSongs, playlists: user.playlists, connected: req.session.AuthCookie});
         console.log(user);
         //res.status(200).json(user);
     }
