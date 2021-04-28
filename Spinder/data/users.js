@@ -55,6 +55,21 @@ let exportedMethods = {
         return user;
     },
 
+    // same as last but with true / false
+    async checkExistence(username){
+        if (!username || typeof username !== 'string' || username == "") { //Check that id exists and is of correct type
+            throw new Error("Must provide valid string username");
+        }
+        const usersCollection = await users(); //obtain users collection
+        const user = await usersCollection.findOne({
+            username: username
+        });
+        if (user === null) {
+            return false;
+        }
+        return true;
+    },
+
     // This should only be called when a new user registers!
     async addUser(user) {
         const result = schemas.newUserSchema.validate(user);
