@@ -22,9 +22,7 @@ const constructorMethod = (app) => {
     if(req.session.AuthCookie){
       res.redirect('/home');
     } else {
-      res.render('login', {
-        title: 'Log in to Spinder'
-      });
+      res.redirect('/login');
     }
   });
 
@@ -48,6 +46,7 @@ const constructorMethod = (app) => {
         error: 'Password did not match.'
       });
     }
+    
     if(userData.checkExistence(req.body.username) === true){
       res.status(401).render('register', {
         error: 'That username is taken.'
@@ -66,6 +65,10 @@ const constructorMethod = (app) => {
     console.log(insertedUser);
     res.redirect('/users/' + insertedUser._id);
 
+  }),
+
+  app.get('/login', async (req, res) => {
+    res.render('login', {title: 'Login'});
   }),
 
   app.post('/login', async (req, res) => {

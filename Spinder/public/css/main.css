@@ -1,0 +1,29 @@
+img {
+    max-width: 50%;
+    max-height: 50%;
+    size: 50%;
+    align-self: center;
+}
+
+nav {
+    overflow: hidden;
+    padding: 2%;
+}
+
+.navBar {
+    list-style: none;
+    float: right;
+    padding-right: 5%;
+}
+
+.indUser {
+    margin: 7%;
+    padding: 10%;
+    border: 1px;
+    border-color: black;
+    border-style: solid;
+}
+
+#title {
+    padding-left: 3%;
+}

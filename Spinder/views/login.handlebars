@@ -4,17 +4,27 @@
 </div>
 {{/if}}
 
-<form id= "login-form" action="/login" method="POST">
-        <label for="username">
-            Username
-            <input id="username" type="text" name="username" placeholder="Username"/>
-        </label>
-        <label for="password">
-            Password
-            <input id="password" type="password" name="password" placeholder="Password"/>
-        </label>
-        <button type="submit">Login</button>
+<form id="login-form" action="/login" method="POST" class="col-md-4 needs-validation" novalidate>
+    <div class="row g-3">
+        <label for="username" class="form-label">Username</label>
+        <input name="username" type="text" class="form-control" id="username" value="" minlength="5" maxlength="25"
+            required>
+        <div class="invalid-feedback">
+            Please enter your username.
+        </div>
+    </div>
+    <div class="row g-3">
+        <label for="password" class="form-label">Password</label>
+        <input name="password" type="password" class="form-control" id="password" value="" required>
+        <div class="invalid-feedback">
+            Please enter your password.
+        </div>
+    </div>
+    <div class="row g-3">
+        <div class="col-md-4">
+            <button class="btn btn-primary form" type="submit">Login</button>
+        </div>
+    </div>
 </form>
-
-<a href="/register">Register</a><br>
-<a href="/spotify/login">Log in to Spotify</a>
+<br>
+<a class="btn btn-primary" href="/register">Register</a>
