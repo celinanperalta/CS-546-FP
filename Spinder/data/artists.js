@@ -43,14 +43,7 @@ let exportedMethods = {
             throw new Error(result.error);
         }
         const artistsCollection = await artists();
-        let newArtist = {
-            _id: artist._id,
-            user_ids: artist.user_ids,
-            spotify_id: artist.spotify_id,
-            spotify_url: artist.spotify_url,
-            name: artist.name,
-            img: artist.img
-        }
+        let newArtist = result.value;
 
         const insertInfo = await artistsCollection.insertOne(newArtist);
         if(insertInfo.insertedCount === 0){
@@ -75,7 +68,7 @@ let exportedMethods = {
             throw new Error(result.error);
         }
         const artistsCollection = await artists();
-        const updatedArtistData = {};
+        const updatedArtistData = result.value;
         //Check for what fields are being updated
         if(updatedArtist.user_ids){
             updatedArtistData.user_ids = updatedArtist.user_ids;
@@ -91,6 +84,9 @@ let exportedMethods = {
         }
         if(updatedArtist.img){
             updatedArtistData.img = updatedArtist.img;
+        }
+        if(updatedArtist.genres){
+            updatedArtistData.genres = updatedArtist.genres;
         }
 
         //Update in the DB

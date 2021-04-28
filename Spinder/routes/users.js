@@ -13,15 +13,35 @@ function containsNew(originalArray, newArray){
     }
     return false;
 }
+//route for updating user id
+router.post('/:id', async (req,res)=> {
+    const {firstName, lastName, bio, country, city} = req.body;
+    let updatedUser = {
+        firstName: firstName,
+        lastName: lastName,
+        location: {
+            country: country,
+            city: city
+        },
+        bio: bio
+    }
+    try{
+        const user = await userData.updateUser(req.params.id, updatedUser);
+        console.log(user);
+        res.redirect('/'+req.params.id);
+    }catch(e){
+        console.log(e);
+        res.json({error: e.message});
+    }
+});
 
 router.get('/', async (req, res) => {
     try{
         const userList = await userData.getAllUsers();
-<<<<<<< Updated upstream
-        res.status(200).json(userList);
-=======
+
+        //res.status(200).json(userList);
+        //console.log(userList);
         res.status(200).render('users', {title: "All Our Users!", user : userList});
->>>>>>> Stashed changes
     }
     catch(e){
         res.status(500).send({error:e});
@@ -31,7 +51,9 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try{
         const user = await userData.getUserById(req.params.id);
-        res.status(200).json(user);
+        res.render('profile',{user: user, topArtists: user.topArtists, topSongs: user.topSongs, playlists: user.playlists});
+        console.log(user);
+        //res.status(200).json(user);
     }
     catch(e){
         res.status(500).send({error:e});
@@ -182,6 +204,7 @@ router.post('/login', async (req, res) => {
             let valid = await bcrypt.compare(password, user.hashedPassword);
             if (valid){
             //make cookie/add session
+            req.session.AuthCookie = true;
             res.redirect('/home');
             }
             else{

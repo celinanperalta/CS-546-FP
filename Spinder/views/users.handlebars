@@ -5,29 +5,26 @@
     <div class="indUser" >
         <img src="{{this.img}}" alt="user image">
         <p class="username">{{this.username}}</p>
-        <p class="name">{{this.firstName}} {{this.lastName}}</p>   
-        <ul class="topArtists">  
-        {{#each this.topArtists}}
+        <p class="name">{{this.firstName}} {{this.lastName}}</p>
+        <ul class="topArtists">
+            {{#each this.topArtists}}
             <li>
-                <a href="/artists/{{this.id}}">{{this}}</a>
+                <a href="{{this.spotify_url}}" target="_blank">{{this.name}}</a>
             </li>
-        {{/each}}  
-        </ul>   
-        <ul class="topSongs">  
+            {{/each}}
+        </ul>
+        <ul class="topSongs">
+            {{#each this.topSongs}}
             <li>
-                {{#each this.topSongs}}
-                    <a href="/songs/{{this.id}}">{{this}}</a>
-                {{/each}}  
+                <a href="{{this.spotify_url}}" target="_blank">{{this.name}}</a>
             </li>
-<<<<<<< Updated upstream
+
         </ul>    
-=======
             {{/each}}
         </ul>
         <div class="userCard" hidden>
             {{!-- musical profile and % match --}}
         </div>
->>>>>>> Stashed changes
         {{!-- <ul class="playlists">  
         {{#each this.playlists}}
                 <a href="/playlists?/{{this.id}}">{{this}}</a>

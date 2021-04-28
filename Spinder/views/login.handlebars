@@ -1,14 +1,20 @@
-<a href="/spotify/login">Login</a>
+{{#if error}}
+<div id="error">
+    <p>{{error}}</p>
+</div>
+{{/if}}
 
-<form action="/login" method="POST" id="login-form">
-    {{#if error}}
-        <div id="error">{{error}}</div>
-    {{/if}}
-    <label for="username"> Username:
-        <input id="username" name="username"/>
-    </label>
-    <label for="password"> Password:
-        <input id="password" name="password"/>
-    </label>
-    <button class="form" type="submit">submit</button>
+<form id= "login-form" action="/login" method="POST">
+        <label for="username">
+            Username
+            <input id="username" type="text" name="username" placeholder="Username"/>
+        </label>
+        <label for="password">
+            Password
+            <input id="password" type="password" name="password" placeholder="Password"/>
+        </label>
+        <button type="submit">Login</button>
 </form>
+
+<a href="/register">Register</a><br>
+<a href="/spotify/login">Log in to Spotify</a>

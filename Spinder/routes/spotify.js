@@ -50,98 +50,67 @@ router.get('/login', async function(req, res) {
  
 // 2nd Call submits authorization code from 1st call, to retrieve refresh / access tokens
 // Access token expires in 1 hour.
-router.get('/callback', async function(req, res) {
- 
+router.get('/callback', function(req, res) {
+
     // your application requests refresh and access tokens
     // after checking the state parameter
-
+  
     var code = req.query.code || null;
     var state = req.query.state || null;
     var storedState = req.cookies ? req.cookies[stateKey] : null;
-
-    //Remove false if state mismatch issue resolved
-    if (false && (state === null || state !== storedState)) {
-        res.redirect('/#' +
+  
+    if (state === null || state !== storedState) {
+      res.redirect('/#' +
         querystring.stringify({
-            error: 'state_mismatch'
+          error: 'state_mismatch'
         }));
     } else {
-        res.clearCookie(stateKey);
-        var authOptions = {
+      res.clearCookie(stateKey);
+      var authOptions = {
         url: 'https://accounts.spotify.com/api/token',
         form: {
-            code: code,
-            redirect_uri: redirect_uri,
-            grant_type: 'authorization_code'
+          code: code,
+          redirect_uri: redirect_uri,
+          grant_type: 'authorization_code'
         },
         headers: {
-            'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
+          'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
         },
         json: true
-        };
-
-        request.post(authOptions, function(error, response, body) {
+      };
+  
+      request.post(authOptions, function(error, response, body) {
         if (!error && response.statusCode === 200) {
-
-            var access_token = body.access_token,
-                refresh_token = body.refresh_token;
-
-            var options = {
+  
+          var access_token = body.access_token,
+              refresh_token = body.refresh_token;
+  
+          var options = {
             url: 'https://api.spotify.com/v1/me',
             headers: { 'Authorization': 'Bearer ' + access_token },
             json: true
-            };
-
-
-            // use the access token to access the Spotify Web API
-            request.get(options, async function(error, response, body) {
-                // console.log(body);
-                // let hashed_access_token = await bcrypt.hash(access_token, spotifyConfig.saltRounds),
-                try {
-                    let user = await userData.getUserBySpotifyUsername(body.id);
-
-                    console.log("User " + user._id + ": ");
-                    console.log(user);
-                } catch (e) {
-                        let newUserData = {
-                            firstName: "First Name",
-                            lastName: "Last Name",
-                            username: body.id,
-                            email: body.email,
-                            location: {
-                                country: body.country,
-                                city: "None"
-                            },
-                            img: body.images[0] ? body.images[0].url : "",
-                            access_token: access_token,
-                            refresh_token: refresh_token
-                        };
-
-                        let newUser = await userData.addUser(newUserData);
-                        
-                        console.log("New User " + newUser._id + ": ");
-                        console.log(newUser);
-                    }
-                
-            });
-
-            
-
-            // we can also pass the token to the browser to make requests from there
-            res.redirect('/home#' +
+          };
+  
+          // use the access token to access the Spotify Web API
+          request.get(options, function(error, response, body) {
+            console.log(body);
+          });
+  
+          // we can also pass the token to the browser to make requests from there
+          res.redirect('/#' +
             querystring.stringify({
-                access_token: access_token,
-                refresh_token: refresh_token
+              access_token: access_token,
+              refresh_token: refresh_token
             }));
         } else {
-            res.redirect('/#' +
+          res.redirect('/#' +
             querystring.stringify({
-                error: 'invalid_token'
+              error: 'invalid_token'
             }));
         }
-        });
+      });
     }
-});
+  });
  
 // 3rd Call submits refresh token from 2nd call to retrieve new access token
 router.get('/refresh_token', async function(req, res) {
