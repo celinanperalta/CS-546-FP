@@ -6,14 +6,12 @@ const spotifyRoutes = require('./spotify');
 const data = require('../data');
 const userData = data.userData;
 const bcrypt = require('bcrypt');
+const e = require('express');
+const { ObjectId } = require('bson');
 
 const saltRounds = 16;
 
-
-
 const constructorMethod = (app) => {
-
-
   app.use('/users', userRoutes);
   app.use('/profiles', profileRoutes);
   app.use('/artists', artistRoutes);
@@ -21,9 +19,13 @@ const constructorMethod = (app) => {
   app.use('/spotify', spotifyRoutes);
 
   app.get("/", async (req, res) => {
-    res.render('login', {
-      title: 'Log in to Spinder'
-    })
+    if(req.session.AuthCookie){
+      res.redirect('/home');
+    } else {
+      res.render('login', {
+        title: 'Log in to Spinder'
+      });
+    }
   });
 
   app.get("/home", async (req, res) => {
@@ -41,12 +43,35 @@ const constructorMethod = (app) => {
 
   app.post('/register', async (req, res) => {
 
-    console.log(req.body);
-    // bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
-    //   // Store hash in database here
-    // });
-
-    return;
+    if(req.body.password !== req.body.confirm-password){
+      res.status(401).render('register', {
+        error: 'Password did not match.'
+      });
+    }
+    if(userData.checkExistence(req.body.username) === true){
+      res.status(401).render('register', {
+        error: 'That username is taken.'
+      });
+    }
+    // assuming all is well we hash the password
+    let hashedPassword = bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
+      if (err) {
+        console.error(err)
+        return
+      }
+      return hash;
+    });
+    let user = {
+      "_id" : ObjectId(),
+      "firstName" : req.body.firstName,
+      "lastName": req.body.lastName,
+      "username": req.body.username,
+      "location": {"country": req.body.country, "city": req.body.city},
+      "hashedPassword": hashedPassword,
+    };
+    let insertedUser = userData.addUser(user);
+    console.log(insertedUser);
+    res.redirect('/home', {title: "This worked!"});
 
   }),
 
@@ -60,6 +85,7 @@ const constructorMethod = (app) => {
        I will just do that here */
 
     if (req.session.AuthCookie) {
+      // If authenticated, show them all users
       return res.redirect('/users');
     } else {
       //here I',m just manually setting the req.method to post since it's usually coming from a form
@@ -99,7 +125,7 @@ const constructorMethod = (app) => {
   });
 
   app.get('/logout', async (req, res) => {
-    // req.session.destroy();
+    req.session.destroy();
     res.redirect('/');
   });
 
