@@ -36,11 +36,13 @@ const constructorMethod = (app) => {
 
   app.get("/register", async (req, res) => {
     res.render('register', {
-      title: 'Register'
+      title: 'Register',
+      partial: 'register_validation'
     });
   });
 
   app.post('/register', async (req, res) => {
+
     if(req.body.password !== req.body.confirm-password){
       res.status(401).render('register', {
         error: 'Password did not match.'
@@ -70,6 +72,7 @@ const constructorMethod = (app) => {
     let insertedUser = userData.addUser(user);
     console.log(insertedUser);
     res.redirect('/home', {title: "This worked!"});
+
   }),
 
   app.post('/login', async (req, res) => {
