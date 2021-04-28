@@ -77,27 +77,26 @@ const constructorMethod = (app) => {
       let match = bcrypt.compare(password, 'HASHED_PW_FROM DB');
       if they match then set req.session.user and then redirect them to the login page
        I will just do that here */
-
+    const {
+        username,
+        password
+    } = req.body;
+    let user = await userData.getUserByUsername(username);
     if (req.session.AuthCookie) {
       // If authenticated, show them all users
+      if(user.access_token != ""){
+        await userData.refreshAuthToken(user._id);
+      }
       return res.redirect('/users');
     } else {
       //here I',m just manually setting the req.method to post since it's usually coming from a form
-
-      const {
-        username,
-        password
-      } = req.body;
-
-      let user = await userData.getUserByUsername(username);
-
       if (!user) {
         return res.status(401).render('login', {
           title: "Login",
           error: `User ${username} not found.`
         });
       }
-
+      
       let match = false;
 
       try {
@@ -108,6 +107,9 @@ const constructorMethod = (app) => {
       if (match) {
         req.session.AuthCookie = true;
         req.session.user = user._id;
+        if(user.access_token !== ""){
+          await userData.refreshAuthToken(user._id);
+        }
         res.redirect('/users/' + user._id);
       } else {
         return res.status(401).render('login', {

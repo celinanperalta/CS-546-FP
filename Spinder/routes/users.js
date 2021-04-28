@@ -27,7 +27,6 @@ router.post('/:id', async (req,res)=> {
     }
     try{
         const user = await userData.updateUser(req.params.id, updatedUser);
-        console.log(user);
         res.redirect('/'+req.params.id);
     }catch(e){
         console.log(e);
@@ -38,7 +37,6 @@ router.post('/:id', async (req,res)=> {
 router.get('/', async (req, res) => {
     try{
         const userList = await userData.getAllUsers();
-        console.log(userList);
         res.status(200).render('users', {user : userList});
     }
     catch(e){
@@ -49,8 +47,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try{
         const user = await userData.getUserById(req.params.id);
-        res.render('profile',{user: user, topArtists: user.topArtists, topSongs: user.topSongs, playlists: user.playlists, connected: req.session.AuthCookie});
-        console.log(user);
+        res.render('profile',{user: user, topArtists: user.topArtists, topSongs: user.topSongs, playlists: user.playlists, username: req.session.user});
         //res.status(200).json(user);
     }
     catch(e){

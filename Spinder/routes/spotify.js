@@ -85,29 +85,6 @@ router.get('/callback', async function(req, res) {
   
           var access_token = body.access_token,
               refresh_token = body.refresh_token;
-  
-          var artists = {
-            url: 'https://api.spotify.com/v1/me/top/artists',
-            headers: { 'Authorization': 'Bearer ' + access_token },
-            json: true
-          };
-
-          var tracks = {
-            url: 'https://api.spotify.com/v1/me/top/tracks',
-            headers: { 'Authorization': 'Bearer ' + access_token },
-            json: true
-          };
-  
-          // use the access token to access the Spotify Web API
-          request.get(artists, function(error, response, body) {
-                console.log("spotify response");
-                let topArtists = body;
-          });
-
-          // use the access token to access the Spotify Web API
-          request.get(tracks, function(error, response, body) {
-            console.log(body);
-            });
 
           // we can also pass the token to the browser to make requests from there
           // for now ignore this, just display the profile
@@ -123,15 +100,11 @@ router.get('/callback', async function(req, res) {
             let topSongs = await spotifyData.getUserTopSongs(req.session.user, user.access_token);
             let topArtists = await spotifyData.getUserTopArtists(req.session.user, user.access_token);
             let playlists = await spotifyData.getUserPlaylists(req.session.user, user.access_token);
-            console.log(topSongs);
-            console.log(topArtists);
-            console.log(playlists);
-            // still need to update usertopplaylists
             user.topArtists = topArtists;
             user.topSongs = topSongs;
             user.playlists = playlists;
             let update = await userData.updateUser(req.session.user, user);
-            res.render('profile',{user: user, topArtists: user.topArtists, topSongs: user.topSongs, playlists: user.playlists, connected: true});
+            res.render('profile',{user: user, topArtists: user.topArtists, topSongs: user.topSongs, playlists: user.playlists, username: req.session.user});
         } else {
           res.redirect('/#' +
             querystring.stringify({

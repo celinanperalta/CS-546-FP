@@ -1,4 +1,7 @@
 <script>
+    const data = require('../data');
+    const userData = data.users;
+
     function OpenForm(){
         document.getElementById('edit-profile-form').style.display = 'block';
         document.getElementById('cancel-button').style.display = 'block';
@@ -10,12 +13,14 @@
         document.getElementById('cancel-button').style.display = 'none';
         document.getElementById('profile').style.display = 'block';
     }
-    function CheckConnected(){
+    async function CheckConnected(){
         // eventually make this ACTUALLY check if ur logged in
         let button = document.getElementById('spotify-connect');
+        let user = await userData.getUserById({{username}});
+        let access_token = user.access_token;
         button.addEventListener("load", (event) => {
-            if({{connected}}){
-                button.style.display= 'none';
+            if(access_token != ""){
+                button.style.display = "none";
             }
         });
     }
