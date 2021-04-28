@@ -55,9 +55,9 @@ let exportedMethods = {
         return user;
     },
 
-    // This should only be called when a new user logs in!
+    // This should only be called when a new user registers!
     async addUser(user) {
-        const result = schemas.userSchema.validate(user);
+        const result = schemas.newUserSchema.validate(user);
         if (result.error) { //if not valid user, throw an error
             throw new Error(result.error);
         }
@@ -68,6 +68,15 @@ let exportedMethods = {
         if (insertInfo.insertedCount === 0) {
             throw new Error("Insert failed");
         }
+
+        newUser._id = newUser._id.toString();
+
+        let insertedUser = await this.getUserById(newUser._id);
+        return insertedUser;
+    },
+
+    async loadUserSpotifyData(user_id) {
+        let user = await this.getUserById(user_id);
 
         newUser._id = newUser._id.toString();
 
