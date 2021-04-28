@@ -3,6 +3,7 @@ const axios = require('axios');
 const request = require('request');
 const artistData = require('./artists');
 const songData = require('./songs');
+const profileData = require('./profiles');
 const bcrypt = require('bcrypt');
 const config = require('../config/spotify_config.json');
 const spotifyConfig = config.spotifyConfig;
@@ -69,6 +70,7 @@ let exportedMethods = {
                 spotify_url: artists[i].external_urls.spotify,
                 name: artists[i].name,
                 img: artists[i].images[0].url,
+                genres: artists[i].genres
             };
 
             try {
@@ -212,5 +214,4 @@ let exportedMethods = {
 
 }
 
-module.exports.spotifyData = exportedMethods;
 module.exports = exportedMethods;

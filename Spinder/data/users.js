@@ -8,12 +8,19 @@ const config = require('../config/spotify_config.json');
 const spotifyConfig = config.spotifyConfig;
 const request = require('request');
 const spotifyData = require('./spotify');
+const profileData = require('./profiles');
 
 let exportedMethods = {
 
+
     async getAllUsers() {
         const usersCollection = await users(); //Obtain user collection
-        const usersList = await usersCollection.find({}); //get all users
+        const usersList = await usersCollection.find({}).toArray(); //get all users
+
+        // usersList.map((d) => {
+        //     d._id = d._id.toString();
+        // });
+
         return usersList;
     },
 
@@ -32,7 +39,7 @@ let exportedMethods = {
         return user;
     },
 
-    async getUserBySpotifyUsername(username) {
+    async getUserByUsername(username) {
         if (!username || typeof username !== 'string' || username == "") { //Check that id exists and is of correct type
             throw new Error("Must provide valid string username");
         }
@@ -48,9 +55,24 @@ let exportedMethods = {
         return user;
     },
 
-    // This should only be called when a new user logs in!
+    // same as last but with true / false
+    async checkExistence(username) {
+        if (!username || typeof username !== 'string' || username == "") { //Check that id exists and is of correct type
+            throw new Error("Must provide valid string username");
+        }
+        const usersCollection = await users(); //obtain users collection
+        const user = await usersCollection.findOne({
+            username: username
+        });
+        if (user === null) {
+            return false;
+        }
+        return true;
+    },
+
+    // This should only be called when a new user registers!
     async addUser(user) {
-        const result = schemas.userSchema.validate(user);
+        const result = schemas.newUserSchema.validate(user);
         if (result.error) { //if not valid user, throw an error
             throw new Error(result.error);
         }
@@ -64,6 +86,15 @@ let exportedMethods = {
 
         newUser._id = newUser._id.toString();
 
+        let insertedUser = await this.getUserById(newUser._id);
+        return insertedUser;
+    },
+
+    async loadUserSpotifyData(user_id) {
+        let user = await this.getUserById(user_id);
+
+        newUser._id = newUser._id.toString();
+
         await this.refreshAuthToken(newUser._id);
         // TODO: Get top artists and songs for user and populate fields
         // console.log("Getting user artists...");
@@ -73,6 +104,8 @@ let exportedMethods = {
         // TODO: After getting top songs, create musical profile object
         await this.loadUserTopSongs(newUser._id);
 
+        await this.loadUserMusicProfile(newUser._id);
+
         let insertedUser = await this.getUserById(newUser._id);
         return insertedUser;
     },
@@ -81,46 +114,15 @@ let exportedMethods = {
         if (!id || typeof id !== 'string' || id == "") {
             throw new Error("Must provide valid string id");
         }
-        const result = schemas.userOptional.validate(updatedUser);
+        const result = schemas.userOptionalSchema.validate(updatedUser);
         if (result.error) {
             throw new Error(result.error);
         }
         const usersCollections = await users();
-        const updatedUserData = {};
-        //Check for what fields are being updated
-        if (updatedUser.firstName) {
-            updatedUserData.firstName = updatedUser.firstName;
-        }
-        if (updatedUser.lastName) {
-            updatedUserData.lastName = updatedUser.lastName;
-        }
-        if (updatedUser.username) {
-            updatedUserData.username = updatedUser.username;
-        }
-        if (updatedUser.email) {
-            updatedUserData.email = updatedUser.email;
-        }
-        if (updatedUser.location) {
-            updatedUserData.location = updatedUser.location;
-        }
-        if (updatedUser.img) {
-            updatedUserData.img = updatedUser.img;
-        }
-        if (updatedUser.topArtists) {
-            updatedUserData.topArtists = updatedUser.topArtists;
-        }
-        if (updatedUser.topSongs) {
-            updatedUserData.topSongs = updatedUser.topSongs;
-        }
-        if (updatedUser.playlists) {
-            updatedUserData.playlists = updatedUser.playlists;
-        }
-        if (updatedUser.likedProfiles) {
-            updatedUserData.likedProfiles = updatedUser.likedProfiles;
-        }
-        if (updatedUser.musicalProfile) {
-            updatedUserData.musicalProfile = updatedUser.musicalProfile;
-        }
+        const updatedUserData = result.value;
+        
+        // id already exists
+        delete updatedUserData["_id"];
 
         //Updated in the DB
         await usersCollections.updateOne({
@@ -166,7 +168,7 @@ let exportedMethods = {
 
         request.post(authOptions, async function(error, response, body) {
             if (!error && response.statusCode === 200) {
-            var access_token = body.access_token;
+            access_token = body.access_token;
             user.access_token = body.access_token;
             if (body.refresh_token)
                 user.refresh_token = body.refresh_token;
@@ -207,6 +209,62 @@ let exportedMethods = {
         } catch(e) {
             console.log(e);
         }
+    },
+
+    async loadUserMusicProfile(user_id) {
+
+        let user = await this.getUserById(user_id);
+
+
+        let artists = user.topArtists;
+        let songs = user.topSongs;
+
+        let profile = {
+            user_id: user._id,
+            topGenres: [],
+            averageAudioFeatures: {}
+        };
+
+        let topGenreCount = {};
+
+        for (let artist of artists) {
+            for (let genre of artist.genres) {
+                if (topGenreCount[genre])
+                    topGenreCount[genre]++
+                else
+                    topGenreCount[genre] = 1
+            }
+        }
+
+        // why can't we have nice things like python
+        profile.topGenres = Object.entries(topGenreCount).sort((a,b) => b[1] - a[1]);
+
+        profile.topGenres = profile.topGenres.slice(0, Math.min(5, profile.topGenres.length));
+
+        profile.topGenres = profile.topGenres.map((x) => x[0]);
+
+        for (let song of songs) {
+            let features = song.audio_features;
+            for (let key of Object.keys(features)) {
+                if (profile.averageAudioFeatures[key])
+                    profile.averageAudioFeatures[key] += features[key]
+                else
+                    profile.averageAudioFeatures[key] = features[key]
+            }
+        }
+
+        for (let [key, value] of Object.entries(profile.averageAudioFeatures)) {
+            profile.averageAudioFeatures[key] = value / songs.length;
+        }
+
+        const musicalProfile = await profileData.addProfile(profile);
+
+        user.musicalProfile = musicalProfile._id;
+
+        await this.updateUser(user_id, user);
+
+        console.log(musicalProfile);
+        return musicalProfile;
     }
 
 };
