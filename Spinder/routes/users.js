@@ -38,8 +38,10 @@ router.post('/:id', async (req,res)=> {
 router.get('/', async (req, res) => {
     try{
         const userList = await userData.getAllUsers();
-        console.log(userList);
-        res.status(200).render('users', {user : userList});
+
+        //res.status(200).json(userList);
+        //console.log(userList);
+        res.status(200).render('users', {title: "All Our Users!", user : userList});
     }
     catch(e){
         res.status(500).send({error:e});

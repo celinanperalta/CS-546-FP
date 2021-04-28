@@ -8,7 +8,20 @@
 </head>
 <body>
     <header>
-        <h1>{{title}}</h1>
+        {{!-- <nav>
+             if !session nav bar will just be login and register
+            <li class="navBar"><a href="/login/">Home</a></li>
+            <li class="navBar"><a href="/register/">My Account</a></li>
+        </nav>
+             else: --}}
+        <nav>
+            <li class="navBar"><a href="/logout/">Logout</a></li>
+            <li class="navBar"><a href="/users/">User List</a></li>
+            <li class="navBar"><a href="/users/">My Account</a></li>
+            <li class="navBar"><a href="/home/">Home</a></li>
+        </nav>
+        <h1 id="title">{{title}}</h1>
+
     </header>
     <main>
         {{{body}}}
