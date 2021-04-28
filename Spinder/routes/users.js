@@ -17,7 +17,11 @@ function containsNew(originalArray, newArray){
 router.get('/', async (req, res) => {
     try{
         const userList = await userData.getAllUsers();
+<<<<<<< Updated upstream
         res.status(200).json(userList);
+=======
+        res.status(200).render('users', {title: "All Our Users!", user : userList});
+>>>>>>> Stashed changes
     }
     catch(e){
         res.status(500).send({error:e});

@@ -1,6 +1,8 @@
 <div class="allUsers">
-    {{#each user}}
-    <div class="indUser">
+    <div class="row">
+            {{#each user}}
+    <div class="col-md-4">
+    <div class="indUser" >
         <img src="{{this.img}}" alt="user image">
         <p class="username">{{this.username}}</p>
         <p class="name">{{this.firstName}} {{this.lastName}}</p>   
@@ -17,12 +19,23 @@
                     <a href="/songs/{{this.id}}">{{this}}</a>
                 {{/each}}  
             </li>
+<<<<<<< Updated upstream
         </ul>    
+=======
+            {{/each}}
+        </ul>
+        <div class="userCard" hidden>
+            {{!-- musical profile and % match --}}
+        </div>
+>>>>>>> Stashed changes
         {{!-- <ul class="playlists">  
         {{#each this.playlists}}
                 <a href="/playlists?/{{this.id}}">{{this}}</a>
         {{/each}}  
         </ul>     --}}
     </div>
+    </div>
     {{/each}}
+    </div>
+
 </div>
