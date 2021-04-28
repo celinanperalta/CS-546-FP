@@ -27,7 +27,6 @@ router.post('/:id', async (req,res)=> {
     }
     try{
         const user = await userData.updateUser(req.params.id, updatedUser);
-        console.log(user);
         res.redirect('/'+req.params.id);
     }catch(e){
         console.log(e);
@@ -39,19 +38,21 @@ router.get('/', async (req, res) => {
     try{
         const userList = await userData.getAllUsers();
 
-        //res.status(200).json(userList);
-        //console.log(userList);
-        res.status(200).render('users', {title: "All Our Users!", user : userList});
+        console.log(userList);
+        res.status(200).render('users', {title: "Users", user : userList, isLoggedIn: true});
+
     }
     catch(e){
         res.status(500).send({error:e});
     }
 });
 
+// If viewing our own profile, show all attributes. Otherwise, toggle something
 router.get('/:id', async (req, res) => {
     try{
         const user = await userData.getUserById(req.params.id);
-        res.render('profile',{user: user, topArtists: user.topArtists, topSongs: user.topSongs, playlists: user.playlists});
+
+        res.render('profile',{user: user, topArtists: user.topArtists, topSongs: user.topSongs, playlists: user.playlists, isLoggedIn: true});
         console.log(user);
         //res.status(200).json(user);
     }
@@ -205,7 +206,7 @@ router.post('/login', async (req, res) => {
             if (valid){
             //make cookie/add session
             req.session.AuthCookie = true;
-            res.redirect('/home');
+            res.redirect('/users');
             }
             else{
                 res.status(401).render('login', {title: "Error", error: "Invalid username or password"});

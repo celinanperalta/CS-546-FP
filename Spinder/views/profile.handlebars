@@ -1,6 +1,6 @@
 <img src="{{user.img}}">
 <button onclick="OpenForm();">Edit Profile</button>
-<button id ="cancel-button" onclick="CloseForm();" style="display: none">Cancel</button>
+<button id ="cancel-button" style="display: none">Cancel</button>
 <form id="edit-profile-form"action="/users/{{user._id}}" method="POST" style="display: none">
     <input name = "firstName" placeholder="Update First Name"/>
     <input name = "lastName" placeholder="Update Last Name"/>
@@ -9,6 +9,11 @@
     <input name = "city" placeholder="Update City"/>
     <button type="submit">Submit</button>
 </form>
+{{#unless user.access_token}}
+<form action="/spotify/login" onload="CheckConnected()" id="spotify-connect">
+    <input type="submit" value="Connect to Spotify." />
+</form>
+{{/unless}}
 <div id="profile">
     <h1>{{user.username}}</h1>
     <h3>{{user.firstName}} {{user.lastName}}</h3>
