@@ -4,7 +4,7 @@ const artistRoutes = require('./artists');
 const songRoutes = require('./songs');
 const spotifyRoutes = require('./spotify');
 const data = require('../data');
-const userData = data.userData;
+const userData = data.users;
 const bcrypt = require('bcrypt');
 const e = require('express');
 const { ObjectId } = require('bson');
@@ -43,7 +43,7 @@ const constructorMethod = (app) => {
 
   app.post('/register', async (req, res) => {
 
-    if(req.body.password !== req.body.confirm-password){
+    if(req.body.password !== req.body.confirmPassword){
       res.status(401).render('register', {
         error: 'Password did not match.'
       });
@@ -54,24 +54,17 @@ const constructorMethod = (app) => {
       });
     }
     // assuming all is well we hash the password
-    let hashedPassword = bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
-      if (err) {
-        console.error(err)
-        return
-      }
-      return hash;
-    });
+    let hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
     let user = {
-      "_id" : ObjectId(),
       "firstName" : req.body.firstName,
       "lastName": req.body.lastName,
       "username": req.body.username,
       "location": {"country": req.body.country, "city": req.body.city},
       "hashedPassword": hashedPassword,
     };
-    let insertedUser = userData.addUser(user);
+    let insertedUser =  await userData.addUser(user);
     console.log(insertedUser);
-    res.redirect('/home', {title: "This worked!"});
+    res.redirect('/users/' + insertedUser._id);
 
   }),
 

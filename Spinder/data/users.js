@@ -56,7 +56,7 @@ let exportedMethods = {
     },
 
     // same as last but with true / false
-    async checkExistence(username){
+    async checkExistence(username) {
         if (!username || typeof username !== 'string' || username == "") { //Check that id exists and is of correct type
             throw new Error("Must provide valid string username");
         }
