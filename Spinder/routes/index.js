@@ -43,7 +43,7 @@ const constructorMethod = (app) => {
 
   app.post('/register', async (req, res) => {
 
-    if(req.body.password !== req.body.confirm-password){
+    if(req.body.password !== req.body.confirmPassword){
       res.status(401).render('register', {
         error: 'Password did not match.'
       });
