@@ -63,6 +63,7 @@ const userSchema = Joi.object({
   access_token: Joi.string().min(1).required(),
   refresh_token: Joi.string().min(1).required()
 });
+
 const userOptional = Joi.object({
   _id: Joi.string(),
   firstName: Joi.string().min(1),
