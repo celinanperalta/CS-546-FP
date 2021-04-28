@@ -67,6 +67,7 @@ const userSchema = Joi.object({
   bio: Joi.string().default("")
 });
 
+const userOptional = Joi.object({
 // When a user first registers, all Spotify-related fields should be default values
 const newUserSchema = Joi.object({
   _id: Joi.string(),

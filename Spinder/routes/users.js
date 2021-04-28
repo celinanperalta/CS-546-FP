@@ -39,7 +39,8 @@ router.get('/', async (req, res) => {
     try{
         const userList = await userData.getAllUsers();
         console.log(userList);
-        res.status(200).render('users', {user : userList, isLoggedIn: true});
+        res.status(200).render('users', {title: "Users", user : userList, isLoggedIn: true});
+
     }
     catch(e){
         res.status(500).send({error:e});
