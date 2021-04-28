@@ -14,7 +14,7 @@ function containsNew(originalArray, newArray){
     return false;
 }
 //route for updating user id
-router.post('/:id', async (req,res)=>{
+router.post('/:id', async (req,res)=> {
     const {firstName, lastName, bio, country, city} = req.body;
     let updatedUser = {
         firstName: firstName,
