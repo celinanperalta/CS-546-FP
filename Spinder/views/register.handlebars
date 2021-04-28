@@ -1,23 +1,35 @@
-<form id="register-form" action="/register" method="POST">
-        <label for="first-name">
-            First Name
-            <input id="first-name" type="text" name="first-name" placeholder="First Name"/>
-        </label>
-        <label for="last-name">
-            Last Name
-            <input id="last-name" type="text" name="last-name" placeholder="Last Name"/>
-        </label>
-        <label for="username">
-            Username
-            <input id="username" type="text" name="username" placeholder="Username"/>
-        </label>
-        <label for="password">
-            Password
-            <input id="password" type="password" name="password" placeholder="Password"/>
-        </label>
-        <label for="confirm-password">
-            Confirm Password
-            <input id="confirm-password" type="password" name="confirm-password" placeholder="Confirm Password"/>
-        </label>
-        <button type="submit">Register</button>
+<form action="/register" method="POST" id="new-user-form" class="row g-3">
+    <div class="col-md-4">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" class="form-control" id="username" value="" required>
+    </div>
+    <div class="col-md-4">
+        <label for="firstName" class="form-label">First Name</label>
+        <input type="text" class="form-control" id="firstName" value="" required>
+    </div>
+    <div class="col-md-4">
+        <label for="lastName" class="form-label">Last Name</label>
+        <input type="text" class="form-control" id="lastName" value="" required>
+    </div>
+    <div class="col-md-4">
+        <label for="city" class="form-label">City</label>
+        <input type="text" class="form-control" id="city" value="" required>
+    </div>
+    <div class="col-md-4">
+        <label for="country" class="form-label">Country</label>
+        <input type="text" class="form-control" id="country" value="" required>
+    </div>
+    <div class="col-md-4">
+        <label for="password" class="form-label">Password</label>
+        <input type="text" class="form-control" id="password" value="" required>
+    </div>
+    <div class="col-md-4">
+        <label for="confirm-password" class="form-label">Confirm Password</label>
+        <input type="text" class="form-control" id="confirm-password" value="" required>
+    </div>
+    <div class="row g-3">
+        <div class="col-md-4">
+            <button class="form" type="submit">Register</button>
+        </div>
+    </div>
 </form>
