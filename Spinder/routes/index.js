@@ -34,7 +34,8 @@ const constructorMethod = (app) => {
 
   app.get("/register", async (req, res) => {
     res.render('register', {
-      title: 'Register'
+      title: 'Register',
+      partial: 'register_validation'
     });
   });
 
