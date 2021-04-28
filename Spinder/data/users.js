@@ -92,7 +92,7 @@ let exportedMethods = {
     async loadUserSpotifyData(user_id) {
         let user = await this.getUserById(user_id);
 
-        newUser._id = newUser._id.toString();
+        newUser._id = user._id.toString();
 
         await this.refreshAuthToken(newUser._id);
         // TODO: Get top artists and songs for user and populate fields
