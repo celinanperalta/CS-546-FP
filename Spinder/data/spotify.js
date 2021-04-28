@@ -76,11 +76,13 @@ let exportedMethods = {
             try {
                 const artist = await artistData.getArtistBySpotifyId(artists[i].id); //instead just add the user_id to the user_ids array
                 let user_id_arr = artist.user_ids; //get the old user_ids array
-                user_id_arr.push(user_id); //add the new user to this array
+                if(!user_id_arr.includes(user_id)){
+                    user_id_arr.push(user_id); //add the new user to this array
+                }
                 artist.user_ids = user_id_arr;
                 try {
                     let updatedArtist = await artistData.updateArtist(artist._id, currArtist);
-                    artist_arr.push(updatedArtist._id);
+                    artist_arr.push(currArtist);
                 } catch (e) {
                     //artist was unable to be updated
                     console.log(e);
@@ -90,7 +92,7 @@ let exportedMethods = {
                 currArtist.user_ids = [user_id];
                 try {
                     let newArtist = await artistData.addArtist(currArtist);
-                    artist_arr.push(newArtist);
+                    artist_arr.push(currArtist);
                 } catch (e) {
                     //artist was unable to be added
                     console.log(e);
@@ -163,7 +165,7 @@ let exportedMethods = {
             }
         }
 
-        const songs = data.items || []; //array of artist objects
+        const songs = data.items || []; //array of song objects
         let songs_arr = [];
 
         for (let i = 0; i != songs.length && i != 10; ++i) {
@@ -181,11 +183,13 @@ let exportedMethods = {
             try {
                 const song = await songData.getSongBySpotifyId(songs[i].id); //instead just add the user_id to the user_ids array
                 let user_id_arr = song.user_ids; //get the old user_ids array
-                user_id_arr.push(user_id); //add the new user to this array
+                if(!user_id_arr.includes(user_id)){
+                    user_id_arr.push(user_id); //add the new user to this array
+                }
                 currSong.user_ids = user_id_arr;
                 try {
                     let updatedSong = await songData.updateSong(song._id, currSong);
-                    songs_arr.push(updatedSong._id);
+                    songs_arr.push(currSong);
                 } catch (e) {
                     //artist was unable to be updated
                     console.log(e);
@@ -196,7 +200,7 @@ let exportedMethods = {
                 currSong.audio_features = songFeatures;
                 try {
                     let newSong = await songData.addSong(currSong);
-                    songs_arr.push(newSong);
+                    songs_arr.push(currSong);
                 } catch (e) {
                     //artist was unable to be added
                     console.log(e);
@@ -208,8 +212,35 @@ let exportedMethods = {
         return songs_arr; //return full top artists array
     },
 
-    async getUserPlaylists(user_id) {
+    async getUserPlaylists(user_id, token) {
+        let endpoint = "me/playlists";
+        let data = undefined;
 
+        try {
+            data = await this.sendWebAPIRequest(token, endpoint);
+        } catch (e) {
+            if (e.message == "401") {
+                throw Error("Refresh token");
+            } else {
+                throw Error(e.message);
+            }
+        }
+
+        const playlists = data.items || []; //array of playlists objects
+        let playlists_arr = [];
+
+        for (let i = 0; i != playlists.length && i != 10; ++i) {
+            let currPlaylist = {
+                name: playlists[i].name,
+                description: playlists[i].description,
+                spotify_id: playlists[i].id,
+                spotify_url: playlists[i].external_urls.spotify,
+                tracks: playlists[i].tracks.total,
+                user_id: user_id
+            };
+            playlists_arr.push(currPlaylist);
+        }
+        return playlists_arr; //return full top playlists array
     }
 
 }

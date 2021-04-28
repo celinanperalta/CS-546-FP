@@ -7,6 +7,7 @@ const spotifyConfig = config.spotifyConfig;
 const bcrypt = require('bcrypt');
 
 const data = require('../data');
+const spotifyData = data.spotify;
 const userData = data.users;
 
 var client_id = spotifyConfig.client_id; // Your client id
@@ -105,9 +106,7 @@ router.get('/callback', async function(req, res) {
 
           // use the access token to access the Spotify Web API
           request.get(tracks, function(error, response, body) {
-            console.log("spotify response");
             console.log(body);
-            let topTracks = body;
             });
 
           // we can also pass the token to the browser to make requests from there
@@ -121,10 +120,17 @@ router.get('/callback', async function(req, res) {
             let user = await userData.getUserById(req.session.user);
             user.access_token = access_token;
             user.refresh_token = refresh_token;
-            user.
-            // update the user person with the spotify info
-
-
+            let topSongs = await spotifyData.getUserTopSongs(req.session.user, user.access_token);
+            let topArtists = await spotifyData.getUserTopArtists(req.session.user, user.access_token);
+            let playlists = await spotifyData.getUserPlaylists(req.session.user, user.access_token);
+            console.log(topSongs);
+            console.log(topArtists);
+            console.log(playlists);
+            // still need to update usertopplaylists
+            user.topArtists = topArtists;
+            user.topSongs = topSongs;
+            user.playlists = playlists;
+            let update = await userData.updateUser(req.session.user, user);
             res.render('profile',{user: user, topArtists: user.topArtists, topSongs: user.topSongs, playlists: user.playlists, connected: true});
         } else {
           res.redirect('/#' +
