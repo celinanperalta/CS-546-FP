@@ -221,10 +221,8 @@ function checkPassword(input) {
     const password = document.getElementById('password');
     if (password.value !== input.value) {
         document.getElementById('confirm-password').setCustomValidity("Passwords must match.");
-        return false;
     }
     document.getElementById('confirm-password').setCustomValidity("");
-    return true;
 }
 
 (function () {

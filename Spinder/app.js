@@ -32,6 +32,24 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.get('/login', async (req, res, next) => {
+  if (req.session.AuthCookie) {
+    res.redirect("/users");
+  } 
+  else {
+    next();
+  }
+});
+
+app.get('/users/*', async (req, res, next) => {
+  if (!req.session.AuthCookie) {
+    res.redirect("/login");
+  } 
+  else {
+    next();
+  }
+})
+
 configRoutes(app);
 
 app.listen(3000, () => {

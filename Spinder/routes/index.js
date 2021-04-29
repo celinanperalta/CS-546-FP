@@ -47,7 +47,8 @@ const constructorMethod = (app) => {
       });
     }
     
-    if(userData.checkExistence(req.body.username) === true){
+    let isExisting = await userData.checkExistence(req.body.username);
+    if(isExisting){
       res.status(401).render('register', {
         error: 'That username is taken.'
       });
@@ -62,7 +63,9 @@ const constructorMethod = (app) => {
       "hashedPassword": hashedPassword,
     };
     let insertedUser =  await userData.addUser(user);
-    console.log(insertedUser);
+
+    req.session.AuthCookie = true;
+    req.session.user = insertedUser._id;
     res.redirect('/users/' + insertedUser._id);
 
   }),
@@ -83,7 +86,9 @@ const constructorMethod = (app) => {
         username,
         password
     } = req.body;
-    let user = await userData.getUserByUsername(username);
+    let user = await userData.getUserByUsername(username).catch(exception => {
+      return undefined;
+    });
     if (req.session.AuthCookie) {
       // If authenticated, show them all users
       if(user.access_token != ""){
@@ -116,7 +121,7 @@ const constructorMethod = (app) => {
       } else {
         return res.status(401).render('login', {
           title: "Login",
-          error: true
+          error: "Incorrect username or password."
         });
       }
     }

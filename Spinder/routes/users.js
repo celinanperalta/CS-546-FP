@@ -37,10 +37,8 @@ router.post('/:id', async (req,res)=> {
 router.get('/', async (req, res) => {
     try{
         const userList = await userData.getAllUsers();
-        console.log(req.session.user);
-        // const curr_user = await userData.getUserById(req.session.user);
-        console.log(userList);
-        res.status(200).render('users', {title: "Users", users : userList, isLoggedIn: true});
+        const curr_user = await userData.getUserById(req.session.user);
+        res.status(200).render('users', {curr_user: curr_user, title: "Users", users : userList, isLoggedIn: true});
 
     }
     catch(e){
@@ -51,11 +49,11 @@ router.get('/', async (req, res) => {
 
 // If viewing our own profile, show all attributes. Otherwise, toggle something
 router.get('/:id', async (req, res) => {
+    // console.log(req.session);
     try{
         const user = await userData.getUserById(req.params.id);
-        // const curr_user = await userData.getUserById(req.session.user);
-        res.render('profile',{user : user, topArtists: user.topArtists, topSongs: user.topSongs, playlists: user.playlists, isLoggedIn: true});
-        console.log(user);
+        const curr_user = await userData.getUserById(req.session.user);
+        res.render('profile',{curr_user: curr_user, user : user, topArtists: user.topArtists, topSongs: user.topSongs, playlists: user.playlists, isLoggedIn: true});
         //res.status(200).json(user);
     }
     catch(e){
