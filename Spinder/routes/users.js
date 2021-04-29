@@ -27,7 +27,7 @@ router.post('/:id', async (req,res)=> {
     }
     try{
         const user = await userData.updateUser(req.params.id, updatedUser);
-        res.redirect('/'+req.params.id);
+        res.redirect('/users/'+req.params.id);
     }catch(e){
         console.log(e);
         res.json({error: e.message});
