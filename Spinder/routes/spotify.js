@@ -97,13 +97,15 @@ router.get('/callback', async function(req, res) {
             let user = await userData.getUserById(req.session.user);
             user.access_token = access_token;
             user.refresh_token = refresh_token;
-            let topSongs = await spotifyData.getUserTopSongs(req.session.user, user.access_token);
-            let topArtists = await spotifyData.getUserTopArtists(req.session.user, user.access_token);
+            // let topSongs = await spotifyData.getUserTopSongs(req.session.user, user.access_token);
+            // let topArtists = await spotifyData.getUserTopArtists(req.session.user, user.access_token);
             let playlists = await spotifyData.getUserPlaylists(req.session.user, user.access_token);
-            user.topArtists = topArtists;
-            user.topSongs = topSongs;
+            // user.topArtists = topArtists;
+            // user.topSongs = topSongs;
             user.playlists = playlists;
-            let update = await userData.updateUser(req.session.user, user);
+            await userData.updateUser(req.session.user, user);
+            await userData.loadUserSpotifyData(req.session.user);
+
             res.redirect('/users/' + req.session.user);
         } else {
           res.redirect('/#' +

@@ -93,20 +93,19 @@ let exportedMethods = {
     async loadUserSpotifyData(user_id) {
         let user = await this.getUserById(user_id);
 
-        newUser._id = user._id.toString();
 
-        await this.refreshAuthToken(newUser._id);
+        await this.refreshAuthToken(user_id);
         // TODO: Get top artists and songs for user and populate fields
         // console.log("Getting user artists...");
         // let topArtistsData = await spotifyData.getUserTopArtists(newUser.access_token);
         // console.log(topArtistsData);
-        await this.loadUserTopArtists(newUser._id);
+        await this.loadUserTopArtists(user_id);
         // TODO: After getting top songs, create musical profile object
-        await this.loadUserTopSongs(newUser._id);
+        await this.loadUserTopSongs(user_id);
 
-        await this.loadUserMusicProfile(newUser._id);
+        await this.loadUserMusicProfile(user_id);
 
-        let insertedUser = await this.getUserById(newUser._id);
+        let insertedUser = await this.getUserById(user_id);
         return insertedUser;
     },
 
@@ -256,7 +255,13 @@ let exportedMethods = {
             profile.averageAudioFeatures[key] = value / songs.length;
         }
 
-        const musicalProfile = await profileData.addProfile(profile);
+        console.log(profile);
+
+        let musicalProfile = null;
+        if (user.musicalProfile)
+            musicalProfile = await profileData.updateProfile(user.musicalProfile, profile);
+        else 
+            musicalProfile = await profileData.addProfile(profile);
 
         user.musicalProfile = musicalProfile._id;
 

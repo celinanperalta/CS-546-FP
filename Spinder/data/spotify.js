@@ -82,7 +82,7 @@ let exportedMethods = {
                 artist.user_ids = user_id_arr;
                 try {
                     let updatedArtist = await artistData.updateArtist(artist._id, currArtist);
-                    artist_arr.push(currArtist);
+                    artist_arr.push(updatedArtist);
                 } catch (e) {
                     //artist was unable to be updated
                     console.log(e);
@@ -92,7 +92,7 @@ let exportedMethods = {
                 currArtist.user_ids = [user_id];
                 try {
                     let newArtist = await artistData.addArtist(currArtist);
-                    artist_arr.push(currArtist);
+                    artist_arr.push(newArtist);
                 } catch (e) {
                     //artist was unable to be added
                     console.log(e);
@@ -147,6 +147,8 @@ let exportedMethods = {
 
         picked_features = pick(features, audioFeatureKeys);
 
+        picked_features.loudness = (picked_features.loudness + 60) / 60.0;
+
         return picked_features;
 
     },
@@ -186,10 +188,10 @@ let exportedMethods = {
                 if(!user_id_arr.includes(user_id)){
                     user_id_arr.push(user_id); //add the new user to this array
                 }
-                currSong.user_ids = user_id_arr;
+                song.user_ids = user_id_arr;
                 try {
-                    let updatedSong = await songData.updateSong(song._id, currSong);
-                    songs_arr.push(currSong);
+                    let updatedSong = await songData.updateSong(song._id, song);
+                    songs_arr.push(updatedSong);
                 } catch (e) {
                     //artist was unable to be updated
                     console.log(e);
@@ -200,7 +202,7 @@ let exportedMethods = {
                 currSong.audio_features = songFeatures;
                 try {
                     let newSong = await songData.addSong(currSong);
-                    songs_arr.push(currSong);
+                    songs_arr.push(newSong);
                 } catch (e) {
                     //artist was unable to be added
                     console.log(e);

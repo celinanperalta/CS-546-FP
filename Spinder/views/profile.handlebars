@@ -5,7 +5,7 @@
             </div>
             <div class="col-md-8">
                 <h1 class="display-3">{{user.firstName}} {{user.lastName}}</h1>
-                <h4 class="text-muted">@{{user.username}}</h4>
+                <h1 class=" display-7 text-muted">@{{user.username}}</h1>
                 <p>{{user.bio}}</p>
                 <h6 class="text-muted">{{user.location.city}}, {{user.location.country}}</h6>
                 {{#unless user.access_token}}
@@ -15,11 +15,17 @@
                 {{/unless}}
             </div>
        </div>
+       <div class="row">
+           <div class="col-md-6">
+            <h2>Musical Profile</h2>
+                {{> musical_profile}}
+           </div>
+       </div>
         <div class="row">
             <div class="mb-4">
                 <h2>Top Artists</h2>
                 <ol class="list-group list-group-numbered">
-                    {{#each topArtists}}
+                    {{#each user.topArtists}}
                     <li class="list-group-item d-flex justify-content-between align-items-start">
                         <span class="thumbnail ml-4"><img src="{{this.img}}"></span>
                         <div class="ms-2 me-auto">
@@ -29,10 +35,10 @@
                     {{/each}}
                 </ol>
             </div>
-            <div>
+            <div class="mb-4">
                 <h2>Top Songs</h2>
                 <ol class="list-group list-group-numbered">
-                    {{#each topSongs}}
+                    {{#each user.topSongs}}
                     <li class="list-group-item d-flex justify-content-between align-items-start">
                         <span class="thumbnail ml-4"><img src="{{this.img}}"></span>
                         <div class="ms-2 me-auto">
@@ -43,20 +49,23 @@
                     {{/each}}
                 </ol>
             </div>
-            {{!-- <div class="col">
-                    <div class="card text-center border-secondary mb-3" style="width: 18rem;">
-                        <div class="card-body">
-                            <p class="bolded-text">Top Playlists</p>
-                            <ol class="list-group list-group-flush">
-                                {{#each playlists}}
-                                <img src="{{this.img}}" class="card-img-top">
-                                <li class="list-group-item"><a href="{{this.spotify_url}}">{{this.name}}</a></li>
-                                {{/each}}
-                            </ol>
+            <div class="mb-4">
+                <h2>Playlists</h2>
+                <ol class="list-group list-group-numbered">
+                    {{#each user.playlists}}
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        {{#if this.img}}
+                        <span class="thumbnail ml-4"><img src="{{this.img}}"></span>
+                        {{else}}
+                        <span class="thumbnail ml-4"><img src="/public/images/default_song.jpg"></span>
+                        {{/if}}
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold"><a href="{{this.spotify_url}}">{{this.name}}</a></div>
                         </div>
-                    </div>
-                </div> --}}
-
+                    </li>
+                    {{/each}}
+                </ol>
+            </div>
         </div>
  
 </div>
