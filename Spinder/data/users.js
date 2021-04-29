@@ -196,7 +196,6 @@ let exportedMethods = {
     },
 
     async loadUserTopSongs(user_id) {
-
         let user = await this.getUserById(user_id);
         // Flow: Call spotifyData, have that get the data, add to artist db, return artist names
 
@@ -268,6 +267,25 @@ let exportedMethods = {
         await this.updateUser(user_id, user);
 
         return musicalProfile;
+    },
+
+    async loadTopSongs() {
+        let users = await this.getAllUsers();
+        let topSongs={};
+        for (x of users){
+            for (song of await x.topSongs){
+                let name=song.name;
+                if (Object.keys(topSongs).includes(name)){
+                    topSongs[name]=topSongs[name]+1;
+                }
+                else{
+                    topSongs[name]=1;
+                }
+             }
+        }
+        //topSongs.sort((a, b) => a-b);
+        console.log(topSongs);
+        return Object.keys(topSongs);
     }
 
 };

@@ -106,6 +106,10 @@ router.get('/callback', async function(req, res) {
             await userData.updateUser(req.session.user, user);
             await userData.loadUserSpotifyData(req.session.user);
 
+            let image = await spotifyData.getUserImg(user.access_token);
+            user.img = image;
+            
+            let update = await userData.updateUser(req.session.user, user);
             res.redirect('/users/' + req.session.user);
         } else {
           res.redirect('/#' +
