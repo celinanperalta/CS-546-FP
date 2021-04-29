@@ -1,4 +1,3 @@
-console.log("hi");
 $(document).ready(function() {
     (function($) {
         $('.userCard').hide();
@@ -6,7 +5,6 @@ $(document).ready(function() {
         let user;
         let hover = $('div.indUser');
         let hoverCard;
-        console.log("HOVER: "+hover);
         $(hover).on({
             mouseenter: function(event) {
                 event.preventDefault();
@@ -18,7 +16,6 @@ $(document).ready(function() {
             },
             mouseleave: function() {
                 hoverCard.hide();
-                console.log("leaving");
         }
 });
     })(window.jQuery);
