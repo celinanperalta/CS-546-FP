@@ -240,7 +240,8 @@ let exportedMethods = {
             };
             playlists_arr.push(currPlaylist);
         }
-        return playlists_arr; //return full top playlists array
+        top3Playlists=playlists_arr.slice(0,3);
+        return top3Playlists; //return top 3 playlists from full playlist array
     },
 
     async getUserImg(token){
