@@ -234,7 +234,7 @@ let exportedMethods = {
             }
         }
 
-        // why can't we have nice things like python
+        // why can't we have nice things like python <LOL>
         profile.topGenres = Object.entries(topGenreCount).sort((a,b) => b[1] - a[1]);
 
         profile.topGenres = profile.topGenres.slice(0, Math.min(5, profile.topGenres.length));

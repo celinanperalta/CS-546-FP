@@ -20,24 +20,36 @@
 <div class="card">
     <img src="{{user.img}}" id="user-img">
     <div id="profile">
+        
         <h1>{{user.username}}</h1>
+        <div class="gray-div">
         <h3>{{user.firstName}} {{user.lastName}}</h3>
         <h4>{{user.location.city}}, {{user.location.country}}</h4>
-        <ol>Top Artists
-            {{#each topArtists}}
-                <li>{{this.name}}</li>
-            {{/each}}
-        </ol>
-        <ol>Top Songs
-            {{#each topSongs}}
-                <li>{{this.name}}</li>
-            {{/each}}
-        </ol>
-        <ol>Top Playlists
-            {{#each playlists}}
-                <li>{{this.name}}</li>
-            {{/each}}
-        </ol>
+        </div>
+        <div class="green-div">
+            <p class="bolded-text">Top Artists</p>
+            <ol>
+                {{#each topArtists}}
+                    <li>{{this.name}}</li>
+                {{/each}}
+            </ol>
+        </div>
+        <div class="gray-div">
+            <p class="bolded-text">Top Songs</p>
+            <ol class="centered-text">
+                {{#each topSongs}}
+                    <li>{{this.name}}</li>
+                {{/each}}
+            </ol>
+        </div>
+        <div class="green-div">
+            <p class="bolded-text">Top Playlists</p>
+            <ol>
+                {{#each playlists}}
+                    <li>{{this.name}}</li>
+                {{/each}}
+            </ol>
+        </div>
     </div>
 </div>
 <script src="../public/profile.js"></script>
