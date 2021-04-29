@@ -63,10 +63,11 @@ let exportedMethods = {
         const user = await usersCollection.findOne({
             username: username
         });
-        if (user === null) {
+        if (!user) {
             return false;
+        } else {
+            return true;
         }
-        return true;
     },
 
     // This should only be called when a new user registers!

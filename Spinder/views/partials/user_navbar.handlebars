@@ -10,12 +10,12 @@
   </button>
   <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
     <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only"></span></a>
-      </li>
       {{#if isLoggedIn}}
+      <li class="nav-item active">
+        <a class="nav-link" href="/users">Home<span class="sr-only"></span></a>
+      </li>
       <li class="nav-item">
-        <a class="nav-link" href="/users/{{curr_user.user_id}}">My Profile<span class="sr-only"></span></a>
+        <a class="nav-link" href="/users/{{curr_user._id}}">My Profile<span class="sr-only"></span></a>
       </li>
       <li class="nav-item active">
         <a class="nav-link" href="#">Settings<span class="sr-only"></span></a>
