@@ -22,9 +22,7 @@ const constructorMethod = (app) => {
     if(req.session.AuthCookie){
       res.redirect('/home');
     } else {
-      res.render('login', {
-        title: 'Log in to Spinder'
-      });
+      res.redirect('/login');
     }
   });
 
@@ -49,18 +47,13 @@ const constructorMethod = (app) => {
         partial: 'register_validation'
       });
     }
-<<<<<<< Updated upstream
-    if(userData.checkExistence(req.body.username) === true){
-      res.status(401).render('register', {
-        error: 'That username is taken.'
-=======
+
     
     let isExisting = await userData.checkExistence(req.body.username);
     if(isExisting){
       return res.status(401).render('register', {
         error: 'That username is taken.',
         partial: 'register_validation'
->>>>>>> Stashed changes
       });
     }
     // assuming all is well we hash the password
@@ -73,9 +66,15 @@ const constructorMethod = (app) => {
       "hashedPassword": hashedPassword,
     };
     let insertedUser =  await userData.addUser(user);
-    console.log(insertedUser);
+
+    req.session.AuthCookie = true;
+    req.session.user = insertedUser._id;
     res.redirect('/users/' + insertedUser._id);
 
+  }),
+
+  app.get('/login', async (req, res) => {
+    res.render('login', {title: 'Login'});
   }),
 
   app.post('/login', async (req, res) => {
@@ -86,20 +85,21 @@ const constructorMethod = (app) => {
       let match = bcrypt.compare(password, 'HASHED_PW_FROM DB');
       if they match then set req.session.user and then redirect them to the login page
        I will just do that here */
-
+    const {
+        username,
+        password
+    } = req.body;
+    let user = await userData.getUserByUsername(username).catch(exception => {
+      return undefined;
+    });
     if (req.session.AuthCookie) {
       // If authenticated, show them all users
+      if(user.access_token != ""){
+        await userData.refreshAuthToken(user._id);
+      }
       return res.redirect('/users');
     } else {
       //here I',m just manually setting the req.method to post since it's usually coming from a form
-
-      const {
-        username,
-        password
-      } = req.body;
-
-      let user = await userData.getUserByUsername(username);
-
       if (!user) {
         return res.status(401).render('login', {
           title: "Login",
@@ -115,13 +115,16 @@ const constructorMethod = (app) => {
         console.log("Error: " + e);
       }
       if (match) {
-        req.session.AuthCookie = "true";
+        req.session.AuthCookie = true;
         req.session.user = user._id;
+        if(user.access_token !== ""){
+          await userData.refreshAuthToken(user._id);
+        }
         res.redirect('/users/' + user._id);
       } else {
-        return res.status(401).render('pages/login', {
+        return res.status(401).render('login', {
           title: "Login",
-          error: true
+          error: "Incorrect username or password."
         });
       }
     }

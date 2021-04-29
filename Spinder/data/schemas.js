@@ -45,6 +45,15 @@ const songSchema = Joi.object({
     audio_features: audioFeatureSchema.required()
 });
 
+const playlistSchema = Joi.object({
+    name: Joi.string().min(1).required(),
+    description: Joi.string().allow('').optional(),
+    spotify_id: spotifyIdSchema.required(),
+    spotify_url: Joi.string().uri().required(),
+    tracks: Joi.number().required(),
+    user_id: Joi.string(),
+});
+
 const userSchema = Joi.object({
   _id: Joi.string(),
   firstName: Joi.string().min(1).required(),
@@ -67,6 +76,7 @@ const userSchema = Joi.object({
   bio: Joi.string().default("")
 });
 
+
 // When a user first registers, all Spotify-related fields should be default values
 const newUserSchema = Joi.object({
   _id: Joi.string(),
@@ -80,7 +90,7 @@ const newUserSchema = Joi.object({
   img : Joi.string().default("../public/images/default_user.jpg"),
   topArtists: Joi.array().items(artistSchema).default([]),
   topSongs: Joi.array().items(songSchema).default([]),
-  playlists: Joi.array().items(Joi.string().uri()).default([]),
+  playlists: Joi.array().items(playlistSchema).default([]),
   likedProfiles: Joi.array().items(objectIdSchema).default([]),
   musicalProfile: objectIdSchema,
   access_token: Joi.string().min(1),
@@ -101,7 +111,7 @@ const userOptionalSchema = Joi.object({
   img : Joi.string(),
   topArtists: Joi.array().items(artistSchema),
   topSongs: Joi.array().items(songSchema),
-  playlists: Joi.array().items(Joi.string().uri()),
+  playlists: Joi.array().items(playlistSchema),
   likedProfiles: Joi.array().items(objectIdSchema),
   musicalProfile: objectIdSchema,
   access_token: Joi.string().min(1),

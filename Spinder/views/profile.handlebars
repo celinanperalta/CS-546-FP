@@ -1,20 +1,9 @@
-<script>
-    function OpenForm(){
-        document.getElementById('edit-profile-form').style.display = 'block';
-        document.getElementById('cancel-button').style.display = 'block';
-        document.getElementById('profile').style.display = 'none';
-
-    }
-    function CloseForm(){
-        document.getElementById('edit-profile-form').style.display = 'none';
-        document.getElementById('cancel-button').style.display = 'none';
-        document.getElementById('profile').style.display = 'block';
-    }
-</script>
-
-<img src="{{user.img}}">
-<button onclick="OpenForm();">Edit Profile</button>
-<button id ="cancel-button" onclick="CloseForm();" style="display: none">Cancel</button>
+<div class="button-div">
+    <button onclick="OpenForm();" id="edit-button">Edit Profile</button>
+</div>
+<div class="button-div">
+    <button id ="cancel-button" style="display: none" onclick="CloseForm();">Cancel</button>
+</div>
 <form id="edit-profile-form"action="/users/{{user._id}}" method="POST" style="display: none">
     <input name = "firstName" placeholder="Update First Name"/>
     <input name = "lastName" placeholder="Update Last Name"/>
@@ -23,23 +12,44 @@
     <input name = "city" placeholder="Update City"/>
     <button type="submit">Submit</button>
 </form>
-<div id="profile">
-    <h1>{{user.username}}</h1>
-    <h3>{{user.firstName}} {{user.lastName}}</h3>
-    <h4>{{user.location.city}}, {{user.location.country}}</h4>
-    <ol>Top Artists
-        {{#each topArtists}}
-            <li>{{this.name}}</li>
-        {{/each}}
-    </ol>
-    <ol>Top Songs
-        {{#each topSongs}}
-            <li>{{this.name}}</li>
-        {{/each}}
-    </ol>
-    <ol>Top Playlists
-        {{#each playlists}}
-            <li>{{this.name}}</li>
-        {{/each}}
-    </ol>
+{{#unless user.access_token}}
+<form action="/spotify/login" onload="CheckConnected()" id="spotify-connect">
+    <input type="submit" value="Connect to Spotify." />
+</form>
+{{/unless}}
+<div class="card">
+    <img src="{{user.img}}" id="user-img">
+    <div id="profile">
+        
+        <h1>{{user.username}}</h1>
+        <div class="gray-div">
+        <h3>{{user.firstName}} {{user.lastName}}</h3>
+        <h4>{{user.location.city}}, {{user.location.country}}</h4>
+        </div>
+        <div class="green-div">
+            <p class="bolded-text">Top Artists</p>
+            <ol>
+                {{#each topArtists}}
+                    <li>{{this.name}}</li>
+                {{/each}}
+            </ol>
+        </div>
+        <div class="gray-div">
+            <p class="bolded-text">Top Songs</p>
+            <ol class="centered-text">
+                {{#each topSongs}}
+                    <li>{{this.name}}</li>
+                {{/each}}
+            </ol>
+        </div>
+        <div class="green-div">
+            <p class="bolded-text">Top Playlists</p>
+            <ol>
+                {{#each playlists}}
+                    <li>{{this.name}}</li>
+                {{/each}}
+            </ol>
+        </div>
+    </div>
 </div>
+<script src="../public/profile.js"></script>

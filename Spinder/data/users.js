@@ -50,7 +50,6 @@ let exportedMethods = {
         if (user === null) {
             throw new Error("User not found with username " + username);
         }
-        console.log(user);
         user._id = user._id.toString();
         return user;
     },
@@ -64,10 +63,11 @@ let exportedMethods = {
         const user = await usersCollection.findOne({
             username: username
         });
-        if (user === null) {
+        if (!user) {
             return false;
+        } else {
+            return true;
         }
-        return true;
     },
 
     // This should only be called when a new user registers!
@@ -93,7 +93,7 @@ let exportedMethods = {
     async loadUserSpotifyData(user_id) {
         let user = await this.getUserById(user_id);
 
-        newUser._id = newUser._id.toString();
+        newUser._id = user._id.toString();
 
         await this.refreshAuthToken(newUser._id);
         // TODO: Get top artists and songs for user and populate fields
@@ -151,9 +151,8 @@ let exportedMethods = {
     },
 
     async refreshAuthToken(user_id, callback) {
-
         let user = await this.getUserById(user_id);
-        let access_token = null;
+        let access_token = user.access_token;
 
         var refresh_token = user.refresh_token;
         var authOptions = {
@@ -168,18 +167,20 @@ let exportedMethods = {
 
         request.post(authOptions, async function(error, response, body) {
             if (!error && response.statusCode === 200) {
-            access_token = body.access_token;
-            user.access_token = body.access_token;
-            if (body.refresh_token)
+                access_token = body.access_token;
+                user.access_token = body.access_token;
+            }
+            if (body.refresh_token) {
                 user.refresh_token = body.refresh_token;
             }
         });
 
-        if (access_token)
+        if (access_token){
             await this.updateUser(user_id, user);
-        if (callback)
+        }
+        if (callback){
             callback();
-
+        }
     },
 
     async loadUserTopArtists(user_id) {
@@ -188,7 +189,6 @@ let exportedMethods = {
         // Flow: Call spotifyData, have that get the data, add to artist db, return artist names
         try {
             let artists = await spotifyData.getUserTopArtists(user._id, user.access_token);
-            console.log(artists);
             user.topArtists = artists;
             await this.updateUser(user_id, user);
         } catch(e) {
@@ -203,7 +203,6 @@ let exportedMethods = {
 
         try {
             let songs = await spotifyData.getUserTopSongs(user._id, user.access_token);
-            console.log(songs);
             user.topSongs = songs;
             await this.updateUser(user_id, user);
         } catch(e) {
@@ -236,7 +235,7 @@ let exportedMethods = {
             }
         }
 
-        // why can't we have nice things like python
+        // why can't we have nice things like python <LOL>
         profile.topGenres = Object.entries(topGenreCount).sort((a,b) => b[1] - a[1]);
 
         profile.topGenres = profile.topGenres.slice(0, Math.min(5, profile.topGenres.length));
@@ -263,7 +262,6 @@ let exportedMethods = {
 
         await this.updateUser(user_id, user);
 
-        console.log(musicalProfile);
         return musicalProfile;
     }
 
