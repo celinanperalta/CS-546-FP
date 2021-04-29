@@ -1,6 +1,9 @@
-<img src="{{user.img}}">
-<button onclick="OpenForm();">Edit Profile</button>
-<button id ="cancel-button" style="display: none">Cancel</button>
+<div class="button-div">
+    <button onclick="OpenForm();" id="edit-button">Edit Profile</button>
+</div>
+<div class="button-div">
+    <button id ="cancel-button" style="display: none" onclick="CloseForm();">Cancel</button>
+</div>
 <form id="edit-profile-form"action="/users/{{user._id}}" method="POST" style="display: none">
     <input name = "firstName" placeholder="Update First Name"/>
     <input name = "lastName" placeholder="Update Last Name"/>
@@ -14,25 +17,27 @@
     <input type="submit" value="Connect to Spotify." />
 </form>
 {{/unless}}
-<div id="profile">
-    <h1>{{user.username}}</h1>
-    <h3>{{user.firstName}} {{user.lastName}}</h3>
-    <h4>{{user.location.city}}, {{user.location.country}}</h4>
-    <ol>Top Artists
-        {{#each topArtists}}
-            <li>{{this.name}}</li>
-        {{/each}}
-    </ol>
-    <ol>Top Songs
-        {{#each topSongs}}
-            <li>{{this.name}}</li>
-        {{/each}}
-    </ol>
-    <ol>Top Playlists
-        {{#each playlists}}
-            <li>{{this.name}}</li>
-        {{/each}}
-    </ol>
+<div class="card">
+    <img src="{{user.img}}" id="user-img">
+    <div id="profile">
+        <h1>{{user.username}}</h1>
+        <h3>{{user.firstName}} {{user.lastName}}</h3>
+        <h4>{{user.location.city}}, {{user.location.country}}</h4>
+        <ol>Top Artists
+            {{#each topArtists}}
+                <li>{{this.name}}</li>
+            {{/each}}
+        </ol>
+        <ol>Top Songs
+            {{#each topSongs}}
+                <li>{{this.name}}</li>
+            {{/each}}
+        </ol>
+        <ol>Top Playlists
+            {{#each playlists}}
+                <li>{{this.name}}</li>
+            {{/each}}
+        </ol>
+    </div>
 </div>
-
 <script src="../public/profile.js"></script>
