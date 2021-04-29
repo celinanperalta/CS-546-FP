@@ -27,3 +27,40 @@ nav {
 #title {
     padding-left: 3%;
 }
+
+/* #login-form-div{
+    text-align: center;
+    align-self: center;
+    size: 150%;
+    border: 3px solid green;
+}
+#login-form-div .form{
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
+} */
+
+#user-img{
+    max-width: 50%;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    margin: auto;
+    text-align: center;
+    display: block;
+}
+
+.card ol{
+    text-align: center;
+}
+
+/* .button-div{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+} */
