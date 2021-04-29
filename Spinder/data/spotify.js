@@ -241,6 +241,21 @@ let exportedMethods = {
             playlists_arr.push(currPlaylist);
         }
         return playlists_arr; //return full top playlists array
+    },
+
+    async getUserImg(token){
+        let endpoint = "me";
+        let data = undefined;
+        try {
+            data = await this.sendWebAPIRequest(token, endpoint);
+        } catch (e) {
+            if (e.message == "401") {
+                throw Error("Refresh token");
+            } else {
+                throw Error(e.message);
+            }
+        }
+        return data.images[0].url;
     }
 
 }
