@@ -38,8 +38,7 @@ router.get('/', async (req, res) => {
     try{
         const userList = await userData.getAllUsers();
         const curr_user = await userData.getUserById(req.session.user);
-        res.status(200).render('users', {curr_user: curr_user, title: "Users", users : userList, isLoggedIn: true});
-
+        res.status(200).render('users', {curr_user: curr_user, title: "Users", users : userList, isLoggedIn: true, partial: 'userSingle'});
     }
     catch(e){
         console.log(e);
