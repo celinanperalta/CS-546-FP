@@ -38,6 +38,11 @@ router.post('/:id', async (req,res)=> {
 router.get('/', async (req, res) => {
     try{
         const userList = await userData.getAllUsers();
+<<<<<<< Updated upstream
+=======
+        const curr_user = await userData.getUserById(req.session.user);
+        res.status(200).render('users', {curr_user: curr_user, title: "Users", users : userList, isLoggedIn: true, partial: 'userSingle'});
+>>>>>>> Stashed changes
 
         //res.status(200).json(userList);
         //console.log(userList);

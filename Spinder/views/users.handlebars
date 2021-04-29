@@ -1,38 +1,23 @@
 <div class="allUsers">
+<<<<<<< Updated upstream
     <div class="row">
             {{#each user}}
     <div class="col-md-4">
     <div class="indUser" >
+=======
+    <div class="card-group">
+    {{#each users}}
+    <div class="indUser card" id={{this.username}}>
+>>>>>>> Stashed changes
         <img src="{{this.img}}" alt="user image">
-        <p class="username">{{this.username}}</p>
-        <p class="name">{{this.firstName}} {{this.lastName}}</p>
-        <ul class="topArtists">
-            {{#each this.topArtists}}
-            <li>
-                <a href="{{this.spotify_url}}" target="_blank">{{this.name}}</a>
-            </li>
-            {{/each}}
-        </ul>
-        <ul class="topSongs">
-            {{#each this.topSongs}}
-            <li>
-                <a href="{{this.spotify_url}}" target="_blank">{{this.name}}</a>
-            </li>
-
-        </ul>    
-            {{/each}}
-        </ul>
-        <div class="userCard" hidden>
-            {{!-- musical profile and % match --}}
-        </div>
-        {{!-- <ul class="playlists">  
-        {{#each this.playlists}}
-                <a href="/playlists?/{{this.id}}">{{this}}</a>
-        {{/each}}  
-        </ul>     --}}
-    </div>
+        <h1 class="username card-title">{{this.username}}</h1>
+        <p class="name card-text">{{this.firstName}} {{this.lastName}}</p>
+        {{#if partial}}
+        {{> (lookup . 'partial') }}
+        {{/if}}
     </div>
     {{/each}}
     </div>
-
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="/public/js/userCard.js"></script>

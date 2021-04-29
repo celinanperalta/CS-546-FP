@@ -44,13 +44,23 @@ const constructorMethod = (app) => {
   app.post('/register', async (req, res) => {
 
     if(req.body.password !== req.body.confirmPassword){
-      res.status(401).render('register', {
-        error: 'Password did not match.'
+      return res.status(401).render('register', {
+        error: 'Password did not match.',
+        partial: 'register_validation'
       });
     }
+<<<<<<< Updated upstream
     if(userData.checkExistence(req.body.username) === true){
       res.status(401).render('register', {
         error: 'That username is taken.'
+=======
+    
+    let isExisting = await userData.checkExistence(req.body.username);
+    if(isExisting){
+      return res.status(401).render('register', {
+        error: 'That username is taken.',
+        partial: 'register_validation'
+>>>>>>> Stashed changes
       });
     }
     // assuming all is well we hash the password
