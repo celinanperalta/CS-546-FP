@@ -1,98 +1,64 @@
-<div class="button-div">
-    <button onclick="OpenForm();" id="edit-button">Edit Profile</button>
-</div>
-<div class="button-div">
-    <button id ="cancel-button" style="display: none" onclick="CloseForm();">Cancel</button>
-</div>
-<form id="edit-profile-form"action="/users/{{user._id}}" method="POST" style="display: none">
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label>First Name</label>
-            <input name = "firstName" placeholder="Update First Name" class="form-control" minlength="1" pattern="^[a-zA-Z]+( [a-zA-Z]+)*$"/>
-        </div>
-        <div class="form-group col-md-6">
-            <label>Last Name</label>
-            <input name = "lastName" placeholder="Update Last Name" class="form-control"  minlength="1" pattern="^[a-zA-Z]+( [a-zA-Z]+)*$"/>
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label>Country</label>
-            <select name="country" class="form-select" id="country"></select>
-        </div>
-        <div class="form-group col-md-6">
-            <label>City</label>
-            <input name = "city" placeholder="Update City" class="form-control" minlength="1" pattern="^[a-zA-Z]+( [a-zA-Z]+)*$"/>
-        </div>
-    </div>
-    <div class="form-group">
-            <label>Bio</label>
-            <textarea name = "bio" placeholder="Update Bio" class="form-control" form="edit-profile-form" rows="3"></textarea>
-        </div>  
-    <button type="submit">Submit</button>
-</form>
-{{#unless user.access_token}}
-<form action="/spotify/login" onload="CheckConnected()" id="spotify-connect">
-    <input type="submit" value="Connect to Spotify." />
-</form>
-{{/unless}}
-<div class="row row-cols-1 row-cols-md-4">
-    <div class="col mb-4">
-        <div class="card text-center border-secondary mb-3" style="width: 18rem;">
-            <div class="card-header">
-                <img src="{{user.img}}" id="user-img" class="card-img-top">
-            </div>  
-            <h1>{{user.username}}</h1>
-            <div class="gray-div">
-                <h3>{{user.firstName}} {{user.lastName}}</h3>
-                <h4>{{user.location.city}}, {{user.location.country}}</h4>
+<div class="container">
+    <div class="row d-flex align-items-center">
+            <div class="col-md-3 mb-4">
+                <img src="{{user.img}}" id="user-img" class="img-fluid circle">
             </div>
-            <div class="card-body">
+            <div class="col-md-8">
+                <h1 class="display-3">{{user.firstName}} {{user.lastName}}</h1>
+                <h4 class="text-muted">@{{user.username}}</h4>
                 <p>{{user.bio}}</p>
+                <h6 class="text-muted">{{user.location.city}}, {{user.location.country}}</h6>
+                {{#unless user.access_token}}
+                <form action="/spotify/login" onload="CheckConnected()" id="spotify-connect">
+                    <input class="btn btn-primary" type="submit" value="Connect to Spotify" />
+                </form>
+                {{/unless}}
             </div>
-        </div>
-    </div>
-    <div class="col mb-4">
-        <div class="card text-center border-secondary mb-3" style="width: 18rem;">
-            <div class="card-body">
-                <p class="bolded-text">Top Artists</p>
-                    <ol class="list-group list-group-flush">
-                        {{#each topArtists}}
-                            <img src="{{this.img}}" class="card-img-top">
-                            <li class="list-group-item"><a href="{{this.spotify_url}}">{{this.name}}</a></li>
-                        {{/each}}
-                    </ol>
+       </div>
+        <div class="row">
+            <div class="mb-4">
+                <h2>Top Artists</h2>
+                <ol class="list-group list-group-numbered">
+                    {{#each topArtists}}
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <span class="thumbnail ml-4"><img src="{{this.img}}"></span>
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold"><a href="{{this.spotify_url}}">{{this.name}}</a></div>
+                        </div>
+                    </li>
+                    {{/each}}
+                </ol>
             </div>
-        </div>
-    </div>
-    <div class="col mb-4">
-        <div class="card text-center border-secondary mb-3" style="width: 18rem;">
-            <div class="card-body">
-                <p class="bolded-text">Top Songs</p>
-                <ol class="list-group list-group-flush">
+            <div>
+                <h2>Top Songs</h2>
+                <ol class="list-group list-group-numbered">
                     {{#each topSongs}}
-                        <img src="{{this.img}}" class="card-img-top">
-                        <li class="list-group-item"><a href="{{this.spotify_url}}">{{this.name}}</a></li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <span class="thumbnail ml-4"><img src="{{this.img}}"></span>
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold"><a href="{{this.spotify_url}}">{{this.name}}</a></div>
+                            <small class="text-muted">{{this.artists}}</small>
+                        </div>
+                    </li>
                     {{/each}}
                 </ol>
             </div>
+            {{!-- <div class="col">
+                    <div class="card text-center border-secondary mb-3" style="width: 18rem;">
+                        <div class="card-body">
+                            <p class="bolded-text">Top Playlists</p>
+                            <ol class="list-group list-group-flush">
+                                {{#each playlists}}
+                                <img src="{{this.img}}" class="card-img-top">
+                                <li class="list-group-item"><a href="{{this.spotify_url}}">{{this.name}}</a></li>
+                                {{/each}}
+                            </ol>
+                        </div>
+                    </div>
+                </div> --}}
+
         </div>
-    </div>
-    <div class="col mb-4">
-        <div class="card text-center border-secondary mb-3" style="width: 18rem;">
-            <div class="card-body">
-                <p class="bolded-text">Top Playlists</p>
-                <ol class="list-group list-group-flush">
-                    {{#each playlists}}
-                        <img src="{{this.img}}" class="card-img-top">
-                        <li class="list-group-item"><a href="{{this.spotify_url}}">{{this.name}}</a></li>
-                    {{/each}}
-                </ol>
-            </div>
-        </div>
-    </div>
-    
+ 
 </div>
 <script src="../public/profile.js"></script>
 <script src="../public/js/forms.js"></script>
-
