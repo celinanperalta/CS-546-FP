@@ -47,7 +47,10 @@ nav {
     max-width: 50%;
 }
 
-.card {
+/* .card text-center{
+    width: 18rem;
+} */
+/* .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     max-width: 300px;
     margin: auto;
@@ -68,7 +71,7 @@ nav {
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
 } */
-
+/* 
 .green-div{
     height: fit-content;
     width: fit-content;
@@ -85,9 +88,7 @@ nav {
     border-radius: 5%;
 }
 
-.bolded-text{
-    font-weight: bold;
-}
+
 
 .centered-text{
     text-align: center;
@@ -99,4 +100,15 @@ nav {
 
 .gray-div:hover{
     background-color: #636262;
+} */ 
+
+.bolded-text{
+    font-weight: bold;
 }
+
+.card {
+    border-radius: 5%;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
