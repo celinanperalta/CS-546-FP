@@ -1,26 +1,15 @@
-<div class="card-deck">
-{{#each users}}
-<div class="card userCard {{this.username}}">
-    <img src="{{this.img}}" alt="user image" class="card-img-top">
-  <div class="card-body">
-    <h1 class="card-title">{{this.username}}</h1>
-    <p class="name card-text">{{this.firstName}} {{this.lastName}}</p>
-    <ul class="topArtists">
-        {{#each this.topArtists}}
+<ul class="topArtists">
+    {{#each this.topArtists}}
         <li>
             <a href="{{this.spotify_url}}" target="_blank">{{this.name}}</a>
         </li>
-        {{/each}}
-    </ul>
-    <ul class="topSongs">
-        {{#each this.topSongs}}
+    {{/each}}
+</ul>
+<ul class="topSongs">
+    {{#each this.topSongs}}
         <li>
             <a href="{{this.spotify_url}}" target="_blank">{{this.name}}</a>
         </li>
-        {{/each}}
-    </ul>    
-    <button type="button" class="btn btn-primary" href="/">Visit profile</button>
-  </div>
-</div>
- {{/each}}
- </div>
+    {{/each}}
+</ul>    
+  

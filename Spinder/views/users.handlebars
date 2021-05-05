@@ -1,16 +1,37 @@
-<div class="allUsers">
-    <div class="card-group">
+{{!-- <div class="card-deck"> --}}
+<div class="row">
     {{#each users}}
-    <div class="indUser card" id={{this.username}}>
-        <img src="{{this.img}}" alt="user image">
-        <h1 class="username card-title">{{this.username}}</h1>
-        <p class="name card-text">{{this.firstName}} {{this.lastName}}</p>
-        {{#if partial}}
-        {{> (lookup . 'partial') }}
-        {{/if}}
-    </div>
-    {{/each}}
-    </div>
+        <div class="col-lg-3">
+            <div class="card border-success mb-3 indUser" id={{this.username}}>
+                <img class="card-img-top img-thumbnail" src="{{this.img}}" alt="user image">
+            <div class="card-body">
+                <h5 class="card-title">{{this.username}}</h5>
+                <p class="card-text">{{this.firstName}} {{this.lastName}}</p>
+            </div>
+            <div class="card-extension" id="{{this.username}}-hide">
+                 {{!-- {{#if partial}}
+                    {{> (lookup . 'partial') }}
+                {{/if}} --}}
+                <ul class="topArtists">
+                {{#each this.topArtists}}
+                <li>
+                    <a href="{{this.spotify_url}}" target="_blank">{{this.name}}</a>
+                </li>
+                {{/each}}
+                </ul>
+                <ul class="topSongs">
+                {{#each this.topSongs}}
+                <li>
+                    <a href="{{this.spotify_url}}" target="_blank">{{this.name}}</a>
+                </li>
+                {{/each}}
+                </ul>  
+            </div>
+            </div>
+        </div>
+  {{/each}}
 </div>
+{{!-- </div> --}}
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" src="/public/js/userCard.js"></script>

@@ -26,9 +26,9 @@ nav {
     border-style: solid;
 } */
 
-#title {
+/* #title {
     padding-left: 3%;
-}
+} */
 
 /* #login-form-div{
     text-align: center;
@@ -99,4 +99,19 @@ nav {
 
 .gray-div:hover{
     background-color: #636262;
+<<<<<<< Updated upstream
 }
+=======
+} */ 
+
+.bolded-text{
+    font-weight: bold;
+}
+
+/* .card {
+    border-radius: 5%;
+    margin-left: 10px;
+    margin-right: 10px;
+} */
+
+>>>>>>> Stashed changes
