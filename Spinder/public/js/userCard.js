@@ -1,22 +1,17 @@
 $(document).ready(function() {
     (function($) {
-        $('.userCard').hide();
-        console.log("im in the ajax thing");
+        $('.card-extension').hide();
         let user;
-        let hover = $('div.indUser');
         let hoverCard;
-        $(hover).on({
-            mouseenter: function(event) {
-                event.preventDefault();
-                user=event.target.id;
-                hoverCard = $(`.${user}`);
-                console.log(hoverCard);
+         $('.indUser').on({
+             mouseenter: function(event) {
+                user=event.currentTarget.id;
+                hoverCard = $(`#${user}-hide`);
                 hoverCard.show();
-
-            },
+             },
             mouseleave: function() {
                 hoverCard.hide();
         }
-});
+    });
     })(window.jQuery);
 });
