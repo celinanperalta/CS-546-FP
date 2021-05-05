@@ -2,16 +2,19 @@
 <div class="row">
     {{#each users}}
         <div class="col-lg-3">
-            <div class="card border-success mb-3 indUser" id={{this.username}}>
+            <div class="card border-success mb-3 indUser" id={{this._id}}>
                 <img class="card-img-top img-thumbnail" src="{{this.img}}" alt="user image">
             <div class="card-body">
                 <h5 class="card-title">{{this.username}}</h5>
                 <p class="card-text">{{this.firstName}} {{this.lastName}}</p>
             </div>
-            <div class="card-extension" id="{{this.username}}-hide">
+            <div class="card-extension" id="{{this._id}}-hide">
                  {{!-- {{#if partial}}
                     {{> (lookup . 'partial') }}
                 {{/if}} --}}
+                <div href="{{this.musicalProfile}}" id="{{this._id}}-profile">
+                    <div id="{{this.musicalProfile}}-chart"></div>
+                </div>
                 <ul class="topArtists">
                 {{#each this.topArtists}}
                 <li>
@@ -26,6 +29,7 @@
                 </li>
                 {{/each}}
                 </ul>  
+
             </div>
             </div>
         </div>
