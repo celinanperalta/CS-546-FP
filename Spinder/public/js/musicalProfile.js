@@ -15,10 +15,16 @@ layout = {
         range: [0, 1]
     }
     },
-    showlegend: false
+    showlegend: false,
+    valign: "top"
 }
 
-Plotly.newPlot(divName, data, layout);
+var config = {
+    responsive: true,
+    displayModeBar: false
+}
+
+Plotly.newPlot(divName, data, layout, config);
 }
 
 (function() {

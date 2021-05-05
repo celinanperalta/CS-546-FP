@@ -58,7 +58,7 @@ router.get('/:id', async (req, res) => {
         if (user.musicalProfile)
             musicalProfile = await profileData.getProfileById(user.musicalProfile);
         console.log(musicalProfile);
-        res.render('profile',{curr_user: curr_user, user : user, musicalProfile: musicalProfile, isLoggedIn: true, partial: "user"});
+        res.render('profile',{curr_user: curr_user, user : user, musicalProfile: musicalProfile, isLoggedIn: true});
         //res.status(200).json(user);
     }
     catch(e){

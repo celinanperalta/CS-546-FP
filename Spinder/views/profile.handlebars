@@ -1,73 +1,129 @@
 <div class="container">
     <div class="row d-flex align-items-center">
-            <div class="col-md-3 mb-4">
-                <img src="{{user.img}}" id="user-img" class="img-fluid circle">
-            </div>
-            <div class="col-md-8">
-                <h1 class="display-3">{{user.firstName}} {{user.lastName}}</h1>
-                <h1 class=" display-7 text-muted">@{{user.username}}</h1>
-                <p>{{user.bio}}</p>
-                <h6 class="text-muted">{{user.location.city}}, {{user.location.country}}</h6>
-                {{#unless user.access_token}}
-                <form action="/spotify/login" onload="CheckConnected()" id="spotify-connect">
-                    <input class="btn btn-primary" type="submit" value="Connect to Spotify" />
-                </form>
-                {{/unless}}
-            </div>
-       </div>
-       <div class="row">
-           <div class="col-md-6">
-            <h2>Musical Profile</h2>
-                {{> musical_profile}}
-           </div>
-       </div>
-        <div class="row">
-            <div class="mb-4">
-                <h2>Top Artists</h2>
-                <ol class="list-group list-group-numbered">
-                    {{#each user.topArtists}}
-                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                        <span class="thumbnail ml-4"><img src="{{this.img}}"></span>
-                        <div class="ms-2 me-auto">
-                            <div class="fw-bold"><a href="{{this.spotify_url}}">{{this.name}}</a></div>
+        <div class="col-md-3">
+            <img src="{{user.img}}" id="user-img" class="img-fluid circle">
+        </div>
+        <div class="col-md-4">
+            <h1 class="display-4">{{user.firstName}} {{user.lastName}}</h1>
+            <h1 class=" display-7 text-muted">@{{user.username}}</h1>
+            <p>{{user.bio}}</p>
+            <h6 class="text-muted">{{user.location.city}}, {{user.location.country}}</h6>
+            {{#unless user.access_token}}
+            <form action="/spotify/login" onload="CheckConnected()" id="spotify-connect">
+                <input class="btn btn-primary" type="submit" value="Connect to Spotify" />
+            </form>
+            {{/unless}}
+            {{#if user.access_token}}
+            <form action="/users/{{user._id}}/update" onload="CheckConnected()" id="spotify-connect">
+                <input class="btn btn-primary" type="submit" value="Refresh Spotify Data" />
+            </form>
+            {{/if}}
+        </div>
+        <div class="col-md-5">
+            <div id="musical-profile">
+                <div id="musical-profile-vals" type="hidden">
+                    <input type="hidden" id="danceability" value={{musicalProfile.averageAudioFeatures.danceability}} />
+                    <input type="hidden" id="energy" value={{musicalProfile.averageAudioFeatures.energy}} />
+                    <input type="hidden" id="loudness" value={{musicalProfile.averageAudioFeatures.loudness}} />
+                    <input type="hidden" id="acousticness" value={{musicalProfile.averageAudioFeatures.acousticness}} />
+                    <input type="hidden" id="valence" value={{musicalProfile.averageAudioFeatures.valence}} />
+                </div>
+                <div class="card center">
+                    <div class="card-header">
+                        <h3 class="card-title">Musical Profile</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <div style="height: 20rem">
+                                        <h5 class="card-title">Audio Feature Analysis</h5>
+                                        <div id="radarChart" style="height: 100%"></div>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <div style="height: 20rem">
+                                        <h5 class="card-title">Top Genres</h5>
+                                        <ul class="list-group list-group-flush">
+                                            {{#each musicalProfile.topGenres}}
+                                            <li class="list-group-item">{{this}}</li>
+                                            {{/each}}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
-                    </li>
-                    {{/each}}
-                </ol>
-            </div>
-            <div class="mb-4">
-                <h2>Top Songs</h2>
-                <ol class="list-group list-group-numbered">
-                    {{#each user.topSongs}}
-                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                        <span class="thumbnail ml-4"><img src="{{this.img}}"></span>
-                        <div class="ms-2 me-auto">
-                            <div class="fw-bold"><a href="{{this.spotify_url}}">{{this.name}}</a></div>
-                            <small class="text-muted">{{this.artists}}</small>
-                        </div>
-                    </li>
-                    {{/each}}
-                </ol>
-            </div>
-            <div class="mb-4">
-                <h2>Playlists</h2>
-                <ol class="list-group list-group-numbered">
-                    {{#each user.playlists}}
-                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                        {{#if this.img}}
-                        <span class="thumbnail ml-4"><img src="{{this.img}}"></span>
-                        {{else}}
-                        <span class="thumbnail ml-4"><img src="/public/images/default_song.jpg"></span>
-                        {{/if}}
-                        <div class="ms-2 me-auto">
-                            <div class="fw-bold"><a href="{{this.spotify_url}}">{{this.name}}</a></div>
-                        </div>
-                    </li>
-                    {{/each}}
-                </ol>
+                    </div>
+                    <div class="card-footer">
+                        <a class="carousel-control-prev " href="#carouselExampleControls" role="button"
+                            data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next " href="#carouselExampleControls" role="button"
+                            data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+
+
             </div>
         </div>
- 
+    </div>
+    {{#if user.access_token}}
+    <div class="row">
+        <div class="mb-4" id="top-artists">
+            <h2>Top Artists</h2>
+            <ol class="list-group list-group-numbered">
+                {{#each user.topArtists}}
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <span class="thumbnail ml-4"><img src="{{this.img}}"></span>
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold"><a href="{{this.spotify_url}}">{{this.name}}</a></div>
+                    </div>
+                </li>
+                {{/each}}
+            </ol>
+        </div>
+        <div class="mb-4" id="top-songs">
+            <h2>Top Songs</h2>
+            <ol class="list-group list-group-numbered">
+                {{#each user.topSongs}}
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <span class="thumbnail ml-4"><img src="{{this.img}}"></span>
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold"><a href="{{this.spotify_url}}">{{this.name}}</a></div>
+                        <small class="text-muted">{{this.artists}}</small>
+                    </div>
+                </li>
+                {{/each}}
+            </ol>
+        </div>
+        <div class="mb-4" id="playlists">
+            <h2>Playlists</h2>
+            <ol class="list-group list-group-numbered">
+                {{#each user.playlists}}
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    {{#if this.img}}
+                    <span class="thumbnail ml-4"><img src="{{this.img}}"></span>
+                    {{else}}
+                    <span class="thumbnail ml-4"><img src="/public/images/default_song.jpg"></span>
+                    {{/if}}
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold"><a href="{{this.spotify_url}}">{{this.name}}</a></div>
+                    </div>
+                </li>
+                {{/each}}
+            </ol>
+        </div>
+    </div>
+    {{/if}}
+
 </div>
 <script src="../public/profile.js"></script>
 <script src="../public/js/forms.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="../public/js/musicalProfile.js"></script>
