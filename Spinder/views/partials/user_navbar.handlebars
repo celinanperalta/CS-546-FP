@@ -14,7 +14,7 @@
       <li class="nav-item active">
         <a class="nav-link" href="/users">Home<span class="sr-only"></span></a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item active">
         <a class="nav-link" href="/users/{{curr_user._id}}">My Profile<span class="sr-only"></span></a>
       </li>
       <li class="nav-item active">
@@ -24,12 +24,12 @@
     </ul>
     <div class="my-2 my-sm-0">
       {{#if isLoggedIn}}
-      <span class="navbar-text">
+      <span class="navbar-text mr-2">
         User: {{curr_user.username}}
       </span>
-      <a class="btn btn-outline-success mr-sm-0" href="/logout">Logout</a>
+      <a class="btn btn-primary mr-sm-0" href="/logout">Logout</a>
       {{else}}
-      <a class="btn btn-outline-success mr-sm-0" href="/login">Login</a>
+      <a class="btn btn-primary mr-sm-0" href="/login">Login</a>
       {{/if}}
     </div>
   </div>

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const data = require('../data');
 const userData = data.users;
+const profileData = data.profiles;
 const schemas = require('../data/schemas');
 
 //checks if there are any new items in newArray
@@ -52,12 +53,34 @@ router.get('/:id', async (req, res) => {
     try{
         const user = await userData.getUserById(req.params.id);
         const curr_user = await userData.getUserById(req.session.user);
-        res.render('profile',{curr_user: curr_user, user : user, topArtists: user.topArtists, topSongs: user.topSongs, playlists: user.playlists, isLoggedIn: true});
+        console.log(user);
+        let musicalProfile = undefined;
+        if (user.musicalProfile)
+            musicalProfile = await profileData.getProfileById(user.musicalProfile);
+        console.log(musicalProfile);
+        res.render('profile',{curr_user: curr_user, user : user, musicalProfile: musicalProfile, isLoggedIn: true});
         //res.status(200).json(user);
     }
     catch(e){
         console.log(e);
         res.status(500).send({error:e.message});
+    }
+});
+
+router.get('/:id/update', async (req, res) => {
+    // console.log(req.session);
+    if (req.params.id == req.session.user) {
+        try{
+            await userData.loadUserSpotifyData(req.session.user);
+            res.redirect('/users/' + req.params.id);
+            //res.status(200).json(user);
+        }
+        catch(e){
+            console.log(e);
+            res.status(500).send({error:e.message});
+        }
+    } else {
+        res.redirect("/users");
     }
 });
 
