@@ -68,7 +68,7 @@ let exportedMethods = {
         }
 
         //Updated in the Db
-        await profilesCollection.updatedOne({_id: ObjectID.ObjectId(id)},{$set: updatedSongData});
+        await profilesCollection.updateOne({_id: ObjectID.ObjectId(id)},{$set: updatedProfileData});
         return await this.getProfileById(id);
     },
 
