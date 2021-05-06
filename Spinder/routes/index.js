@@ -6,6 +6,7 @@ const spotifyRoutes = require('./spotify');
 const data = require('../data');
 const userData = data.users;
 const bcrypt = require('bcrypt');
+const xss = require('xss');
 const e = require('express');
 const { ObjectId } = require('bson');
 
@@ -41,7 +42,7 @@ const constructorMethod = (app) => {
 
   app.post('/register', async (req, res) => {
 
-    if(req.body.password !== req.body.confirmPassword){
+    if(xss(req.body.password) !== xss(req.body.confirmPassword)){
       return res.status(401).render('register', {
         error: 'Password did not match.',
         partial: 'register_validation'
@@ -49,7 +50,7 @@ const constructorMethod = (app) => {
     }
 
     
-    let isExisting = await userData.checkExistence(req.body.username);
+    let isExisting = await userData.checkExistence(xss(req.body.username));
     if(isExisting){
       return res.status(401).render('register', {
         error: 'That username is taken.',
@@ -57,12 +58,12 @@ const constructorMethod = (app) => {
       });
     }
     // assuming all is well we hash the password
-    let hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+    let hashedPassword = await bcrypt.hash(xss(req.body.password), saltRounds);
     let user = {
-      "firstName" : req.body.firstName,
-      "lastName": req.body.lastName,
-      "username": req.body.username,
-      "location": {"country": req.body.country, "city": req.body.city},
+      "firstName" : xss(req.body.firstName),
+      "lastName": xss(req.body.lastName),
+      "username": xss(req.body.username),
+      "location": {"country": xss(req.body.country), "city": xss(req.body.city)},
       "hashedPassword": hashedPassword,
     };
     let insertedUser =  await userData.addUser(user);
