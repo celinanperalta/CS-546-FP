@@ -16,7 +16,25 @@ function containsNew(originalArray, newArray){
 }
 //route for updating user id
 router.post('/:id', async (req,res)=> {
-    const {firstName, lastName, bio, country, city}= req.body;
+    let {firstName, lastName, bio, country, city}= req.body;
+    let oldUser = await userData.getUserById(req.params.id);
+    //Check to see what was updated
+    if(!firstName){
+        firstName = oldUser.firstName;
+    }
+    if(!lastName){
+        lastName = oldUser.lastName;
+    }
+    if(!bio){
+        bio = oldUser.bio;
+    }
+    if(!country){
+        country = oldUser.location.country;
+    }
+    if(!city){
+        city = oldUser.location.city;
+    }
+
     let updatedUser = {
         firstName: firstName,
         lastName: lastName,
@@ -30,7 +48,7 @@ router.post('/:id', async (req,res)=> {
         const user = await userData.updateUser(req.params.id, updatedUser);
         res.redirect('/users/'+req.params.id);
     }catch(e){
-        console.log(e);
+        console.log(e); 
         res.json({error: e.message});
     }
 });
