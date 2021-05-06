@@ -1,39 +1,39 @@
 {{!-- <div class="card-deck"> --}}
 <div class="row">
     {{#each users}}
-        <div class="col-lg-3">
-            <div class="card border-success mb-3 indUser" id={{this._id}}>
-                <img class="card-img-top img-thumbnail" src="{{this.img}}" alt="user image">
+    <div class="col-lg-3">
+        <div class="card border-dark mb-3 indUser" id={{this._id}}>
+            <div class="card-header">
+                
+                    <img class="mx-auto my-auto d-block circle" src="{{this.img}}" alt="user image">
+            </div>
             <div class="card-body">
                 <h5 class="card-title">{{this.username}}</h5>
                 <p class="card-text">{{this.firstName}} {{this.lastName}}</p>
             </div>
             <div class="card-extension" id="{{this._id}}-hide">
-                 {{!-- {{#if partial}}
-                    {{> (lookup . 'partial') }}
-                {{/if}} --}}
                 <div href="{{this.musicalProfile}}" id="{{this._id}}-profile">
                     <div id="{{this.musicalProfile}}-chart"></div>
                 </div>
                 <ul class="topArtists">
-                {{#each this.topArtists}}
-                <li>
-                    <a href="{{this.spotify_url}}" target="_blank">{{this.name}}</a>
-                </li>
-                {{/each}}
+                    {{#each this.topArtists}}
+                    <li>
+                        <a href="{{this.spotify_url}}" target="_blank">{{this.name}}</a>
+                    </li>
+                    {{/each}}
                 </ul>
                 <ul class="topSongs">
-                {{#each this.topSongs}}
-                <li>
-                    <a href="{{this.spotify_url}}" target="_blank">{{this.name}}</a>
-                </li>
-                {{/each}}
-                </ul>  
+                    {{#each this.topSongs}}
+                    <li>
+                        <a href="{{this.spotify_url}}" target="_blank">{{this.name}}</a>
+                    </li>
+                    {{/each}}
+                </ul>
 
             </div>
-            </div>
         </div>
-  {{/each}}
+    </div>
+    {{/each}}
 </div>
 {{!-- </div> --}}
 
