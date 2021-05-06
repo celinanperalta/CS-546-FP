@@ -39,23 +39,21 @@
     }
 
     $(document).ready(function () {
-        $('.card-extension').hide();
-        let user;
-        let hoverCard;
+        $('.card-switch').find('.card-extension').hide();
 
-        $('.indUser').on({
+        $('.card-switch').on({
             mouseenter: function (event) {
-                event.preventDefault();
-                user = event.currentTarget.id;
+                let user = $(this).find('.card-main').attr('id');
                 let profile = $(`#${user}-profile`).attr('href');
                 console.log(getMusicalProfileAjax(profile));
-                hoverCard = $(`#${user}-hide`);
-                hoverCard.show();
+                $(this).find('.card-main').hide();
+                $(this).find('.card-extension').show();
             },
             mouseleave: function () {
-                event.preventDefault();
-                hoverCard.hide();
+                $(this).find('.card-extension').hide();
+                $(this).find('.card-main').show();
             }
         });
+
     });
 })(window.jQuery);
