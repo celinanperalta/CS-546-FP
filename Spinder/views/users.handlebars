@@ -5,20 +5,27 @@
     {{#each users}}
     {{#compare this._id ../curr_user._id operator="!="}}
     <div class="card-switch w-25">
-        <div class="card card-main border-dark mb-3 indUser" id={{this._id}}>
-            <div class="card-header">
-                <img class="mx-auto my-auto d-block circle" src="{{this.img}}" alt="user image">
+        <div class="card border-dark mb-3">
+            <div class="card-header" id={{this._id}}>
+                <div class="flip">
+                    <div class="front">
+                        <img class="circle mx-auto my-auto d-block" src="{{this.img}}" alt="user image">
+                    </div>
+                    <div class="back">
+                        <div class="circle mx-auto my-auto d-block" href="{{this.musicalProfile}}"
+                            id="{{this._id}}-chart">
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="card-body">
-                <h5 class="card-title">{{this.username}}</h5>
+                <h5 class="card-title"><a href="/users/{{this._id}}">{{this.username}}</a></h5>
                 <p class="card-text">{{this.firstName}} {{this.lastName}}</p>
             </div>
         </div>
-        <div class="card card-extension border-dark mb-3" id="{{this._id}}-hide">
+        {{!-- <div class="card card-extension border-dark mb-3" id="{{this._id}}-hide">
+            
             <div class="card-body">
-                <div href="{{this.musicalProfile}}" id="{{this._id}}-profile">
-                    <div id="{{this.musicalProfile}}-chart"></div>
-                </div>
                 <ul class="topArtists">
                     {{#each this.topArtists}}
                     <li>
@@ -34,14 +41,15 @@
                     {{/each}}
                 </ul>
             </div>
-        </div>
+        </div> --}}
 
     </div>
     {{/compare}}
     {{/each}}
-    
+
 </div>
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.rawgit.com/nnattawat/flip/v1.0.11/dist/jquery.flip.min.js"></script>
 <script type="text/javascript" src="/public/js/userCard.js"></script>

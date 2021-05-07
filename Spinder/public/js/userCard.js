@@ -6,14 +6,14 @@
             r: [profile.danceability, profile.energy, profile.loudness, profile.acousticness, profile.valence],
             theta: ['Danceability', 'Energy', 'Loudness', 'Acousticness', 'Valence'],
             fill: 'toself',
-            name: 'Them'
+            name: 'You'
         },
         {
             type: 'scatterpolar',
             r: [profile2.danceability, profile2.energy, profile2.loudness, profile2.acousticness, profile2.valence],
             theta: ['Danceability', 'Energy', 'Loudness', 'Acousticness', 'Valence'],
             fill: 'toself',
-            name: 'You'
+            name: 'Them'
         }
     ]
 
@@ -25,7 +25,12 @@
                 }
             },
             showlegend: false,
-            valign: "top"
+            margin: {
+                l: 0,
+                r: 0,
+                t: 0,
+                b: 0
+            }
         }
 
         var config = {
@@ -42,37 +47,28 @@
             url: '/profiles/' + id,
             success: function (data) {},
             async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
             error: function (err) {
                 console.log(err);
             }
         };
 
         var response = $.ajax(requestConfig).responseText;
-        console.log(response);
-        return response;
+        return JSON.parse(response);
         
     }
 
     $(document).ready(function () {
         let curr_profile = getMusicalProfileAjax($('#curr_user_profile').attr('value'));
-        console.log("AA");
-        console.log(curr_profile);
-        $('.card-switch').find('.card-extension').hide();
-
-        $('.card-switch').on({
-            mouseenter: function (event) {
-                let user = $(this).find('.card-main').attr('id');
-                let profile = $(`#${user}-profile`).attr('href');
-                let response = getMusicalProfileAjax(profile);
-                if (response)
-                    createChart(`${user}-chart`, response.averageAudioFeatures, curr_profile.averageAudioFeatures);
-                $(this).find('.card-main').hide();
-                $(this).find('.card-extension').show();
-            },
-            mouseleave: function () {
-                $(this).find('.card-extension').hide();
-                $(this).find('.card-main').show();
-            }
+        
+        $('.card-switch').each(function(i, obj) {
+            let user = $(this).find('.card-header').attr('id');
+            let profile = $(`#${user}-chart`).attr('href');
+            let response = getMusicalProfileAjax(profile);
+            if (response)
+                createChart(`${user}-chart`, curr_profile.averageAudioFeatures, response.averageAudioFeatures);
+            $(this).find('.flip').flip({trigger: 'hover'}); 
         });
 
     });

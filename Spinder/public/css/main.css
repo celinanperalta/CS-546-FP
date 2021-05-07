@@ -1,6 +1,5 @@
 .circle {
-    object-fit: cover;
-    border-radius: 50%;
+    clip-path: circle();
     height: 15vw;
     width: 15vw;
 }
@@ -30,7 +29,12 @@
     object-position: top;
 }
 
-.card-switch {
-    height: 1vh;
-    overflow-y: scroll;
+.user-chart {
+    clip-path: circle();
+    width: 15vw;
+    height: 15vw;
+}
+
+.flip {
+    height: 15vw;
 }
