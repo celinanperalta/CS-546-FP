@@ -9,13 +9,13 @@
             <p>{{user.bio}}</p>
             <h6 class="text-muted">{{user.location.city}}, {{user.location.country}}</h6>
             {{#unless user.access_token}}
-            <form action="/spotify/login" onload="CheckConnected()" id="spotify-connect">
+            <form action="/spotify/login" id="spotify-connect">
                 <input class="btn btn-primary" type="submit" value="Connect to Spotify" />
             </form>
             {{/unless}}
             {{#if user.access_token}}
                 {{#compare curr_user._id user._id comparator="=="}}
-            <form action="/users/{{user._id}}/update" onload="CheckConnected()" id="spotify-connect">
+            <form action="/users/{{user._id}}/update" id="spotify-connect">
                 <input class="btn btn-primary" type="submit" value="Refresh Spotify Data" />
             </form>
             {{/compare}}
