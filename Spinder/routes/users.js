@@ -16,7 +16,7 @@ function containsNew(originalArray, newArray){
 }
 //route for updating user id
 router.post('/:id', async (req,res)=> {
-    const {firstName, lastName, bio, country, city} = req.body;
+    const {firstName, lastName, bio, country, city}= req.body;
     let updatedUser = {
         firstName: firstName,
         lastName: lastName,
@@ -25,7 +25,7 @@ router.post('/:id', async (req,res)=> {
             city: city
         },
         bio: bio
-    }
+    }   
     try{
         const user = await userData.updateUser(req.params.id, updatedUser);
         res.redirect('/users/'+req.params.id);
@@ -34,6 +34,15 @@ router.post('/:id', async (req,res)=> {
         res.json({error: e.message});
     }
 });
+
+router.get('/settings', async (req,res)=>{
+    try{
+        res.render('settings',{user:{ _id: req.session.user}});
+    }catch(e){
+        console.log(e);
+        res.json({error: e.message});
+    }
+  });
 
 router.get('/', async (req, res) => {
     try{
