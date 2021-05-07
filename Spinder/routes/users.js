@@ -14,6 +14,7 @@ function containsNew(originalArray, newArray){
     }
     return false;
 }
+  
 //route for updating user id
 router.post('/:id', async (req,res)=> {
     let {firstName, lastName, bio, country, city}= req.body;
@@ -53,9 +54,10 @@ router.post('/:id', async (req,res)=> {
     }
 });
 
-router.get('/settings', async (req,res)=>{
+router.get('/settings', async (req,res)=>{ 
     try{
-        res.render('settings',{user:{ _id: req.session.user}});
+        const curr_user = await userData.getUserById(req.session.user);
+        res.render('settings',{curr_user: curr_user,  _id: req.session.user, isLoggedIn: true});
     }catch(e){
         console.log(e);
         res.json({error: e.message});
