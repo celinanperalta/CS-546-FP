@@ -1,5 +1,6 @@
 .circle {
-    clip-path: circle();
+    object-fit: cover;
+    border-radius: 50%;
     height: 15vw;
     width: 15vw;
 }
