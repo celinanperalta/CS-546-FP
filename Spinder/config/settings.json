@@ -1,6 +1,6 @@
 {
     "mongoConfig": {
-        "serverUrl": "mongodb://127.0.0.1:27017/",
-        "database": "Spinder_DB"
+        "serverUrl": "mongodb+srv://rajgadhia12:Paramus!23@spinderdb.f3iz9.mongodb.net/SpinderDB?retryWrites=true&w=majority",
+        "database": "SpinderDB"
     }
 }
