@@ -1,37 +1,55 @@
-{{!-- <div class="card-deck"> --}}
-<div class="row">
+<div class="hidden">
+    <input type="hidden" id="curr_user_profile" value={{curr_user.musicalProfile}} />
+</div>
+<div class="card-deck">
     {{#each users}}
-        <div class="col-lg-3">
-            <div class="card border-success mb-3 indUser" id={{this.username}}>
-                <img class="card-img-top img-thumbnail" src="{{this.img}}" alt="user image">
+    {{#compare this._id ../curr_user._id operator="!="}}
+    <div class="card-switch w-25">
+        <div class="card border-dark mb-3">
+            <div class="card-header" id={{this._id}}>
+                <div class="flip">
+                    <div class="front">
+                        <img class="circle mx-auto my-auto d-block" src="{{this.img}}" alt="user image">
+                    </div>
+                    <div class="back">
+                        <div class="user-chart mx-auto my-auto d-block" href="{{this.musicalProfile}}"
+                            id="{{this._id}}-chart">
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="card-body">
-                <h5 class="card-title">{{this.username}}</h5>
+                <h5 class="card-title"><a href="/users/{{this._id}}">{{this.username}}</a></h5>
                 <p class="card-text">{{this.firstName}} {{this.lastName}}</p>
             </div>
-            <div class="card-extension" id="{{this.username}}-hide">
-                 {{!-- {{#if partial}}
-                    {{> (lookup . 'partial') }}
-                {{/if}} --}}
+        </div>
+        {{!-- <div class="card card-extension border-dark mb-3" id="{{this._id}}-hide">
+            
+            <div class="card-body">
                 <ul class="topArtists">
-                {{#each this.topArtists}}
-                <li>
-                    <a href="{{this.spotify_url}}" target="_blank">{{this.name}}</a>
-                </li>
-                {{/each}}
+                    {{#each this.topArtists}}
+                    <li>
+                        <a href="{{this.spotify_url}}" target="_blank">{{this.name}}</a>
+                    </li>
+                    {{/each}}
                 </ul>
                 <ul class="topSongs">
-                {{#each this.topSongs}}
-                <li>
-                    <a href="{{this.spotify_url}}" target="_blank">{{this.name}}</a>
-                </li>
-                {{/each}}
-                </ul>  
+                    {{#each this.topSongs}}
+                    <li>
+                        <a href="{{this.spotify_url}}" target="_blank">{{this.name}}</a>
+                    </li>
+                    {{/each}}
+                </ul>
             </div>
-            </div>
-        </div>
-  {{/each}}
+        </div> --}}
+
+    </div>
+    {{/compare}}
+    {{/each}}
+
 </div>
-{{!-- </div> --}}
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.rawgit.com/nnattawat/flip/v1.0.11/dist/jquery.flip.min.js"></script>
 <script type="text/javascript" src="/public/js/userCard.js"></script>

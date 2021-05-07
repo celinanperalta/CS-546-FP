@@ -1,6 +1,4 @@
 function createChart(divName, profile) {
-    console.log(typeof profile);
-    console.log(profile);
     data = [{
     type: 'scatterpolar',
     r: [profile.danceability, profile.energy, profile.loudness, profile.acousticness, profile.valence],
@@ -36,10 +34,8 @@ Plotly.newPlot(divName, data, layout, config);
         valence: document.getElementById("valence")
     };
 
-    console.log(profile);
 
     for (let [key, value] of Object.entries(profile)) {
-        console.log(value);
         profile[key] = parseFloat(value.value);
     }
 
