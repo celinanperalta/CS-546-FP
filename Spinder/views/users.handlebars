@@ -1,7 +1,10 @@
-{{!-- <div class="card-deck"> --}}
+<div class="hidden">
+    <input type="hidden" id="curr_user_profile" value={{curr_user.musicalProfile}} />
+</div>
 <div class="card-deck">
     {{#each users}}
-    <div class="card-switch">
+    {{#compare this._id ../curr_user._id operator="!="}}
+    <div class="card-switch w-25">
         <div class="card card-main border-dark mb-3 indUser" id={{this._id}}>
             <div class="card-header">
                 <img class="mx-auto my-auto d-block circle" src="{{this.img}}" alt="user image">
@@ -11,7 +14,6 @@
                 <p class="card-text">{{this.firstName}} {{this.lastName}}</p>
             </div>
         </div>
-        {{!-- </div> --}}
         <div class="card card-extension border-dark mb-3" id="{{this._id}}-hide">
             <div class="card-body">
                 <div href="{{this.musicalProfile}}" id="{{this._id}}-profile">
@@ -35,10 +37,11 @@
         </div>
 
     </div>
+    {{/compare}}
     {{/each}}
+    
 </div>
-</div>
-{{!-- </div> --}}
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" src="/public/js/userCard.js"></script>

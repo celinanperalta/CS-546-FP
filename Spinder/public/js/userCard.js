@@ -1,12 +1,21 @@
 (function ($) {
 
-    function createChart(divName, profile) {
+    function createChart(divName, profile, profile2) {
         data = [{
             type: 'scatterpolar',
             r: [profile.danceability, profile.energy, profile.loudness, profile.acousticness, profile.valence],
             theta: ['Danceability', 'Energy', 'Loudness', 'Acousticness', 'Valence'],
-            fill: 'toself'
-        }]
+            fill: 'toself',
+            name: 'Them'
+        },
+        {
+            type: 'scatterpolar',
+            r: [profile2.danceability, profile2.energy, profile2.loudness, profile2.acousticness, profile2.valence],
+            theta: ['Danceability', 'Energy', 'Loudness', 'Acousticness', 'Valence'],
+            fill: 'toself',
+            name: 'You'
+        }
+    ]
 
         layout = {
             polar: {
@@ -30,22 +39,33 @@
     function getMusicalProfileAjax(id) {
         var requestConfig = {
             method: 'GET',
-            url: '/profiles/' + id
+            url: '/profiles/' + id,
+            success: function (data) {},
+            async: false,
+            error: function (err) {
+                console.log(err);
+            }
         };
 
-        $.ajax(requestConfig).then(function (response) {
-            createChart(`${id}-chart`, response.averageAudioFeatures);
-        });
+        var response = $.ajax(requestConfig).responseText;
+        console.log(response);
+        return response;
+        
     }
 
     $(document).ready(function () {
+        let curr_profile = getMusicalProfileAjax($('#curr_user_profile').attr('value'));
+        console.log("AA");
+        console.log(curr_profile);
         $('.card-switch').find('.card-extension').hide();
 
         $('.card-switch').on({
             mouseenter: function (event) {
                 let user = $(this).find('.card-main').attr('id');
                 let profile = $(`#${user}-profile`).attr('href');
-                console.log(getMusicalProfileAjax(profile));
+                let response = getMusicalProfileAjax(profile);
+                if (response)
+                    createChart(`${user}-chart`, response.averageAudioFeatures, curr_profile.averageAudioFeatures);
                 $(this).find('.card-main').hide();
                 $(this).find('.card-extension').show();
             },

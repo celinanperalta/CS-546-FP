@@ -29,3 +29,8 @@
     object-fit: cover;
     object-position: top;
 }
+
+.card-switch {
+    height: 1vh;
+    overflow-y: scroll;
+}
