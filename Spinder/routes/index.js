@@ -20,7 +20,7 @@ const constructorMethod = (app) => {
   app.use('/spotify', spotifyRoutes);
 
   app.get("/", async (req, res) => {
-    if(req.session.AuthCookie){
+    if(req.session.AuthCookie) {
       res.redirect('/home');
     } else {
       res.redirect('/login');
@@ -28,8 +28,11 @@ const constructorMethod = (app) => {
   });
 
   app.get("/home", async (req, res) => {
+    const curr_user = await userData.getUserById(req.session.user);
     res.render('home', {
-      title: 'Homepage'
+      title: 'Homepage',
+      curr_user: curr_user,
+      isLoggedIn: req.session.AuthCookie
     })
   });
 
@@ -137,7 +140,7 @@ const constructorMethod = (app) => {
   });
 
   app.use('*', (req, res) => {
-    res.sendStatus(404);
+    res.status(404).redirect('/');
   });
  
 };
