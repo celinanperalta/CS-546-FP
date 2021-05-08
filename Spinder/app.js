@@ -85,7 +85,38 @@ app.get('/users/*', async (req, res, next) => {
   else {
     next();
   }
-})
+});
+
+app.get('/users', async (req, res, next) => {
+  if (!req.session.AuthCookie) {
+    res.redirect("/login");
+  } 
+  else {
+    next();
+  }
+});
+
+app.get('/home', async (req, res, next) => {
+  if (!req.session.AuthCookie) {
+    res.redirect("/login");
+  } 
+  else {
+    next();
+  }
+});
+
+app.get('/settings', async (req, res, next) => {
+  if (!req.session.AuthCookie) {
+    res.redirect("/login");
+  } 
+  else {
+    next();
+  }
+});
+
+// app.get('*', function(req, res, next) {
+//   res.redirect("/");
+// })
 
 configRoutes(app);
 

@@ -31,5 +31,23 @@
         </div>  
     <button type="submit">Submit</button>
 </form>
+
+<button onclick="document.getElementById('box').style.display='block'">Delete Account</button>
+
+<div id="box" class="modal">
+  <span onclick="document.getElementById('box').style.display='none'" class="close" title="Close Modal">&times;</span>
+  <form class="modal-content">
+    <div class="container">
+      <h1>Delete Account</h1>
+      <p>Are you sure you want to delete your account? This can not be undone.</p>
+
+      <div class="clearfix">
+        <button type="button" class="cancelbtn">Cancel</button>
+        <button type="button" class="deletebtn" onclick="DeleteAccount()">Delete</button>
+      </div>
+    </div>
+  </form>
+</div>
+
 <script src="../public/js/profile.js"></script>
 <script src="../public/js/forms.js"></script>

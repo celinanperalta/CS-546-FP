@@ -41,6 +41,22 @@
         Plotly.newPlot(divName, data, layout, config);
     }
 
+    function getMatchPercent(id, profile, profile2) {
+        let arr1 = [profile.danceability, profile.energy, profile.loudness, profile.acousticness, profile.valence];
+        let arr2 =  [profile2.danceability, profile2.energy, profile2.loudness, profile2.acousticness, profile2.valence];
+
+        let sum = 0;
+        for (let i = 0; i < arr1.length; i++) {
+            sum += Math.abs(arr1[i] - arr2[i]);
+        }
+
+        sum = (1 - (sum / 5.0)) * 100;
+        sum = sum.toFixed(1);
+
+        $(`#${id}-match`).find(".card-title").text(`${sum}% Match`);
+
+    }
+
     function getMusicalProfileAjax(id) {
         var requestConfig = {
             method: 'GET',
@@ -63,11 +79,13 @@
         let curr_profile = getMusicalProfileAjax($('#curr_user_profile').attr('value'));
         
         $('.card-switch').each(function(i, obj) {
-            let user = $(this).find('.card-header').attr('id');
+            let user = $(this).find('.card-body').attr('id');
             let profile = $(`#${user}-chart`).attr('href');
             let response = getMusicalProfileAjax(profile);
-            if (response)
+            if (response) {
                 createChart(`${user}-chart`, curr_profile.averageAudioFeatures, response.averageAudioFeatures);
+                getMatchPercent(user, curr_profile.averageAudioFeatures, response.averageAudioFeatures);
+            }
             $(this).find('.flip').flip({trigger: 'hover'}); 
         });
 
