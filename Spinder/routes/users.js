@@ -19,7 +19,7 @@ function containsNew(originalArray, newArray){
 //route for liking a user
 
 router.post('/:id/like', async (req,res)=>{
-    let userBeingLiked = await userData.getUserById(req.params.id);
+    let userBeingLiked = await userData.getUserById(xss(req.params.id));
     let userThatLiked = await userData.getUserById(req.session.user);
     
     let likedProfiles = userThatLiked.likedProfiles;
@@ -51,7 +51,7 @@ router.post('/:id/like', async (req,res)=>{
 //route for unliking a user
 
 router.post('/:id/unlike', async (req,res)=>{
-    let userBeingUnliked = await userData.getUserById(req.params.id);
+    let userBeingUnliked = await userData.getUserById(xss(req.params.id));
     let userThatUnliked = await userData.getUserById(req.session.user);
     
     let likedProfiles = userThatUnliked.likedProfiles;
@@ -79,7 +79,7 @@ router.post('/:id/unlike', async (req,res)=>{
 //route for updating user id
 router.post('/:id', async (req,res)=> {
     let {firstName, lastName, bio, country, city}= req.body;
-    let oldUser = await userData.getUserById(req.params.id);
+    let oldUser = await userData.getUserById(xss(req.params.id));
     //Check to see what was updated
     if(!firstName){
         firstName = oldUser.firstName;
@@ -109,6 +109,7 @@ router.post('/:id', async (req,res)=> {
     try{
         const user = await userData.updateUser(xss(req.params.id), updatedUser);
         res.redirect('/users/'+xss(req.params.id));
+
     }catch(e){
         console.log(e); 
         res.json({error: e.message});
@@ -162,7 +163,7 @@ router.get('/:id/update', async (req, res) => {
     if (req.params.id == req.session.user) {
         try{
             await userData.loadUserSpotifyData(req.session.user);
-            res.redirect('/users/' + req.params.id);
+            res.redirect('/users/' + xss(req.params.id));
             //res.status(200).json(user);
         }
         catch(e){
