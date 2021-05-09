@@ -101,11 +101,16 @@ router.get('/callback', async function(req, res) {
             let topArtists = await spotifyData.getUserTopArtists(req.session.user, user.access_token);
             let playlists = await spotifyData.getUserPlaylists(req.session.user, user.access_token);
             let image = await spotifyData.getUserImg(user.access_token);
+            user.img = image;
             user.topArtists = topArtists;
             user.topSongs = topSongs;
             user.playlists = playlists;
-            user.img = image;
-            let update = await userData.updateUser(req.session.user, user);
+            await userData.updateUser(req.session.user, user);
+
+            // just load it again to be safe
+            await userData.loadUserSpotifyData(req.session.user);
+
+            // await userData.updateUser(req.session.user, user);
             res.redirect('/users/' + req.session.user);
         } else {
           res.redirect('/#' +

@@ -27,6 +27,43 @@ app.use(express.urlencoded({ extended: true }));
 app.engine('handlebars', exphbs({ defaultLayout: 'main', partialsDir: ['views/partials/'] }));
 app.set('view engine', 'handlebars');
 
+var hbs = exphbs.create({});
+
+hbs.handlebars.registerHelper('json', function(context) {
+  return JSON.stringify(context);
+});
+
+hbs.handlebars.registerHelper('compare', function(lvalue, rvalue, options) {
+
+  if (arguments.length < 3)
+      throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
+
+  var operator = options.hash.operator || "==";
+
+  var operators = {
+      '==':       function(l,r) { return l == r; },
+      '===':      function(l,r) { return l === r; },
+      '!=':       function(l,r) { return l != r; },
+      '<':        function(l,r) { return l < r; },
+      '>':        function(l,r) { return l > r; },
+      '<=':       function(l,r) { return l <= r; },
+      '>=':       function(l,r) { return l >= r; },
+      'typeof':   function(l,r) { return typeof l == r; }
+  }
+
+  if (!operators[operator])
+      throw new Error("Handlerbars Helper 'compare' doesn't know the operator "+operator);
+
+  var result = operators[operator](lvalue,rvalue);
+
+  if( result ) {
+      return options.fn(this);
+  } else {
+      return options.inverse(this);
+  }
+
+});
+
 app.use(function(req, res, next) {
   res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
   next();
@@ -48,7 +85,38 @@ app.get('/users/*', async (req, res, next) => {
   else {
     next();
   }
-})
+});
+
+app.get('/users', async (req, res, next) => {
+  if (!req.session.AuthCookie) {
+    res.redirect("/login");
+  } 
+  else {
+    next();
+  }
+});
+
+app.get('/home', async (req, res, next) => {
+  if (!req.session.AuthCookie) {
+    res.redirect("/login");
+  } 
+  else {
+    next();
+  }
+});
+
+app.get('/settings', async (req, res, next) => {
+  if (!req.session.AuthCookie) {
+    res.redirect("/login");
+  } 
+  else {
+    next();
+  }
+});
+
+// app.get('*', function(req, res, next) {
+//   res.redirect("/");
+// })
 
 configRoutes(app);
 

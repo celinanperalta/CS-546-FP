@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const data = require('../data');
 const userData = data.users;
+const profileData = data.profiles;
 const schemas = require('../data/schemas');
 const xss = require('xss');
 
@@ -14,9 +15,88 @@ function containsNew(originalArray, newArray){
     }
     return false;
 }
+
+//route for liking a user
+
+router.post('/:id/like', async (req,res)=>{
+    let userBeingLiked = await userData.getUserById(req.params.id);
+    let userThatLiked = await userData.getUserById(req.session.user);
+    
+    let likedProfiles = userThatLiked.likedProfiles;
+    let alreadyLiked = false;
+    for(let profile of likedProfiles){
+        if(profile == req.params.id){
+            alreadyLiked = true;
+            break;
+        }
+    }
+    if(!alreadyLiked){
+        likedProfiles.push(userBeingLiked._id);
+    }
+
+    let updatedUserData = {
+        likedProfiles: likedProfiles
+    }
+    try{
+        const newUser = await userData.updateUser(req.session.user,updatedUserData);
+        res.redirect('/users/');
+    }catch(e){
+        console.log(e);
+        res.json({error: e.message});
+    }
+
+
+});
+
+//route for unliking a user
+
+router.post('/:id/unlike', async (req,res)=>{
+    let userBeingUnliked = await userData.getUserById(req.params.id);
+    let userThatUnliked = await userData.getUserById(req.session.user);
+    
+    let likedProfiles = userThatUnliked.likedProfiles;
+    for(i = 0; i < likedProfiles.length; i++){
+        if(likedProfiles[i] === userBeingUnliked._id){
+            likedProfiles.splice(i,1);
+            break;
+        }
+    }
+
+    let updatedUserData = {
+        likedProfiles: likedProfiles
+    }
+    try{
+        const newUser = await userData.updateUser(req.session.user,updatedUserData);
+        res.redirect('/users/');
+    }catch(e){
+        console.log(e);
+        res.json({error: e.message});
+    }
+
+});
+  
+  
 //route for updating user id
 router.post('/:id', async (req,res)=> {
-    const {firstName, lastName, bio, country, city} = req.body;
+    let {firstName, lastName, bio, country, city}= req.body;
+    let oldUser = await userData.getUserById(req.params.id);
+    //Check to see what was updated
+    if(!firstName){
+        firstName = oldUser.firstName;
+    }
+    if(!lastName){
+        lastName = oldUser.lastName;
+    }
+    if(!bio){
+        bio = oldUser.bio;
+    }
+    if(!country){
+        country = oldUser.location.country;
+    }
+    if(!city){
+        city = oldUser.location.city;
+    }
+
     let updatedUser = {
         firstName: firstName,
         lastName: lastName,
@@ -25,15 +105,25 @@ router.post('/:id', async (req,res)=> {
             city: city
         },
         bio: bio
-    }
+    }   
     try{
         const user = await userData.updateUser(xss(req.params.id), updatedUser);
         res.redirect('/users/'+xss(req.params.id));
     }catch(e){
-        console.log(e);
+        console.log(e); 
         res.json({error: e.message});
     }
 });
+
+router.get('/settings', async (req,res)=>{ 
+    try{
+        const curr_user = await userData.getUserById(req.session.user);
+        res.render('settings',{curr_user: curr_user,  _id: req.session.user, isLoggedIn: true});
+    }catch(e){
+        console.log(e);
+        res.json({error: e.message});
+    }
+  });
 
 router.get('/', async (req, res) => {
     try{
@@ -53,12 +143,34 @@ router.get('/:id', async (req, res) => {
     try{
         const user = await userData.getUserById(xss(req.params.id));
         const curr_user = await userData.getUserById(req.session.user);
-        res.render('profile',{curr_user: curr_user, user : user, topArtists: user.topArtists, topSongs: user.topSongs, playlists: user.playlists, isLoggedIn: true});
+        console.log(user);
+        let musicalProfile = undefined;
+        if (user.musicalProfile)
+            musicalProfile = await profileData.getProfileById(user.musicalProfile);
+        console.log(musicalProfile);
+        res.render('profile',{curr_user: curr_user, user : user, musicalProfile: musicalProfile, isLoggedIn: true});
         //res.status(200).json(user);
     }
     catch(e){
         console.log(e);
         res.status(500).send({error:e.message});
+    }
+});
+
+router.get('/:id/update', async (req, res) => {
+    // console.log(req.session);
+    if (req.params.id == req.session.user) {
+        try{
+            await userData.loadUserSpotifyData(req.session.user);
+            res.redirect('/users/' + req.params.id);
+            //res.status(200).json(user);
+        }
+        catch(e){
+            console.log(e);
+            res.status(500).send({error:e.message});
+        }
+    } else {
+        res.redirect("/users");
     }
 });
 
