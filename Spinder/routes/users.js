@@ -4,6 +4,7 @@ const data = require('../data');
 const userData = data.users;
 const profileData = data.profiles;
 const schemas = require('../data/schemas');
+const xss = require('xss');
 
 //checks if there are any new items in newArray
 function containsNew(originalArray, newArray){
