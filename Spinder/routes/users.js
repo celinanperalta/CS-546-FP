@@ -14,6 +14,38 @@ function containsNew(originalArray, newArray){
     }
     return false;
 }
+
+//route for liking a user
+
+router.post('/:id/like', async (req,res)=>{
+    let userBeingLiked = await userData.getUserById(req.params.id);
+    let userThatLiked = await userData.getUserById(req.session.user);
+    
+    let likedProfiles = userThatLiked.likedProfiles;
+    let alreadyLiked = false;
+    for(let profile of likedProfiles){
+        if(profile == req.params.id){
+            alreadyLiked = true;
+            break;
+        }
+    }
+    if(!alreadyLiked){
+        likedProfiles.push(userBeingLiked._id);
+    }
+
+    let updatedUserData = {
+        likedProfiles: likedProfiles
+    }
+    try{
+        const newUser = await userData.updateUser(req.session.user,updatedUserData);
+        res.redirect('/users/');
+    }catch(e){
+        console.log(e);
+        res.json({error: e.message});
+    }
+
+
+});
   
 //route for updating user id
 router.post('/:id', async (req,res)=> {

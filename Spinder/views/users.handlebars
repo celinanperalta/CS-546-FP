@@ -25,6 +25,10 @@
                 <h5 class="card-title"><a href="/users/{{this._id}}">{{this.username}}</a></h5>
                 <p class="small card-text text-light">{{this.firstName}} {{this.lastName}}</p>
             </div>
+            <form id="like-user-profile"action="/users/{{this._id}}/like" method="POST" style="display: block">
+                <button type="submit">Like</button>
+            </form>
+            
         </div>
         {{!-- <div class="card card-extension border-dark mb-3" id="{{this._id}}-hide">
             
