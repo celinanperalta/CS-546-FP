@@ -3,9 +3,6 @@
 </div>
 <div class="card-deck">
     {{#each users}}
-        <div class="col-lg-3">
-            <div class="card border-success mb-3 indUser" id={{this.username}}>
-                <img class="card-img-top img-thumbnail" src="{{this.img}}" alt="user image">
     {{#compare this._id ../curr_user._id operator="!="}}
     <div class="card-switch w-25">
         <div class="card mb-3 shadow border-light">
@@ -23,22 +20,6 @@
             </div>
             <div class="card-header" id="{{this._id}}-match">
                 <h5 class="card-title text-dark my-auto d-block">No Match Data</h5>
-            </div>
-            <div class="card-footer bg-dark">
-                <h5 class="card-title"><a href="/users/{{this._id}}">{{this.username}}</a></h5>
-                <p class="small card-text text-light">{{this.firstName}} {{this.lastName}}</p>
-                <div class="btn-group text-right" role="group">
-                    <form id="like-user-profile"action="/users/{{this._id}}/like" method="POST" style="display: block">
-                        <button class= "btn btn-success" type="submit" role="button">Like</button>
-                    </form>
-                    <form id="unlike-user-profile"action="/users/{{this._id}}/unlike" method="POST" style="display: block">
-                        <button class= "btn btn-success" type="submit" role="button">Unlike</button>
-                    </form>
-                </div> 
-            </div> 
-        </div>
-        {{!-- <div class="card card-extension border-dark mb-3" id="{{this._id}}-hide">
-            
             </div>
             <div class="card-footer bg-dark">
                 <h5 class="card-title"><a href="/users/{{this._id}}">{{this.username}}</a></h5>

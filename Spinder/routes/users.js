@@ -4,7 +4,6 @@ const data = require('../data');
 const userData = data.users;
 const profileData = data.profiles;
 const schemas = require('../data/schemas');
-const xss = require('xss');
 
 //checks if there are any new items in newArray
 function containsNew(originalArray, newArray){
@@ -109,7 +108,6 @@ router.post('/:id', async (req,res)=> {
     try{
         const user = await userData.updateUser(xss(req.params.id), updatedUser);
         res.redirect('/users/'+xss(req.params.id));
-
     }catch(e){
         console.log(e); 
         res.json({error: e.message});
@@ -142,7 +140,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     // console.log(req.session);
     try{
-        const user = await userData.getUserById(xss(req.params.id));
+        const user = await userData.getUserById(req.params.id);
         const curr_user = await userData.getUserById(req.session.user);
         console.log(user);
         let musicalProfile = undefined;
@@ -202,14 +200,14 @@ router.put('/:id', async(req, res)=> {
     }
     let updatedInfo=result.value;
     try{
-        await userData.getUserById(xss(req.params.id));
+        await userData.getUserById(req.params.id);
     }
     catch(e){
         res.status(404).json({ error: 'User not found' });
         return;
     }
     try {
-        const updatedUser = await userData.updateUser(xss(req.params.id), updatedInfo);
+        const updatedUser = await userData.updateUser(req.params.id, updatedInfo);
         res.status(200).json(updatedUser);
     }
     catch(e){
@@ -219,7 +217,7 @@ router.put('/:id', async(req, res)=> {
 
 router.patch('/:id', async (req, res) => {
     try{
-        await userData.getUserById(xss(req.params.id));
+        await userData.getUserById(req.params.id);
     }
     catch(e){
         res.status(404).json({ error: 'User not found' });
@@ -231,7 +229,7 @@ router.patch('/:id', async (req, res) => {
         res.status(400).json({error:result.error});
         return;
     }
-    let oldUser = await userData.getUserById(xss(req.params.id));
+    let oldUser = await userData.getUserById(req.params.id);
     let updatedInfo=result.value;
     let updatedData = {};
     if(updatedInfo.firstName && updatedInfo.firstName != oldUser.firstName){
@@ -286,7 +284,7 @@ router.patch('/:id', async (req, res) => {
         return;
     }
     try{
-        const updatedArtist = await userData.updateUser(xss(req.params.id), updatedData);
+        const updatedArtist = await userData.updateUser(req.params.id, updatedData);
         res.status(200).json(updatedArtist);
 
     }
@@ -297,14 +295,14 @@ router.patch('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
     try{
-        await userData.getUserById(xss(req.params.id));
+        await userData.getUserById(req.params.id);
     }
     catch(e){
         res.status(404).json({ error: 'User not found' });
         return;
     }
     try {
-      const deletedUser = await userData.removeUser(xss(req.params.id));
+      const deletedUser = await userData.removeUser(req.params.id);
       res.status(200).json(deletedUser);
     } catch (e) {
         res.status(500).send({error: e});
