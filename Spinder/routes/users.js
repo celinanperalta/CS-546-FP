@@ -46,6 +46,34 @@ router.post('/:id/like', async (req,res)=>{
 
 
 });
+
+//route for unliking a user
+
+router.post('/:id/unlike', async (req,res)=>{
+    let userBeingUnliked = await userData.getUserById(req.params.id);
+    let userThatUnliked = await userData.getUserById(req.session.user);
+    
+    let likedProfiles = userThatUnliked.likedProfiles;
+    for(i = 0; i < likedProfiles.length; i++){
+        if(likedProfiles[i] === userBeingUnliked._id){
+            likedProfiles.splice(i,1);
+            break;
+        }
+    }
+
+    let updatedUserData = {
+        likedProfiles: likedProfiles
+    }
+    try{
+        const newUser = await userData.updateUser(req.session.user,updatedUserData);
+        res.redirect('/users/');
+    }catch(e){
+        console.log(e);
+        res.json({error: e.message});
+    }
+
+});
+  
   
 //route for updating user id
 router.post('/:id', async (req,res)=> {
