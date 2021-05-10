@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const data = require('../data');
+const songData = data.songs;
+const artistData = data.artists;
 const userData = data.users;
 const profileData = data.profiles;
 const schemas = require('../data/schemas');
@@ -295,6 +297,7 @@ router.patch('/:id', async (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
+    console.log("here");
     try{
         await userData.getUserById(req.params.id);
     }
@@ -303,8 +306,11 @@ router.delete('/:id', async (req, res) => {
         return;
     }
     try {
-      const deletedUser = await userData.removeUser(req.params.id);
-      res.status(200).json(deletedUser);
+        const deletedProfile = await profileData.removeProfileByUserId(req.params.id);
+        const artistDeletion = await artistData.removeUserFromArtists(req.params.id);
+        const songDeletion = await songData.removeUserFromSongs(req.params.id);
+        const deletedUser = await userData.removeUser(req.params.id);
+        res.redirect("/");
     } catch (e) {
         res.status(500).send({error: e});
     }

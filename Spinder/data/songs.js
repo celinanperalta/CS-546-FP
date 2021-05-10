@@ -116,6 +116,22 @@ let exportedMethods = {
             throw new Error(`Could not delete song with id of ${id}`);
         }
         return song;
+    },
+
+    async removeUserFromSongs(id) {
+        if(!id || typeof id !== 'string' || id == ""){
+            throw new Error("Must provide valid string id");
+        }
+        const songsCollection = await songs(); 
+        const deleteInfo = await songsCollection.update(
+            { },
+            { $pull: {user_ids: `${id}`}},
+            { multi: true}
+        );
+        if (deletionInfo.deletedCount === 0) {
+            throw new Error(`Could not delete user with id: ${id}, from songs.`);
+        }
+        return deleteInfo;
     }
 
 };

@@ -42,12 +42,20 @@
       <p>Are you sure you want to delete your account? This can not be undone.</p>
 
       <div class="clearfix">
-        <button type="button" class="cancelbtn">Cancel</button>
-        <button type="button" class="deletebtn" onclick="DeleteAccount()">Delete</button>
+        <button type="button" class="cancelbtn" onclick="document.getElementById('box').style.display='none'">Cancel</button>
+        <button type="button" class="deletebtn" onclick="DeleteAccount({{_id}})">Delete</button>
       </div>
     </div>
   </form>
 </div>
-
+<script type="text/javascript" language="javascript">
+    $('.deletebtn').click(function(event){
+    event.preventDefault();
+        $.ajax({
+        url: `/users/${_id}`,
+        method: 'DELETE',
+        });
+    });
+</script>
 <script src="../public/js/profile.js"></script>
 <script src="../public/js/forms.js"></script>

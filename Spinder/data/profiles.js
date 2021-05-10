@@ -24,6 +24,19 @@ let exportedMethods = {
         return profile;
     },
 
+    async getProfileByUserId(id) {
+        if(!id || typeof id !== 'string'|| id == ""){//Check that id exists and is of correct type
+            throw new Error("Must provide valid string id");
+        }
+        const profilesCollection = await profiles();
+        const profile = await profilesCollection.findOne({ user_id: id});//get profile by id
+        if(profile === null){
+            throw new Error("Profile not found with that id.");
+        }
+        profile._id = profile._id.toString();
+        return profile;
+    },
+
     async addProfile(profile) {
         const result = schemas.profileSchema.validate(profile);
         if(result.errors){
@@ -84,8 +97,21 @@ let exportedMethods = {
             throw new Error(`Could not delete profile with id of ${id}`);
         }
         return profile;
-    }
+    },
 
+    async removeProfileByUserId(_id) {
+        if(!id || typeof id !== 'string' || id == ""){
+            throw new Error("Must provide valid string id");
+        }
+        const profilesCollection = await profiles();
+        const profile = this.getProfileByUserId(id);
+        //Delete from DB
+        const deletionInfo = await profilesCollection.deleteOne({user_id: id});
+        if(deletionInfo.deletedCount ===0){
+            throw new Error(`Could not delete profile with id of ${id}`);
+        }
+        return profile;
+    }
 };
 
 module.exports = exportedMethods;

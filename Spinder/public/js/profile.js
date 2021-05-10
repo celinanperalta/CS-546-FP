@@ -8,6 +8,10 @@ function CloseForm(){
     document.getElementById('cancel-button').style.display = 'none';
     document.getElementById('profile').style.display = 'block';
 }
-// function DeleteAccount(){
-
-// }
+function DeleteAccount(_id){
+    // Ajax to help button send DELETE request to route
+    $.ajax({
+        url: `/users/${_id}`,
+        method: 'DELETE',
+      });
+}
