@@ -1,83 +1,134 @@
-<div class="button-div">
-    <button onclick="OpenForm();" id="edit-button">Edit Profile</button>
-</div>
-<div class="button-div">
-    <button id ="cancel-button" style="display: none" onclick="CloseForm();">Cancel</button>
-</div>
-<form id="edit-profile-form" action="/users/settings/{{curr_user._id}}" method="POST" style="display: none">
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label>First Name</label>
-            <input name = "firstName" placeholder="Update First Name" class="form-control" minlength="1" pattern="^[a-zA-Z]+( [a-zA-Z]+)*$"/>
-        </div>
-        <div class="form-group col-md-6">
-            <label>Last Name</label>
-            <input name = "lastName" placeholder="Update Last Name" class="form-control"  minlength="1" pattern="^[a-zA-Z]+( [a-zA-Z]+)*$"/>
+<div id="deleteModal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Account</h5>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete your account? This can not be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="deletebtn">Delete</button>
+                <button type="button" class="btn btn-primary" id="delete-cancel-btn" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+            </div>
         </div>
     </div>
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label>Country</label>
-            <select name="country" class="form-select" id="country"></select>
+</div>
+<h1>Settings</h1>
+<h2>Profile Settings</h2>
+<form id="edit-profile-form" action="/users/settings/{{curr_user._id}}" method="POST">
+    <fieldset id="edit-profile-fieldset" disabled>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>First Name</label>
+                <input name="firstName" placeholder="Update First Name" class="form-control" minlength="1"
+                    pattern="^[a-zA-Z]+( [a-zA-Z]+)*$" />
+            </div>
+            <div class="form-group col-md-6">
+                <label>Last Name</label>
+                <input name="lastName" placeholder="Update Last Name" class="form-control" minlength="1"
+                    pattern="^[a-zA-Z]+( [a-zA-Z]+)*$" />
+            </div>
         </div>
-        <div class="form-group col-md-6">
-            <label>City</label>
-            <input name = "city" placeholder="Update City" class="form-control" minlength="1" pattern="^[a-zA-Z]+( [a-zA-Z]+)*$"/>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Country</label>
+                <select name="country" class="form-select" id="country"></select>
+            </div>
+            <div class="form-group col-md-6">
+                <label>City</label>
+                <input name="city" placeholder="Update City" class="form-control" minlength="1"
+                    pattern="^[a-zA-Z]+( [a-zA-Z]+)*$" />
+            </div>
         </div>
-    </div>
-    <div class="form-group">
+        <div class="form-group">
             <label>Bio</label>
-            <textarea name = "bio" placeholder="Update Bio" class="form-control" form="edit-profile-form" rows="3"></textarea>
-    </div>
-    <div class="form-group">
-        <label>Profile Visibility</label>
-        <div class="custom-control custom-switch">
-            {{#if isPrivate}}
-                <input name="isPrivate" type="checkbox" class="custom-control-input" id="customSwitch1" value="true" checked="true">
-             {{/if}}
-             {{#unless isPrivate}}
-                <input name="isPrivate" type="checkbox" class="custom-control-input" value ="true" id="customSwitch1">
-             {{/unless}}
-            <label class="custom-control-label" for="customSwitch1">Make Private</label>
+            <textarea name="bio" placeholder="Update Bio" class="form-control" form="edit-profile-form"
+                rows="3"></textarea>
         </div>
-    </div>  
-    <button type="submit">Submit</button>
+        <div class="form-group">
+            <label>Profile Visibility</label>
+            <div class="custom-control custom-switch">
+                {{#if isPrivate}}
+                <input name="isPrivate" type="checkbox" class="custom-control-input" id="customSwitch1" value="true"
+                    checked="true">
+                {{/if}}
+                {{#unless isPrivate}}
+                <input name="isPrivate" type="checkbox" class="custom-control-input" value="true" id="customSwitch1">
+                {{/unless}}
+                <label class="custom-control-label" for="customSwitch1">Make Private</label>
+            </div>
+        </div>
+        <div class="mb-3" id="form-button-display">
+            <button class="btn btn-primary mr-3" type="submit">Save Changes</button>
+            <button class="btn btn-danger mr-auto" id="cancel-button">Cancel</button>
+        </div>
+
+    </fieldset>
 </form>
 
-<button onclick="document.getElementById('box').style.display='block'">Delete Account</button>
-<div id="box" class="modal">
-  <span onclick="document.getElementById('box').style.display='none'" class="close" title="Close Modal">&times;</span>
-  <form class="modal-content">
-    <div class="container">
-      <h1>Delete Account</h1>
-      <p>Are you sure you want to delete your account? This can not be undone.</p>
-
-      <div class="clearfix">
-        <button type="button" class="cancelbtn" onclick="document.getElementById('box').style.display='none'">Cancel</button>
-        <button type="button" class="deletebtn">Delete</button>
-      </div>
-    </div>
-  </form>
+<div class="button-div d-flex mb-3">
+    <button class="btn btn-primary mr-auto" id="edit-button">Edit Profile</button>
 </div>
+
+<h2>Delete Account</h2>
+<button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" id="show-delete-modal">Delete Account</button>
+
+
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" language="javascript">
-(function ($) {
-    $(document).ready(function () {
-        $('.deletebtn').click(function(event){
-            event.preventDefault();
+    (function ($) {
+        $(document).ready(function () {
+            $('#form-button-display').hide();
 
-            var requestConfig = {
-                method: 'DELETE',
-                url: "/users/{{curr_user._id}}"
-            };
-
-            $.ajax(requestConfig).then(function (response) {
-                console.log("Deleted account.");
+            var myModal = new bootstrap.Modal(document.getElementById('deleteModal'), {
+                keyboard: false
             });
-        });
+
+            $('#show-delete-modal').click(function(e) {
+                e.preventDefault();
+                myModal.show();
+            });
+
+            $('#delete-cancel-btn').click(function(e) {
+                e.preventDefault();
+                myModal.hide();
+            });
+
+            $('#edit-button').click(function (event) {
+                event.preventDefault();
+                $('#edit-profile-fieldset').removeAttr('disabled');
+                $('#edit-button').hide();
+                $('#form-button-display').show();
+            });
+
+            $('#cancel-button').click(function (event) {
+                event.preventDefault();
+                $('#edit-profile-fieldset').attr('disabled', true);
+                $('#form-button-display').hide();
+                $('#edit-button').show();
+            });
+
+            $('#deletebtn').click(function (event) {
+                console.log("Deleting account...");
+                event.preventDefault();
+
+                var requestConfig = {
+                    type: 'DELETE',
+                    url: "/users/{{curr_user._id}}",
+                    success: function(response) {
+                        if (response.result == 'redirect') {
+                        //redirecting to main page from here.
+                        window.location.replace(response.url);
+                        }
+                    }
+                };
+
+                $.ajax(requestConfig);
+            });
         });
     })(window.jQuery);
 </script>
-<script src="../public/js/profile.js"></script>
+<script src="../public/js/settings.js"></script>
 <script src="../public/js/forms.js"></script>

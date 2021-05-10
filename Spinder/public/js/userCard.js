@@ -106,9 +106,9 @@
             let like_btn = $(this).find('#like_btn');
             let profile = $(`#${user_id}-chart`).attr('href');
 
-            if (profile) {
+            if (curr_profile && profile) {
                 let response = getMusicalProfileAjax(profile);
-                if (response) {
+                if (curr_profile.averageAudioFeatures && response.averageAudioFeatures) {
                     createChart(`${user_id}-chart`, curr_profile.averageAudioFeatures, response.averageAudioFeatures);
                     getMatchPercent(user_id, curr_profile.averageAudioFeatures, response.averageAudioFeatures);
                     $(this).find('.flip').flip({
