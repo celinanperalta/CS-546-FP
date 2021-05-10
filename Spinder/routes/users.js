@@ -1,3 +1,4 @@
+const e = require('express');
 const express = require('express');
 const router = express.Router();
 const data = require('../data');
@@ -76,24 +77,32 @@ router.post('/:id/unlike', async (req,res)=>{
   
   
 //route for updating user id
-router.post('/:id', async (req,res)=> {
-    let {firstName, lastName, bio, country, city}= req.body;
+router.post('/settings/:id', async (req,res)=> {
+    let {firstName, lastName, bio, country, city, isPrivate}= req.body;
     let oldUser = await userData.getUserById(req.params.id);
     //Check to see what was updated
-    if(!firstName){
+    if(!firstName || firstName == ""){
         firstName = oldUser.firstName;
     }
-    if(!lastName){
+    if(!lastName || lastName == ""){
         lastName = oldUser.lastName;
     }
-    if(!bio){
-        bio = oldUser.bio;
+    if(!bio || bio == ""){
+        if(!oldUser.bio){
+            bio = "";
+        }
+        else{
+            bio = oldUser.bio;
+        }
     }
-    if(!country){
+    if(!country || country == ""){
         country = oldUser.location.country;
     }
-    if(!city){
+    if(!city || city == ""){
         city = oldUser.location.city;
+    }
+    if(!isPrivate){
+        isPrivate = false;
     }
 
     let updatedUser = {
@@ -103,7 +112,8 @@ router.post('/:id', async (req,res)=> {
             country: country,
             city: city
         },
-        bio: bio
+        bio: bio,
+        isPrivate: isPrivate
     }   
     try{
         const user = await userData.updateUser(req.params.id, updatedUser);
@@ -117,7 +127,14 @@ router.post('/:id', async (req,res)=> {
 router.get('/settings', async (req,res)=>{ 
     try{
         const curr_user = await userData.getUserById(req.session.user);
-        res.render('settings',{curr_user: curr_user,  _id: req.session.user, isLoggedIn: true});
+        let isPrivate;
+        if(curr_user.isPrivate === undefined){
+            isPrivate = false;
+        }
+        else{
+            isPrivate = curr_user.isPrivate;
+        }
+        res.render('settings',{curr_user: curr_user,  _id: req.session.user, isLoggedIn: true , isPrivate: isPrivate});
     }catch(e){
         console.log(e);
         res.json({error: e.message});
@@ -142,11 +159,11 @@ router.get('/:id', async (req, res) => {
     try{
         const user = await userData.getUserById(req.params.id);
         const curr_user = await userData.getUserById(req.session.user);
-        console.log(user);
+        //console.log(user);
         let musicalProfile = undefined;
         if (user.musicalProfile)
             musicalProfile = await profileData.getProfileById(user.musicalProfile);
-        console.log(musicalProfile);
+        //console.log(musicalProfile);
         res.render('profile',{curr_user: curr_user, user : user, musicalProfile: musicalProfile, isLoggedIn: true});
         //res.status(200).json(user);
     }
@@ -216,6 +233,7 @@ router.put('/:id', async(req, res)=> {
 });
 
 router.patch('/:id', async (req, res) => {
+    console.log("why here")
     try{
         await userData.getUserById(req.params.id);
     }

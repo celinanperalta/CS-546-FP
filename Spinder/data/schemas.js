@@ -96,11 +96,12 @@ const newUserSchema = Joi.object({
   access_token: Joi.string().min(1),
   refresh_token: Joi.string().min(1),
   hashedPassword: Joi.string().min(4).required(),
+  isPrivate: Joi.boolean()
 });
 
 const userOptionalSchema = Joi.object({
   _id: Joi.string(),
-  firstName: Joi.string().min(1),
+  firstName: Joi.string().allow("").min(1),
   lastName: Joi.string().min(1),
   username: Joi.string().alphanum().min(3).max(30),
   email: Joi.string().email(),
@@ -117,7 +118,8 @@ const userOptionalSchema = Joi.object({
   access_token: Joi.string().min(1),
   refresh_token: Joi.string().min(1),
   hashedPassword: Joi.string().min(4),
-  bio: Joi.string().allow("")
+  bio: Joi.string().allow(""),
+  isPrivate: Joi.boolean().default(false)
 });
 
 module.exports = {
