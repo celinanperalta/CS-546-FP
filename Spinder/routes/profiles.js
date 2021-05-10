@@ -3,6 +3,7 @@ const router = express.Router();
 const data = require('../data');
 const profileData = data.profiles;
 const schemas = require('../data/schemas');
+const xss = require('xss');
 
 router.get('/', async (req, res) => {
     try{
@@ -16,7 +17,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     try{
-        const profile = await profileData.getProfileById(req.params.id);
+        const profile = await profileData.getProfileById(xss(req.params.id));
         res.status(200).json(profile);
     }
     catch(e){
@@ -50,14 +51,14 @@ router.put('/:id', async(req, res)=> {
     }
     let updatedInfo=result.value;
     try{
-        await profileData.getProfileById(req.params.id);
+        await profileData.getProfileById(xss(req.params.id));
     }
     catch(e){
         res.status(404).json({ error: 'Profile not found' });
         return;
     }
     try {
-        const updatedProfile = await profileData.updateProfile(req.params.id, updatedInfo);
+        const updatedProfile = await profileData.updateProfile(xss(req.params.id), updatedInfo);
         res.status(200).json(updatedProfile);
     }
     catch(e){
@@ -67,7 +68,7 @@ router.put('/:id', async(req, res)=> {
 
 router.patch('/:id', async (req, res) => {
     try{
-        await profileData.getProfileById(req.params.id);
+        await profileData.getProfileById(xss(req.params.id));
     }
     catch(e){
         res.status(404).json({ error: 'Profile not found' });
@@ -79,7 +80,7 @@ router.patch('/:id', async (req, res) => {
         res.status(400).json({error:result.error});
         return;
     }
-    let oldProfile = await profileData.getProfileById(req.params.id);
+    let oldProfile = await profileData.getProfileById(xss(req.params.id));
     let updatedInfo=result.value;
     let updatedData = {};
     if(updatedInfo.user_id && updatedInfo.user_id != oldProfile.user_id){
@@ -107,7 +108,7 @@ router.patch('/:id', async (req, res) => {
         return;
     }
     try{
-        const updatedProfile = await profileData.updateProfile(req.params.id, updatedData);
+        const updatedProfile = await profileData.updateProfile(xss(req.params.id), updatedData);
         res.status(200).json(updatedProfile);
 
     }
@@ -118,14 +119,14 @@ router.patch('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
     try{
-        await profileData.getProfileById(req.params.id);
+        await profileData.getProfileById(xss(req.params.id));
     }
     catch(e){
         res.status(404).json({ error: 'Profile not found' });
         return;
     }
     try {
-      const deletedProfile = await profileData.removeProfile(req.params.id);
+      const deletedProfile = await profileData.removeProfile(xss(req.params.id));
       res.status(200).json(deletedProfile);
     } catch (e) {
         res.status(500).send({error: e});
