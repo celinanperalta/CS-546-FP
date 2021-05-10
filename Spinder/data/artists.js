@@ -113,14 +113,11 @@ let exportedMethods = {
             throw new Error("Must provide valid string id");
         }
         const artistsCollection = await artists(); 
-        const deleteInfo = await artistsCollection.update(
+        const deleteInfo = await artistsCollection.updateMany(
             { },
             { $pull: {user_ids: `${id}`}},
             { multi: true}
         );
-        if (deletionInfo.deletedCount === 0) {
-            throw new Error(`Could not delete user with id: ${id}, from artists.`);
-        }
         return deleteInfo;
     }
 

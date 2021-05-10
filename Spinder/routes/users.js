@@ -297,20 +297,13 @@ router.patch('/:id', async (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
-    console.log("here");
-    try{
-        await userData.getUserById(req.params.id);
-    }
-    catch(e){
-        res.status(404).json({ error: 'User not found' });
-        return;
-    }
     try {
+        // dont check for deletion count in case user is not connected to spotify
         const deletedProfile = await profileData.removeProfileByUserId(req.params.id);
         const artistDeletion = await artistData.removeUserFromArtists(req.params.id);
         const songDeletion = await songData.removeUserFromSongs(req.params.id);
         const deletedUser = await userData.removeUser(req.params.id);
-        res.redirect("/");
+        res.render('login', {title: 'Login'});
     } catch (e) {
         res.status(500).send({error: e});
     }

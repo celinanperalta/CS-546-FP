@@ -33,7 +33,6 @@
 </form>
 
 <button onclick="document.getElementById('box').style.display='block'">Delete Account</button>
-
 <div id="box" class="modal">
   <span onclick="document.getElementById('box').style.display='none'" class="close" title="Close Modal">&times;</span>
   <form class="modal-content">
@@ -43,19 +42,30 @@
 
       <div class="clearfix">
         <button type="button" class="cancelbtn" onclick="document.getElementById('box').style.display='none'">Cancel</button>
-        <button type="button" class="deletebtn" onclick="DeleteAccount({{_id}})">Delete</button>
+        <button type="button" class="deletebtn">Delete</button>
       </div>
     </div>
   </form>
 </div>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" language="javascript">
-    $('.deletebtn').click(function(event){
-    event.preventDefault();
-        $.ajax({
-        url: `/users/${_id}`,
-        method: 'DELETE',
+(function ($) {
+    $(document).ready(function () {
+        $('.deletebtn').click(function(event){
+            event.preventDefault();
+
+            var requestConfig = {
+                method: 'DELETE',
+                url: "/users/{{curr_user._id}}"
+            };
+
+            $.ajax(requestConfig).then(function (response) {
+                console.log("Deleted account.");
+            });
         });
-    });
+        });
+    })(window.jQuery);
 </script>
 <script src="../public/js/profile.js"></script>
 <script src="../public/js/forms.js"></script>
