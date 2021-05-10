@@ -3,7 +3,7 @@
 {{!-- Logout --}}
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2">
-  <a class="navbar-brand mb-0 h1" href="/">Spinder</a>
+  <a class="navbar-brand mb-0 h1 ml-2" href="/">Spinder</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
     aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -12,7 +12,7 @@
     <ul class="navbar-nav">
       {{#if isLoggedIn}}
       <li class="nav-item active">
-        <a class="nav-link" href="/users">Home<span class="sr-only"></span></a>
+        <a class="nav-link" href="/users">Users<span class="sr-only"></span></a>
       </li>
       <li class="nav-item active">
         <a class="nav-link" href="/users/{{curr_user._id}}">My Profile<span class="sr-only"></span></a>
@@ -22,7 +22,7 @@
       </li>
       {{/if}}
     </ul>
-    <div class="my-2 my-sm-0">
+    <div class="my-2 my-sm-0 mr-1">
       {{#if isLoggedIn}}
       <span class="navbar-text mr-2">
         User: {{curr_user.username}}
