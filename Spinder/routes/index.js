@@ -29,11 +29,17 @@ const constructorMethod = (app) => {
 
   app.get("/home", async (req, res) => {
     const curr_user = await userData.getUserById(req.session.user);
+    const topSongs = await userData.loadTopSongs();
+    const topArtists = await userData.loadTopArtists();
+    const users = await userData.getAllUsers();
     res.render('home', {
       title: 'Homepage',
       curr_user: curr_user,
-      isLoggedIn: req.session.AuthCookie
-    })
+      isLoggedIn: req.session.AuthCookie,
+      topSongs: topSongs,
+      topArtists: topArtists,
+      userCount: users.length
+      })
   });
 
   app.get("/register", async (req, res) => {
@@ -124,7 +130,8 @@ const constructorMethod = (app) => {
         if(user.access_token !== ""){
           await userData.refreshAuthToken(user._id);
         }
-        res.redirect('/users/' + user._id);
+        // res.redirect('/users/' + user._id);
+        res.redirect('/users');
       } else {
         return res.status(401).render('login', {
           title: "Login",

@@ -3,6 +3,7 @@ const router = express.Router();
 const data = require('../data');
 const artistData = data.artists;
 const schemas = require('../data/schemas');
+const xss = require('xss');
 
 router.get('/', async (req, res) => {
     try{
@@ -16,7 +17,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     try{
-        const artist = await artistData.getArtistById(req.params.id);
+        const artist = await artistData.getArtistById(xss(req.params.id));
         res.status(200).json(artist);
     }
     catch(e){
@@ -51,14 +52,14 @@ router.put('/:id', async(req, res)=> {
     }
     let updatedInfo=result.value;
     try{
-        await artistData.getArtistById(req.params.id);
+        await artistData.getArtistById(xss(req.params.id));
     }
     catch(e){
         res.status(404).json({ error: 'Artist not found' });
         return;
     }
     try {
-        const updatedArtist = await artistData.updateArtist(req.params.id, updatedInfo);
+        const updatedArtist = await artistData.updateArtist(xss(req.params.id), updatedInfo);
         res.status(200).json(updatedArtist);
     }
     catch(e){
@@ -68,7 +69,7 @@ router.put('/:id', async(req, res)=> {
 
 router.patch('/:id', async (req, res) => {
     try{
-        await artistData.getArtistById(req.params.id);
+        await artistData.getArtistById(xss(req.params.id));
     }
     catch(e){
         res.status(404).json({ error: 'Artist not found' });
@@ -80,7 +81,7 @@ router.patch('/:id', async (req, res) => {
         res.status(400).json({error:result.error});
         return;
     }
-    let oldArtist = await artistData.getArtistById(req.params.id);
+    let oldArtist = await artistData.getArtistById(xss(req.params.id));
     let updatedInfo=result.value;
     let updatedData = {};
     if(updatedInfo.spotify_id && updatedInfo.spotify_id != oldArtist.spotify_id){
@@ -108,7 +109,7 @@ router.patch('/:id', async (req, res) => {
         return;
     }
     try{
-        const updatedArtist = await artistData.updateArtist(req.params.id, updatedData);
+        const updatedArtist = await artistData.updateArtist(xss(req.params.id), updatedData);
         res.status(200).json(updatedArtist);
     }
     catch(e){
@@ -118,14 +119,14 @@ router.patch('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
     try{
-        await artistData.getById(req.params.id);
+        await artistData.getById(xss(req.params.id));
     }
     catch(e){
         res.status(404).json({ error: 'Artist not found' });
         return;
     }
     try {
-      const deletedArtist = await artistData.removeArtist(req.params.id);
+      const deletedArtist = await artistData.removeArtist(xss(req.params.id));
       res.status(200).json(deletedArtist);
     } catch (e) {
         res.status(500).send({error: e});

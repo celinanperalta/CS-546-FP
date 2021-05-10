@@ -106,6 +106,19 @@ let exportedMethods = {
             throw new Error(`Could not delete artist with id of ${id}`);
         }
         return artist;
+    },
+
+    async removeUserFromArtists(id) {
+        if(!id || typeof id !== 'string' || id == ""){
+            throw new Error("Must provide valid string id");
+        }
+        const artistsCollection = await artists(); 
+        const deleteInfo = await artistsCollection.updateMany(
+            { },
+            { $pull: {user_ids: `${id}`}},
+            { multi: true}
+        );
+        return deleteInfo;
     }
 
 };

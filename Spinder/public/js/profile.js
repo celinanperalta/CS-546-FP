@@ -6,6 +6,4 @@ function CloseForm(){
     document.getElementById('edit-profile-form').style.display = 'none';
     document.getElementById('cancel-button').style.display = 'none';
 }
-// function DeleteAccount(){
 
-// }
