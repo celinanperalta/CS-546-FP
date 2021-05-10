@@ -126,7 +126,8 @@ const constructorMethod = (app) => {
         if(user.access_token !== ""){
           await userData.refreshAuthToken(user._id);
         }
-        res.redirect('/users/' + user._id);
+        // res.redirect('/users/' + user._id);
+        res.redirect('/users');
       } else {
         return res.status(401).render('login', {
           title: "Login",
