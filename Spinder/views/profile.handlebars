@@ -9,18 +9,20 @@
             <h6 class="text-muted">{{user.location.city}}, {{user.location.country}}</h6>
             <h6 class="text-muted">Following: {{user.likedProfiles.length}}</h6>
             <p>{{user.bio}}</p>
+            {{#compare curr_user._id user._id comparator="==="}}
             {{#unless user.access_token}}
             <form action="/spotify/login" id="spotify-connect">
                 <input class="btn btn-primary" type="submit" value="Connect to Spotify" />
             </form>
             {{/unless}}
             {{#if user.access_token}}
-                {{#compare curr_user._id user._id comparator="=="}}
+                
             <form action="/users/{{user._id}}/update" id="spotify-connect">
                 <input class="btn btn-primary" type="submit" value="Refresh Spotify Data" />
             </form>
-            {{/compare}}
+            
             {{/if}}
+            {{/compare}}
         </div>
         <div class="col-md-5">
             <div id="musical-profile">
