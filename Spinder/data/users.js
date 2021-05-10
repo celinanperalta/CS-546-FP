@@ -2,6 +2,7 @@ const mongoCollections = require('../config/mongoCollections');
 const schemas = require('./schemas');
 const users = mongoCollections.users;
 const songs = mongoCollections.songs;
+const artists = mongoCollections.artists;
 let {
     ObjectID
 } = require('mongodb');
@@ -305,6 +306,42 @@ let exportedMethods = {
             const songsCollection = await songs();
             const s = await songsCollection.findOne({ name:song});
             topTenFull.push(s);
+        }
+        return topTenFull;
+    },
+
+    async loadTopArtists() {
+        let users = await this.getAllUsers();
+        let topArtists={};
+        for (x of users){
+            for (artist of await x.topArtists){
+                let name=artist.name;
+                if (Object.keys(topArtists).includes(name)){
+                    topArtists[name]=topArtists[name]+1;
+                }
+                else{
+                    topArtists[name]=1;
+                }
+             }
+        }
+        let topArtistsSort=[]
+        for (artist of Object.keys(topArtists)){
+            let temp=[];
+            temp.push(artist);
+            temp.push(topArtists[artist]);
+            topArtistsSort.push(temp);
+        }
+        topArtistsSort=topArtistsSort.sort((a, b) => b[1]-a[1]);
+        let topTenArray=topArtistsSort.slice(0,10);
+        let topTen=[];
+        for (song of topTenArray){
+            topTen.push(song[0]);
+        }
+        topTenFull=[];
+        for(artist of topTen){
+            const artistsCollection = await artists();
+            const a = await artistsCollection.findOne({name:artist});
+            topTenFull.push(a);
         }
         return topTenFull;
     }

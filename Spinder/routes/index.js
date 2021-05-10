@@ -30,11 +30,15 @@ const constructorMethod = (app) => {
   app.get("/home", async (req, res) => {
     const curr_user = await userData.getUserById(req.session.user);
     const topSongs = await userData.loadTopSongs();
+    const topArtists = await userData.loadTopArtists();
+    const users = await userData.getAllUsers();
     res.render('home', {
       title: 'Homepage',
       curr_user: curr_user,
       isLoggedIn: req.session.AuthCookie,
-      topSongs: topSongs
+      topSongs: topSongs,
+      topArtists: topArtists,
+      userCount: users.length
       })
   });
 
