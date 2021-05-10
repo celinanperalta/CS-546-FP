@@ -32,8 +32,8 @@ const constructorMethod = (app) => {
     if(req.session.AuthCookie) {
       res.redirect('/home');
     } else {
-      console.log("redirecting");
-      res.redirect('/login');
+      // TODO: put cute ass home page here
+      res.render("login");
     }
   });
 
