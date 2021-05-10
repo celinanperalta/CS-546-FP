@@ -12,17 +12,27 @@ const { ObjectId } = require('bson');
 
 const saltRounds = 16;
 
+function isLoggedIn(req,res,next) {
+  if (req.session.AuthCookie) {
+    next();
+  } else {
+    res.redirect('/login');
+  }
+};
+
 const constructorMethod = (app) => {
-  app.use('/users', userRoutes);
+  app.use('/users', isLoggedIn, userRoutes);
   app.use('/profiles', profileRoutes);
   app.use('/artists', artistRoutes);
   app.use('/songs', songRoutes);
   app.use('/spotify', spotifyRoutes);
 
   app.get("/", async (req, res) => {
+    console.log("root");
     if(req.session.AuthCookie) {
       res.redirect('/home');
     } else {
+      console.log("redirecting");
       res.redirect('/login');
     }
   });
@@ -84,6 +94,7 @@ const constructorMethod = (app) => {
   }),
 
   app.get('/login', async (req, res) => {
+    console.log("line 96");
     res.render('login', {title: 'Login'});
   }),
 

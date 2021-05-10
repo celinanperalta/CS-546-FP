@@ -19,6 +19,7 @@ function containsNew(originalArray, newArray){
     return false;
 }
 
+
 //route for liking a user
 
 router.post('/:id/like', async (req,res)=>{
@@ -321,7 +322,8 @@ router.delete('/:id', async (req, res) => {
         const artistDeletion = await artistData.removeUserFromArtists(req.params.id);
         const songDeletion = await songData.removeUserFromSongs(req.params.id);
         const deletedUser = await userData.removeUser(req.params.id);
-        res.render('login', {title: 'Login'});
+        
+        return res.status(200).send({result: 'redirect', url:'/logout'});
     } catch (e) {
         res.status(500).send({error: e});
     }

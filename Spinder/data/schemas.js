@@ -73,7 +73,7 @@ const userSchema = Joi.object({
   access_token: Joi.string().min(1).required(),
   refresh_token: Joi.string().min(1).required(),
   hashedPassword: Joi.string().min(4).required(),
-  bio: Joi.string().default("")
+  bio: Joi.string().default("").allow("").required()
 });
 
 
@@ -96,7 +96,8 @@ const newUserSchema = Joi.object({
   access_token: Joi.string().min(1),
   refresh_token: Joi.string().min(1),
   hashedPassword: Joi.string().min(4).required(),
-  isPrivate: Joi.boolean()
+  isPrivate: Joi.boolean(),
+  bio: Joi.string().default("").allow("")
 });
 
 const userOptionalSchema = Joi.object({

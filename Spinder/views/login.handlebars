@@ -9,7 +9,7 @@
                 </div>
             </div>
             {{/if}}
-            <form id="login-form" action="/login" method="POST" class="needs-validation" novalidate>
+            <form id="login-form" action="/login" method="POST" class="needs-validation">
                 <div class="row justify-content-start mt-3">
                     <label for="username" class="form-label">Username</label>
                     <input name="username" type="text" class="form-control" id="username" value="" minlength="5"
@@ -27,13 +27,12 @@
                     </div>
                 </div>
 
-                <div class="row justify-content-between mt-3">
-                    <div class="col-4">
-                        <button class="btn btn-primary btn-block form" type="submit">Login</button>
+                <div class="row mt-3 justify-content-between">
+                    <div class="d-grid gap-3">
+                        <button class="btn btn-primary form" type="submit">Login</button>
+                        <a class="btn btn-primary" href="/register">Register</a>
                     </div>
-                    <div class="col-4">
-                        <a class="btn btn-primary btn-block" href="/register">Register</a>
-                    </div>
+
                 </div>
             </form>
 

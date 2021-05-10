@@ -64,37 +64,20 @@ hbs.handlebars.registerHelper('compare', function(lvalue, rvalue, options) {
 
 });
 
+
 app.use(function(req, res, next) {
   res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
   next();
 });
 
-app.get('/login', async (req, res, next) => {
-  if (req.session.AuthCookie) {
-    res.redirect("/users");
-  } 
-  else {
-    next();
-  }
-});
-
-app.get('/users/*', async (req, res, next) => {
-  if (!req.session.AuthCookie) {
-    res.redirect("/login");
-  } 
-  else {
-    next();
-  }
-});
-
-app.get('/users', async (req, res, next) => {
-  if (!req.session.AuthCookie) {
-    res.redirect("/login");
-  } 
-  else {
-    next();
-  }
-});
+// app.get('/login', async (req, res, next) => {
+//   if (req.session.AuthCookie) {
+//     res.redirect("/users");
+//   } 
+//   else {
+//     next();
+//   }
+// });
 
 app.get('/home', async (req, res, next) => {
   if (!req.session.AuthCookie) {
@@ -105,14 +88,6 @@ app.get('/home', async (req, res, next) => {
   }
 });
 
-app.get('/settings', async (req, res, next) => {
-  if (!req.session.AuthCookie) {
-    res.redirect("/login");
-  } 
-  else {
-    next();
-  }
-});
 
 // app.get('*', function(req, res, next) {
 //   res.redirect("/");
