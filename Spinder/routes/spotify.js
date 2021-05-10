@@ -93,7 +93,6 @@ router.get('/callback', async function(req, res) {
         //       access_token: access_token,
         //       refresh_token: refresh_token
         //     }));
-            
             let user = await userData.getUserById(req.session.user);
             user.access_token = access_token;
             user.refresh_token = refresh_token;
@@ -101,6 +100,7 @@ router.get('/callback', async function(req, res) {
             let topArtists = await spotifyData.getUserTopArtists(req.session.user, user.access_token);
             let playlists = await spotifyData.getUserPlaylists(req.session.user, user.access_token);
             let image = await spotifyData.getUserImg(user.access_token);
+            // let playback = await spotifyData.getUserPlayback(user.access_token);
             user.img = image;
             user.topArtists = topArtists;
             user.topSongs = topSongs;

@@ -259,6 +259,24 @@ let exportedMethods = {
             }
         }
         return data.images[0].url;
+    },
+
+    async getUserPlayback(token){
+        let endpoint = "me/player";
+        let data = undefined;
+        try {
+            console.log("TRYING to get it");
+            data = await this.sendWebAPIRequest(token, endpoint);
+            console.log("tried to get it");
+        } catch (e) {
+            if (e.message == "401") {
+                throw Error("Refresh token");
+            } else {
+                throw Error(e.message);
+            }
+        }
+        console.log(data);
+        return data;
     }
 
 }
