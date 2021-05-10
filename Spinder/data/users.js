@@ -1,6 +1,7 @@
 const mongoCollections = require('../config/mongoCollections');
 const schemas = require('./schemas');
 const users = mongoCollections.users;
+const songs = mongoCollections.songs;
 let {
     ObjectID
 } = require('mongodb');
@@ -9,6 +10,9 @@ const spotifyConfig = config.spotifyConfig;
 const request = require('request');
 const spotifyData = require('./spotify');
 const profileData = require('./profiles');
+//const songData = require('./songs');
+
+
 
 let exportedMethods = {
 
@@ -283,11 +287,27 @@ let exportedMethods = {
                 }
              }
         }
-        //topSongs.sort((a, b) => a-b);
-        console.log(topSongs);
-        return Object.keys(topSongs);
+        let topSongsSort=[]
+        for (song of Object.keys(topSongs)){
+            let temp=[];
+            temp.push(song);
+            temp.push(topSongs[song]);
+            topSongsSort.push(temp);
+        }
+        topSongsSort=topSongsSort.sort((a, b) => b[1]-a[1]);
+        let topTenArray=topSongsSort.slice(0,10);
+        let topTen=[];
+        for (song of topTenArray){
+            topTen.push(song[0]);
+        }
+        topTenFull=[];
+        for(song of topTen){
+            const songsCollection = await songs();
+            const s = await songsCollection.findOne({ name:song});
+            topTenFull.push(s);
+        }
+        return topTenFull;
     }
-
 };
 
 module.exports = exportedMethods;
