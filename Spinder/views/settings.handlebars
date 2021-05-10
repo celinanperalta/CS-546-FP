@@ -4,7 +4,7 @@
 <div class="button-div">
     <button id ="cancel-button" style="display: none" onclick="CloseForm();">Cancel</button>
 </div>
-<form id="edit-profile-form"action="/users/{{user._id}}" method="POST" style="display: none">
+<form id="edit-profile-form" action="/users/settings/{{curr_user._id}}" method="POST" style="display: none">
     <div class="form-row">
         <div class="form-group col-md-6">
             <label>First Name</label>
@@ -28,7 +28,19 @@
     <div class="form-group">
             <label>Bio</label>
             <textarea name = "bio" placeholder="Update Bio" class="form-control" form="edit-profile-form" rows="3"></textarea>
-        </div>  
+    </div>
+    <div class="form-group">
+        <label>Profile Visibility</label>
+        <div class="custom-control custom-switch">
+            {{#if isPrivate}}
+                <input name="isPrivate" type="checkbox" class="custom-control-input" id="customSwitch1" value="true" checked="true">
+             {{/if}}
+             {{#unless isPrivate}}
+                <input name="isPrivate" type="checkbox" class="custom-control-input" value ="true" id="customSwitch1">
+             {{/unless}}
+            <label class="custom-control-label" for="customSwitch1">Make Private</label>
+        </div>
+    </div>  
     <button type="submit">Submit</button>
 </form>
 
