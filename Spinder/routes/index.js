@@ -29,11 +29,13 @@ const constructorMethod = (app) => {
 
   app.get("/home", async (req, res) => {
     const curr_user = await userData.getUserById(req.session.user);
+    const topSongs = await userData.loadTopSongs();
     res.render('home', {
       title: 'Homepage',
       curr_user: curr_user,
-      isLoggedIn: req.session.AuthCookie
-    })
+      isLoggedIn: req.session.AuthCookie,
+      topSongs: topSongs
+      })
   });
 
   app.get("/register", async (req, res) => {
