@@ -98,14 +98,22 @@
     }
 
     $(document).ready(function () {
+
+        // Id of current user's musical profile
         let curr_profile = getMusicalProfileAjax($('#curr_user_profile').attr('value'));
+
+        // String representation of liked profiles
         let curr_user_liked = $('#curr_user_liked').attr('value');
 
         $('.card-switch').each(function (i, obj) {
+
             let user_id = $(this).find('.card-body').attr('id');
             let like_btn = $(this).find('#like_btn');
+
+            // Id of user's musical profile
             let profile = $(`#${user_id}-chart`).attr('href');
 
+            // If profile exists, create chart and % match between loggen in user and card user
             if (profile) {
                 let response = getMusicalProfileAjax(profile);
                 if (response) {
@@ -117,6 +125,7 @@
                 }
             }
 
+            // Handle like/unlike
             if (curr_user_liked.indexOf(user_id) != -1) {
                 like_btn.text("favorite");
             } else {
