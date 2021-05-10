@@ -5,9 +5,10 @@
         </div>
         <div class="col-md-4">
             <h1 class="display-4">{{user.firstName}} {{user.lastName}}</h1>
-            <h1 class=" display-7 text-muted">@{{user.username}}</h1>
-            <p>{{user.bio}}</p>
+            <h1 class="display-7 text-muted">@{{user.username}}</h1>
             <h6 class="text-muted">{{user.location.city}}, {{user.location.country}}</h6>
+            <h6 class="text-muted">Following: {{user.likedProfiles.length}}</h6>
+            <p>{{user.bio}}</p>
             {{#unless user.access_token}}
             <form action="/spotify/login" id="spotify-connect">
                 <input class="btn btn-primary" type="submit" value="Connect to Spotify" />
