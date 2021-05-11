@@ -2,19 +2,19 @@
 
     function createChart(divName, profile, profile2) {
         data = [{
-                type: 'scatterpolar',
-                r: [profile.danceability, profile.energy, profile.loudness, profile.acousticness, profile.valence],
-                theta: ['Danceability', 'Energy', 'Loudness', 'Acousticness', 'Valence'],
-                fill: 'toself',
-                name: 'You'
-            },
-            {
-                type: 'scatterpolar',
-                r: [profile2.danceability, profile2.energy, profile2.loudness, profile2.acousticness, profile2.valence],
-                theta: ['Danceability', 'Energy', 'Loudness', 'Acousticness', 'Valence'],
-                fill: 'toself',
-                name: 'Them'
-            }
+            type: 'scatterpolar',
+            r: [profile.danceability, profile.energy, profile.loudness, profile.acousticness, profile.valence],
+            theta: ['Danceability', 'Energy', 'Loudness', 'Acousticness', 'Valence'],
+            fill: 'toself',
+            name: 'You'
+        },
+        {
+            type: 'scatterpolar',
+            r: [profile2.danceability, profile2.energy, profile2.loudness, profile2.acousticness, profile2.valence],
+            theta: ['Danceability', 'Energy', 'Loudness', 'Acousticness', 'Valence'],
+            fill: 'toself',
+            name: 'Them'
+        }
         ]
 
         layout = {
@@ -61,7 +61,7 @@
         var requestConfig = {
             method: 'GET',
             url: '/profiles/' + id,
-            success: function (data) {},
+            success: function (data) { },
             async: false,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -97,14 +97,84 @@
         });
     }
 
+    let curr_profile = getMusicalProfileAjax($('#curr_user_profile').attr('value'));
+    let curr_user_liked = $('#curr_user_liked').attr('value');
+
+    var $userList = $('#card-deck');
+    var $users = $userList.children('.col');
+    console.log($users.length);
+
+    var sortList = Array.prototype.sort.bind($users);
+
+    var sortUsers = function (type, ascending) {
+
+        sortList(function (a, b) {
+
+            // Cache inner content from the first element (a) and the next sibling (b)
+            var aText;
+            var bText;
+            if (type === "name") {
+                aText = $(a).find("#card-username").text();
+                bText = $(b).find("#card-username").text();
+            } else if (type === "match") {
+                aText = $(a).find("#match-data").text();
+                bText = $(b).find("#match-data").text();
+
+                if (aText === "No Match Data")
+                    aText = "";
+                else 
+                    aText = parseFloat(aText.replace("% Match", ""));
+                
+                if (bText === "No Match Data")
+                    bText = "";
+                else 
+                    bText = parseFloat(bText.replace("% Match", ""))
+            }
+            
+            if (aText < bText) {
+                return ascending ? -1 : 1;
+            }
+
+            if (aText > bText) {
+                return ascending ? 1 : -1;
+            }
+
+            // Returning 0 leaves them as-is
+            return 0;
+        });
+
+        $userList.append($users);
+    }
 
 
     $(document).ready(function () {
 
-        let curr_profile = getMusicalProfileAjax($('#curr_user_profile').attr('value'));
-        let curr_user_liked = $('#curr_user_liked').attr('value');
+        $('#name-sort-asc').on('click', function (e) {
+            console.log("name ascending");
+            e.preventDefault();
+            sortUsers("name", true);
+        });
 
-        $('.card-switch').each(function (i, obj) {
+        $('#name-sort-dsc').on('click', function (e) {
+            console.log("name descending");
+            e.preventDefault();
+            sortUsers("name", false);
+        });
+
+        $('#match-sort-asc').on('click', function (e) {
+            console.log("match ascending");
+            e.preventDefault();
+            sortUsers("match", true);
+        });
+
+        $('#match-sort-dsc').on('click', function (e) {
+            console.log("match descending");
+            e.preventDefault();
+            sortUsers("match", false);
+        });
+
+
+        $('.card').each(function (i, obj) {
             let user_id = $(this).find('.card-body').attr('id');
             let like_btn = $(this).find('#like_btn');
             let profile = $(`#${user_id}-chart`).attr('href');
