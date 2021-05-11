@@ -1,3 +1,11 @@
+function spaces(x){
+    let b=true;
+    for (const n in x){
+        b = b && x[n]===" ";
+    }
+    return b;
+}
+
 (function ($) {
 
     function createChart(divName, profile, profile2) {
@@ -208,6 +216,35 @@
                 }
             });
 
+        });
+
+        $('#submit').click(function(event){
+            event.preventDefault();
+            let search= $('#search').val();
+            let error=$('#error');
+            error.empty();
+            console.log(search);
+            if(spaces(search) || search==''){
+                console.log("in empty");
+                error.empty();
+                let errorMessage=$("<p>Please input a non-empty search term, thank you!</p>")
+                error.append(errorMessage);
+                error.show()
+                $(".user").show();
+
+            }
+            else if(!$(`#${search}`).length){
+                error.empty();
+                let errorMessage=$("<p>No user found!</p>")
+                error.append(errorMessage);
+                error.show()
+                $(".user").show();
+             }
+            else{
+                //$(".user").not(userCard).hide();
+                $(".user").hide();
+                $(`#${search}`).show();
+            }
         });
     });
 })(window.jQuery);
