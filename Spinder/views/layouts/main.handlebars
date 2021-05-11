@@ -10,11 +10,19 @@
     <link rel="stylesheet" href="/public/css/custom.css">
 </head>
 <body>
-    <header>
-
-        {{>user_navbar}}
-        <h1 class="p-2">{{title}}</h1>
-
+    {{#if isHomePage}}
+    <main class="homepage-main">
+    {{else}}
+    <main>
+    {{/if}}
+      <header>
+        {{!-- {{>user_navbar}}
+        <h1 class="p-2">{{title}}</h1> --}}
+    {{>user_navbar}}
+          {{#if isHomePage}}
+          {{else}}
+          <h1 class="p-2">{{title}}</h1>
+          {{/if}}
     </header>
     <main class="p-2">
         {{{body}}}

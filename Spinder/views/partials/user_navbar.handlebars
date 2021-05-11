@@ -2,8 +2,8 @@
 {{!-- Profile --}}
 {{!-- Logout --}}
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2">
-  <a class="navbar-brand mb-0 h1 ml-2" href="/">Spinder</a>
+{{!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2">
+  <a class="navbar-brand mb-0 h1" href="/">Spinder</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
     aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -12,7 +12,7 @@
     <ul class="navbar-nav">
       {{#if isLoggedIn}}
       <li class="nav-item active">
-        <a class="nav-link" href="/users">Users<span class="sr-only"></span></a>
+        <a class="nav-link" href="/users">Home<span class="sr-only"></span></a>
       </li>
       <li class="nav-item active">
         <a class="nav-link" href="/users/{{curr_user._id}}">My Profile<span class="sr-only"></span></a>
@@ -22,7 +22,7 @@
       </li>
       {{/if}}
     </ul>
-    <div class="my-2 my-sm-0 mr-1">
+    <div class="my-2 my-sm-0">
       {{#if isLoggedIn}}
       <span class="navbar-text mr-2">
         User: {{curr_user.username}}
@@ -32,5 +32,57 @@
       <a class="btn btn-primary mr-sm-0" href="/login">Login</a>
       {{/if}}
     </div>
+  </div>
+</nav> --}}
+
+<nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark p-2">
+  <div class="container">
+    <a class="navbar-brand mb-0 h1" href="/">
+      <svg xmlns="http://www.w3.org/2000/svg" width="309" height="76" viewBox="0 0 309 76">
+        <g id="Logo" transform="translate(-298 -20)">
+          <text id="Spinder" transform="translate(394 76)" fill="#fff" font-size="46" font-family="Gotham Bold" font-weight="700"><tspan x="0" y="0">Spinder</tspan></text>
+        </g>
+      </svg>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
+      <ul class="navbar-nav ml-auto">
+        {{#if isLoggedIn}}
+        <li class="nav-item active">
+          <a class="nav-link" href="/users">Users<span class="sr-only"></span></a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/users/{{curr_user._id}}">My Profile<span class="sr-only"></span></a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/users/settings">Settings<span class="sr-only"></span></a>
+        </li>
+        {{else}}
+        <li class="nav-item active">
+          <a class="nav-link" href="/home">Home<span class="sr-only">Home</span></a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link"> | </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/login">Log In<span class="sr-only">Log In</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/register">Sign Up<span class="sr-only">Sign Up</span></a>
+        </li>
+        {{/if}}
+      </ul>
+      <div class="my-2 my-sm-0">
+        {{#if isLoggedIn}}
+        <span class="navbar-text mr-2">
+          User: {{curr_user.username}}
+        </span>
+        <a class="btn btn-primary mr-sm-0" href="/logout">Logout</a>
+        {{/if}}
+  </div>
+  </div>
   </div>
 </nav>

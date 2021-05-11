@@ -30,26 +30,28 @@ const constructorMethod = (app) => {
   app.get("/", async (req, res) => {
     console.log("root");
     if(req.session.AuthCookie) {
-      res.redirect('/home');
+      res.redirect('/users');
     } else {
       // TODO: put cute ass home page here
-      res.render("login");
+      res.render("home");
     }
   });
 
   app.get("/home", async (req, res) => {
-    const curr_user = await userData.getUserById(req.session.user);
-    const topSongs = await userData.loadTopSongs();
-    const topArtists = await userData.loadTopArtists();
-    const users = await userData.getAllUsers();
+    // const curr_user = await userData.getUserById(req.session.user);
+    // const topSongs = await userData.loadTopSongs();
+    // const topArtists = await userData.loadTopArtists();
+    // const users = await userData.getAllUsers();
     res.render('home', {
-      title: 'Homepage',
-      curr_user: curr_user,
-      isLoggedIn: req.session.AuthCookie,
-      topSongs: topSongs,
-      topArtists: topArtists,
-      userCount: users.length
-      })
+      // title: 'Homepage',
+      // curr_user: curr_user,
+      // isLoggedIn: req.session.AuthCookie,
+      // topSongs: topSongs,
+      // topArtists: topArtists,
+      // userCount: users.length
+      // })
+      isHomePage: true
+    })
   });
 
   app.get("/register", async (req, res) => {
@@ -162,7 +164,5 @@ const constructorMethod = (app) => {
   });
  
 };
-
-
 
 module.exports = constructorMethod;
