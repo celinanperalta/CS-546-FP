@@ -219,9 +219,19 @@ function spaces(x){
             });
 
         });
-        $('#search').on('keyup', function(e){
-
-        });
+        // $('#search').on('keyup', function(e){
+        //     let search = $('#search').val();
+        //     console.log(search);
+        //     if($(`h5:contains(${search})`)){
+        //         let username=$(`h5:contains(${search})`);
+        //         $(".user").hide();
+        //         for (user of username){
+        //             console.log(user["h5"]);
+        //            // $(`#${user})`).show();
+        //         }
+        //         console.log("hii");
+        //     }
+        // });
         $('#submit').click(function(e){
             e.preventDefault();
             let search= $('#search').val();

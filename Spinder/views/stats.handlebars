@@ -1,0 +1,89 @@
+<div class="container">
+    {{#if userCount}}
+    <div class="row">
+         <div class="mb-4 col-md-4" id="user-count">
+             <div class="card">
+                <h4 class="card-header">Number of Users</h4>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <h1 class="card-text"><a href="/users">{{userCount}}</a></h1>
+                        </div>
+                    </li>
+                    </ul>
+                </div>
+             </div>
+         </div>
+         <div class="mb-4 col-md-4" id="user-count">
+             <div class="card">
+                <h4 class="card-header">Top Song</h4>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <span class="thumbnail ml-4"><img src="{{topSongs.0.img}}"></span>
+                            <div class="ms-2 me-auto">
+                                <h2 class="fw-bold"><a href="{{topSongs.0.spotify_url}}">{{topSongs.0.name}}</a></h2>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+             </div>
+         </div>
+         <div class="mb-4 col-md-4" id="user-count">
+             <div class="card">
+                <h4 class="card-header">Top Artist</h4>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <span class="thumbnail ml-4"><img src="{{topArtists.0.img}}"></span>
+                        <div class="ms-2 me-auto">
+                            <h2 class="fw-bold"><a href="{{topArtist.0.spotify_url}}">{{topArtists.0.name}}</a></h2>
+                            <small class="text-muted">{{topArtist.0.artists}}</small>
+                        </div>
+                    </li>
+                    </ul>
+                </div>
+             </div>
+         </div>
+    </div>
+    {{/if}}
+    <div class="row">
+        <div class="mb-4 col-md-6" id="top-songs-all-users">
+            <h2>Top Songs</h2>
+            {{#if topSongs}}
+                <ol class="list-group list-group-numbered">
+                    {{#each topSongs}}
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <span class="thumbnail ml-4"><img src="{{this.img}}"></span>
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold"><a href="{{this.spotify_url}}">{{this.name}}</a></div>
+                                <small class="text-muted">{{this.artists}}</small>
+                            </div>
+                        </li>
+                    {{/each}}
+                 </ol>
+            {{else}}
+                <p>No Top Songs Available</p>
+            {{/if}}
+        </div>
+
+        <div class="mb-4 col-md-6" id="top-artists-all-users">
+            <h2>Top Artists</h2>
+            {{#if topArtists}}
+                <ol class="list-group list-group-numbered">
+                    {{#each topArtists}}
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <span class="thumbnail ml-4"><img src="{{this.img}}"></span>
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold"><a href="{{this.spotify_url}}">{{this.name}}</a></div>
+                            </div>
+                        </li>
+                    {{/each}}
+                </ol>
+            {{else}}
+                <p>No Top Artists Available</p>
+            {{/if}}
+        </div>
+    </div>
+</div>
