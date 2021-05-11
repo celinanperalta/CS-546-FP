@@ -63,6 +63,21 @@ const constructorMethod = (app) => {
     })
   });
 
+  app.get("/stats", async (req, res) => {
+    const curr_user = await userData.getUserById(req.session.user);
+    const topSongs = await userData.loadTopSongs();
+    const topArtists = await userData.loadTopArtists();
+    const users = await userData.getAllUsers();
+    res.render('stats', {
+      title: 'User Statistics',
+      curr_user: curr_user,
+      isLoggedIn: req.session.AuthCookie,
+      topSongs: topSongs,
+      topArtists: topArtists,
+      userCount: users.length
+      })
+  });
+
   app.get("/register", async (req, res) => {
     res.render('register', {
       title: 'Register',
