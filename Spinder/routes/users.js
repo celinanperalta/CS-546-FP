@@ -82,7 +82,7 @@ router.post('/:id/unlike', async (req,res)=>{
   
 //route for updating user id
 router.post('/settings/:id', async (req,res)=> {
-    let {firstName, lastName, bio, country, city, isPrivate}= req.body;
+    let {firstName, lastName, bio, country, city, isPrivate, showSongs, showArtists, showPlaylists}= req.body;
     let oldUser = await userData.getUserById(xss(req.params.id));
     //Check to see what was updated
     if(!firstName || firstName == ""){
@@ -105,8 +105,42 @@ router.post('/settings/:id', async (req,res)=> {
     if(!city || city == ""){
         city = oldUser.location.city;
     }
-    if(!isPrivate){
-        isPrivate = false;
+    if(isPrivate == undefined){
+        if(oldUser.visibility && oldUser.visibility.isPrivate == undefined){
+            isPrivate = false;
+        }
+        else{
+            if(!oldUser.visibility){
+                isPrivate = false;
+            }
+            else{
+                isPrivate = oldUser.visibility.isPrivate;
+            }
+        }
+    }
+    if(showSongs == undefined){
+        if(oldUser.visibility && oldUser.visibility.showSongs == undefined){
+            showSongs = true;
+        }
+        else{
+            showSongs = false;
+        }
+    }
+    if(showArtists == undefined){
+        if(oldUser.visibility && oldUser.visibility.showArtists == undefined){
+            showArtists = true;
+        }
+        else{
+            showArtists = false;
+        }
+    }
+    if(showPlaylists == undefined){
+        if(oldUser.visibility && oldUser.visibility.showPlaylists == undefined){
+            showPlaylists = true;
+        }
+        else{
+            showPlaylists = false;
+        }
     }
 
     let updatedUser = {
@@ -117,7 +151,12 @@ router.post('/settings/:id', async (req,res)=> {
             city: city
         },
         bio: bio,
-        isPrivate: isPrivate
+        visibility: {
+            isPrivate: isPrivate,
+            showSongs: showSongs,
+            showArtists: showArtists,
+            showPlaylists: showPlaylists
+        }
     }   
     try{
         const user = await userData.updateUser(xss(req.params.id), updatedUser);
@@ -131,14 +170,43 @@ router.post('/settings/:id', async (req,res)=> {
 router.get('/settings', async (req,res)=>{ 
     try{
         const curr_user = await userData.getUserById(req.session.user);
-        let isPrivate;
-        if(curr_user.isPrivate === undefined){
-            isPrivate = false;
+        let visibility = {
+            isPrivate: false,
+            showSongs: true,
+            showPlaylists: true,
+            showArtists: true
+        };
+        if(curr_user.visibility){
+            //Check for undefined fields and set default values
+            if(curr_user.visibility.isPrivate === undefined){
+                visibility.isPrivate = false;
+            }
+            else{
+                visibility.isPrivate = curr_user.visibility.isPrivate;
+            }//artist
+            if(curr_user.visibility.showArtists === undefined){
+                visibility.showArtists = true;
+            }
+            else{
+                visibility.showArtists = curr_user.visibility.showArtists;
+            }//songs
+            if(curr_user.visibility.showSongs === undefined){
+                visibility.showSongs = true;
+            }
+            else{
+                visibility.showSongs = curr_user.visibility.showSongs;
+            }//playlists
+            if(curr_user.visibility.showPlaylists === undefined){
+                visibility.showPlaylists = true;
+            }
+            else{
+                visibility.showPlaylists = curr_user.visibility.showPlaylists;
+            }
         }
         else{
-            isPrivate = curr_user.isPrivate;
+            curr_user.visibility = visibility;
         }
-        res.render('settings',{curr_user: curr_user,  _id: req.session.user, isLoggedIn: true , isPrivate: isPrivate});
+        res.render('settings',{curr_user: curr_user,  _id: req.session.user, isLoggedIn: true, visibility: visibility});
     }catch(e){
         console.log(e);
         res.json({error: e.message});
