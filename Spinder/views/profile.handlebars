@@ -80,6 +80,7 @@
     </div>
     {{#if user.access_token}}
     <div class="row">
+        {{#if user.visibility.showArtists}}
         <div class="mb-4" id="top-artists">
             <h2>Top Artists</h2>
             {{#if user.topArtists}}
@@ -97,6 +98,8 @@
                 <p>No Top Artists Available</p>
             {{/if}}
         </div>
+        {{/if}}
+        {{#if user.visibility.showSongs}}
         <div class="mb-4" id="top-songs">
             <h2>Top Songs</h2>
             {{#if user.topSongs}}
@@ -115,6 +118,8 @@
                 <p>No Top Songs Available</p>
             {{/if}}
         </div>
+        {{/if}}
+        {{#if user.visibility.showPlaylists}}
         <div class="mb-4" id="playlists">
             <h2>Playlists</h2>
             <ol class="list-group list-group-numbered">
@@ -132,6 +137,7 @@
                 {{/each}}
             </ol>
         </div>
+        {{/if}}
     </div>
     {{/if}}
 

@@ -49,14 +49,44 @@
         <div class="form-group">
             <label>Profile Visibility</label>
             <div class="custom-control custom-switch">
-                {{#if isPrivate}}
-                <input name="isPrivate" type="checkbox" class="custom-control-input" id="customSwitch1" value="true"
+                {{#if visibility.isPrivate}}
+                <input name="isPrivate" type="checkbox" class="custom-control-input" id="profileSwitch" value="true"
                     checked="true">
                 {{/if}}
-                {{#unless isPrivate}}
-                <input name="isPrivate" type="checkbox" class="custom-control-input" value="true" id="customSwitch1">
+                {{#unless visibility.isPrivate}}
+                <input name="isPrivate" type="checkbox" class="custom-control-input" value="true" id="profileSwitch">
                 {{/unless}}
-                <label class="custom-control-label" for="customSwitch1">Make Private</label>
+                <label class="custom-control-label" for="profileSwitch">Make Private</label>
+            </div>
+            <div class="custom-control custom-switch">
+                {{#if visibility.showSongs}}
+                <input name="showSongs" type="checkbox" class="custom-control-input" id="songSwitch" value="true"
+                    checked="true">
+                {{/if}}
+                {{#unless visibility.showSongs}}
+                <input name="showSongs" type="checkbox" class="custom-control-input" value="true" id="songSwitch">
+                {{/unless}}
+                <label class="custom-control-label" for="songSwitch">Show Songs</label>
+            </div>
+            <div class="custom-control custom-switch">
+                {{#if visibility.showArtists}}
+                <input name="showArtists" type="checkbox" class="custom-control-input" id="artistSwitch" value="true"
+                    checked="true">
+                {{/if}}
+                {{#unless visibility.showArtists}}
+                <input name="showArtists" type="checkbox" class="custom-control-input" value="true" id="artistSwitch">
+                {{/unless}}
+                <label class="custom-control-label" for="artistSwitch">Show Artists</label>
+            </div>
+            <div class="custom-control custom-switch">
+                {{#if visibility.showPlaylists}}
+                <input name="showPlaylists" type="checkbox" class="custom-control-input" id="playlistShwitch" value="true"
+                    checked="true">
+                {{/if}}
+                {{#unless visibility.showPlaylists}}
+                <input name="showPlaylists" type="checkbox" class="custom-control-input" value="true" id="playlistShwitch">
+                {{/unless}}
+                <label class="custom-control-label" for="playlistShwitch">Show Playlists</label>
             </div>
         </div>
         <div class="mb-3" id="form-button-display">

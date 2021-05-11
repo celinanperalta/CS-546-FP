@@ -96,7 +96,12 @@ const newUserSchema = Joi.object({
   access_token: Joi.string().min(1),
   refresh_token: Joi.string().min(1),
   hashedPassword: Joi.string().min(4).required(),
-  isPrivate: Joi.boolean(),
+  visibility: Joi.object({
+    isPrivate: Joi.boolean().default(false),
+    showSongs: Joi.boolean().default(true),
+    showArtists:  Joi.boolean().default(true),
+    showPlaylists:  Joi.boolean().default(true)
+  }),
   bio: Joi.string().default("").allow("")
 });
 
@@ -120,7 +125,12 @@ const userOptionalSchema = Joi.object({
   refresh_token: Joi.string().min(1),
   hashedPassword: Joi.string().min(4),
   bio: Joi.string().allow(""),
-  isPrivate: Joi.boolean().default(false)
+  visibility: Joi.object({
+    isPrivate: Joi.boolean().default(false),
+    showSongs: Joi.boolean().default(true),
+    showArtists:  Joi.boolean().default(true),
+    showPlaylists:  Joi.boolean().default(true)
+  })
 });
 
 module.exports = {
