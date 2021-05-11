@@ -31,6 +31,16 @@ var stateKey = 'spotify_auth_state'; // Sent in 1st call as state, not required 
    return text;
  };
 
+ // Restricts URL access to routes
+router.use(function (req, res, next) {
+  if (req.headers['not-url']) {
+      // custom header exists, then call next() to pass to the next function
+      next();
+  } else {
+     res.redirect('/');  
+  }
+});
+
 // Responsible for first login, response return authorization code
 router.get('/login', async function(req, res) {
  

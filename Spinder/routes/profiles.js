@@ -5,6 +5,16 @@ const profileData = data.profiles;
 const schemas = require('../data/schemas');
 const xss = require('xss');
 
+// Restricts URL access to routes
+router.use(function (req, res, next) {
+    if (req.headers['not-url']) {
+        // custom header exists, then call next() to pass to the next function
+        next();
+    } else {
+       res.redirect('/');  
+    }
+});
+
 router.get('/', async (req, res) => {
     try{
         const profileList = await profileData.getAllProfiles();

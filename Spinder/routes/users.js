@@ -19,9 +19,17 @@ function containsNew(originalArray, newArray){
     return false;
 }
 
+// Restricts URL access to routes
+router.use(function (req, res, next) {
+    if (req.headers['not-url']) {
+        // custom header exists, then call next() to pass to the next function
+        next();
+    } else {
+       res.redirect('/');  
+    }
+});
 
 //route for liking a user
-
 router.post('/:id/like', async (req,res)=>{
     let userBeingLiked = await userData.getUserById(xss(req.params.id));
     let userThatLiked = await userData.getUserById(req.session.user);
