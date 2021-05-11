@@ -89,9 +89,6 @@ function spaces(x){
     function likeProfile(id) {
         var requestConfig = {
             method: 'POST',
-            headers: {
-                'not-url': true
-            },
             url: '/users/' + id + '/like',
         };
 
@@ -103,9 +100,6 @@ function spaces(x){
     function unlikeProfile(id) {
         var requestConfig = {
             method: 'POST',
-            headers: {
-                'not-url': true
-            },
             url: '/users/' + id + '/unlike',
         };
 

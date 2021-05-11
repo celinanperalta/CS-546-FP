@@ -19,16 +19,6 @@ function containsNew(originalArray, newArray){
     return false;
 }
 
-// Restricts URL access to routes
-router.use(function (req, res, next) {
-    if (req.headers['not-url']) {
-        // custom header exists, then call next() to pass to the next function
-        next();
-    } else {
-       res.redirect('/');  
-    }
-});
-
 //route for liking a user
 router.post('/:id/like', async (req,res)=>{
     let userBeingLiked = await userData.getUserById(xss(req.params.id));
@@ -51,7 +41,6 @@ router.post('/:id/like', async (req,res)=>{
     }
     try{
         const newUser = await userData.updateUser(req.session.user,updatedUserData);
-        res.header('not-url', true);
         res.redirect('/users/');
     }catch(e){
         console.log(e);
@@ -80,7 +69,6 @@ router.post('/:id/unlike', async (req,res)=>{
     }
     try{
         const newUser = await userData.updateUser(req.session.user,updatedUserData);
-        res.header('not-url', true);
         res.redirect('/users/');
     }catch(e){
         console.log(e);
@@ -170,7 +158,6 @@ router.post('/settings/:id', async (req,res)=> {
     }   
     try{
         const user = await userData.updateUser(xss(req.params.id), updatedUser);
-        res.header('not-url', true);
         res.redirect('/users/'+xss(req.params.id));
     }catch(e){
         console.log(e); 
@@ -261,7 +248,6 @@ router.get('/:id/update', async (req, res) => {
     if (req.params.id == req.session.user) {
         try{
             await userData.loadUserSpotifyData(req.session.user);
-            res.header('not-url', true);
             res.redirect('/users/' + xss(req.params.id));
             //res.status(200).json(user);
         }
@@ -270,7 +256,6 @@ router.get('/:id/update', async (req, res) => {
             res.status(500).send({error:e.message});
         }
     } else {
-        res.header('not-url', true);
         res.redirect("/users");
     }
 });
@@ -419,7 +404,6 @@ router.post('/login', async (req, res) => {
             if (valid){
             //make cookie/add session
             req.session.AuthCookie = true;
-            res.header('not-url', true);
             res.redirect('/users');
             }
             else{
