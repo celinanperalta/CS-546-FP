@@ -97,7 +97,10 @@
         });
     }
 
+
+
     $(document).ready(function () {
+
         let curr_profile = getMusicalProfileAjax($('#curr_user_profile').attr('value'));
         let curr_user_liked = $('#curr_user_liked').attr('value');
 
@@ -136,6 +139,5 @@
             });
 
         });
-
     });
 })(window.jQuery);
