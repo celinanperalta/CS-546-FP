@@ -156,7 +156,6 @@ function spaces(x){
 
 
     $(document).ready(function () {
-
         $('#name-sort-asc').on('click', function (e) {
             console.log("name ascending");
             e.preventDefault();
@@ -218,8 +217,8 @@ function spaces(x){
 
         });
 
-        $('#submit').click(function(event){
-            event.preventDefault();
+        $('#submit').click(function(e){
+            e.preventDefault();
             let search= $('#search').val();
             let error=$('#error');
             error.empty();
