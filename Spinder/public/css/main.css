@@ -44,3 +44,98 @@
     display:inline-flex;
     vertical-align:top;
 }
+
+@font-face {
+    font-family: "Gotham Bold";
+    src: url('../fonts/GothamBold.ttf')
+  }
+  
+  #navbar {
+    background-color: black !important;
+    font-family: "Gotham Bold";
+    font-size: 1.3rem;
+  }
+  
+  #navbar .navbar-nav li {
+    padding-right: 1rem;
+  }
+  
+  #navbar .navbar-nav li a {
+    padding: 0;
+  }
+  
+  #home-page {
+    font-family: "Gotham Bold";
+    color: white;
+    height: 100%;
+  }
+  
+  #home-page .hero-text {
+    font-size: 4rem;
+  }
+  
+  .homepage-main {
+    background-color: #171717;
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+  }
+  
+  .hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+  }
+  
+  .hero-underline {
+    border-bottom: 8px solid #46ed82;
+  }
+  
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+  
+  #home-page .btn {
+    border-radius: 5rem;
+    padding: 1rem 5rem;
+    margin-right: 4rem;
+  }
+  
+  .hero-graphics-container {
+    align-self: start;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+  
+  .hero-graphics {
+    height: 75%;
+  }
+  
+  .hero-graphics img {
+    filter: drop-shadow(0 0 5px white);
+  }
+  
+  #home-page .graphic2 {
+    top: 110%;
+    right: 15rem;
+  }
+  
+  #home-page .graphic3 {
+    top: 120%;
+    right: -4rem;
+  }
+  
+  @media screen and (max-width:1200px){
+    .hero-graphics-container {
+      display: none;
+    }
+  }
+  
+  @media screen and (min-height: 1200px) {
+    #home-page .graphic1 {
+      margin-top: 8rem;
+    }
+  }

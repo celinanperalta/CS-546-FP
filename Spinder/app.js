@@ -80,12 +80,12 @@ app.use(function(req, res, next) {
 // });
 
 app.get('/home', async (req, res, next) => {
-  if (!req.session.AuthCookie) {
-    res.redirect("/login");
-  } 
-  else {
+  // if (!req.session.AuthCookie) {
+  //   res.redirect("/login");
+  // } 
+  // else {
     next();
-  }
+  //}
 });
 
 
