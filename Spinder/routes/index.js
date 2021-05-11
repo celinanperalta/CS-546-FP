@@ -96,7 +96,6 @@ const constructorMethod = (app) => {
   }),
 
   app.get('/login', async (req, res) => {
-    console.log("line 96");
     res.render('login', {title: 'Login'});
   }),
 

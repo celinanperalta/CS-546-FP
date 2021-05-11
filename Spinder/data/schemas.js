@@ -73,6 +73,12 @@ const userSchema = Joi.object({
   access_token: Joi.string().min(1).required(),
   refresh_token: Joi.string().min(1).required(),
   hashedPassword: Joi.string().min(4).required(),
+  visibility: Joi.object({
+    isPrivate: Joi.boolean().default(false),
+    showSongs: Joi.boolean().default(true),
+    showArtists:  Joi.boolean().default(true),
+    showPlaylists:  Joi.boolean().default(true)
+  }),
   bio: Joi.string().default("").allow("").required()
 });
 
@@ -101,6 +107,11 @@ const newUserSchema = Joi.object({
     showSongs: Joi.boolean().default(true),
     showArtists:  Joi.boolean().default(true),
     showPlaylists:  Joi.boolean().default(true)
+  }).default({
+    isPrivate: false,
+    showSongs: true,
+    showArtists:  true,
+    showPlaylists:  true
   }),
   bio: Joi.string().default("").allow("")
 });
