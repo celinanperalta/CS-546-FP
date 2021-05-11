@@ -42,7 +42,7 @@ const constructorMethod = (app) => {
       res.redirect('/users');
     } else {
       // TODO: put cute ass home page here
-      res.render("home");
+      res.render("home", {isHomePage: true});
     }
   });
 
@@ -163,7 +163,7 @@ const constructorMethod = (app) => {
 
   app.get('/logout', async (req, res) => {
     req.session.destroy();
-    res.redirect('/');
+    res.redirect('/home');
   });
 
   app.use('*', (req, res) => {

@@ -145,7 +145,7 @@ let exportedMethods = {
 
         const features = data || {};
 
-        picked_features = pick(features, audioFeatureKeys);
+        let picked_features = pick(features, audioFeatureKeys);
 
         picked_features.loudness = (picked_features.loudness + 60) / 60.0;
 
