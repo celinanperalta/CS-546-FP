@@ -11,7 +11,7 @@ router.use(function (req, res, next) {
         // custom header exists, then call next() to pass to the next function
         next();
     } else {
-       res.redirect('/');  
+        res.redirect('/');  
     }
 });
 

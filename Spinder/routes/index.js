@@ -16,6 +16,7 @@ function isLoggedIn(req,res,next) {
   if (req.session.AuthCookie) {
     next();
   } else {
+    res.header('not-url', true);
     res.redirect('/login');
   }
 };
@@ -28,8 +29,9 @@ const constructorMethod = (app) => {
   app.use('/spotify', spotifyRoutes);
 
   app.get("/", async (req, res) => {
-    console.log("root");
     if(req.session.AuthCookie) {
+      console.log("root");
+      res.header('not-url', true);
       res.redirect('/users');
     } else {
       // TODO: put cute ass home page here
@@ -91,6 +93,7 @@ const constructorMethod = (app) => {
 
     req.session.AuthCookie = true;
     req.session.user = insertedUser._id;
+    res.header('not-url', true);
     res.redirect('/users/' + insertedUser._id);
 
   }),
@@ -119,6 +122,7 @@ const constructorMethod = (app) => {
       if(user.access_token != ""){
         await userData.refreshAuthToken(user._id);
       }
+      res.header('not-url', true);
       return res.redirect('/users');
     } else {
       //here I',m just manually setting the req.method to post since it's usually coming from a form
@@ -142,7 +146,7 @@ const constructorMethod = (app) => {
         if(user.access_token !== ""){
           await userData.refreshAuthToken(user._id);
         }
-        // res.redirect('/users/' + user._id);
+        res.header('not-url', true);
         res.redirect('/users');
       } else {
         return res.status(401).render('login', {
@@ -155,6 +159,7 @@ const constructorMethod = (app) => {
 
   app.get('/logout', async (req, res) => {
     req.session.destroy();
+    res.header('not-url', true);
     res.redirect('/');
   });
 

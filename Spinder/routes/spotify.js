@@ -31,22 +31,12 @@ var stateKey = 'spotify_auth_state'; // Sent in 1st call as state, not required 
    return text;
  };
 
- // Restricts URL access to routes
-router.use(function (req, res, next) {
-  if (req.headers['not-url']) {
-      // custom header exists, then call next() to pass to the next function
-      next();
-  } else {
-     res.redirect('/');  
-  }
-});
-
 // Responsible for first login, response return authorization code
 router.get('/login', async function(req, res) {
  
     var state = generateRandomString(16);
     res.cookie(stateKey, state);
-
+    res.header('not-url', true);
     // your application requests authorization
     res.redirect('https://accounts.spotify.com/authorize?' +
         querystring.stringify({
@@ -69,7 +59,6 @@ router.get('/callback', async function(req, res) {
     var code = req.query.code || null;
     var state = req.query.state || null;
     var storedState = req.cookies ? req.cookies[stateKey] : null;
-  
     if (state === null || state !== storedState) {
       res.redirect('/#' +
         querystring.stringify({
@@ -121,6 +110,7 @@ router.get('/callback', async function(req, res) {
             await userData.loadUserSpotifyData(req.session.user);
 
             // await userData.updateUser(req.session.user, user);
+            res.header('not-url', true);
             res.redirect('/users/' + req.session.user);
         } else {
           res.redirect('/#' +
