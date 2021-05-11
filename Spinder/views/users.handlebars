@@ -14,11 +14,22 @@
         <li><a class="dropdown-item" href="#" id="match-sort-dsc">Match % 100-0</a></li>
     </ul>
 </div>
-<div class="row row-cols-1 row-cols-md-4 g-4" id="card-deck">
+<div id="search-bar">
+    <form id="search-form">
+        <label for="search" class="form-label">
+            <input name="username" type="text" id="search">
+        </label>
+        <button type="submit" class="btn btn-primary" id="submit">Search</button>
+    </form>
+    <div id="error"></div>
+</div>
+{{!-- <div class="row row-cols-1 row-cols-md-4 g-4" id="card-deck"> --}}
+<div class="card-deck" id="card-deck">
     {{#each users}}
     {{#compare this._id ../curr_user._id operator="!="}}
     {{#unless this.isPrivate }}
-    <div class="col">
+    {{!-- <div class="col"> --}}
+    <div class="card-switch w-25 user" id="{{this.username}}">
         <div class="card mb-3 shadow border-light h-100">
             <div class="card-body bg-light" id={{this._id}}>
                 <div class="flip">
