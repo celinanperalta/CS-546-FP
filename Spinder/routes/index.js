@@ -20,16 +20,25 @@ function isLoggedIn(req,res,next) {
   }
 };
 
+function restrictUrlAccess(req, res, next){
+  if (req.headers['not-url']) {
+    // custom header exists, then call next() to pass to the next function
+    next();
+  } else {
+    res.redirect('/');  
+  }
+};
+
 const constructorMethod = (app) => {
   app.use('/users', isLoggedIn, userRoutes);
-  app.use('/profiles', profileRoutes);
-  app.use('/artists', artistRoutes);
-  app.use('/songs', songRoutes);
+  app.use('/profiles', restrictUrlAccess, profileRoutes);
+  app.use('/artists', restrictUrlAccess, artistRoutes);
+  app.use('/songs', restrictUrlAccess, songRoutes);
   app.use('/spotify', spotifyRoutes);
 
   app.get("/", async (req, res) => {
-    console.log("root");
     if(req.session.AuthCookie) {
+      console.log("root");
       res.redirect('/users');
     } else {
       // TODO: put cute ass home page here
@@ -142,7 +151,6 @@ const constructorMethod = (app) => {
         if(user.access_token !== ""){
           await userData.refreshAuthToken(user._id);
         }
-        // res.redirect('/users/' + user._id);
         res.redirect('/users');
       } else {
         return res.status(401).render('login', {

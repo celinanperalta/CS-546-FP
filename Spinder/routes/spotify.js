@@ -36,7 +36,6 @@ router.get('/login', async function(req, res) {
  
     var state = generateRandomString(16);
     res.cookie(stateKey, state);
-
     // your application requests authorization
     res.redirect('https://accounts.spotify.com/authorize?' +
         querystring.stringify({
@@ -59,7 +58,6 @@ router.get('/callback', async function(req, res) {
     var code = req.query.code || null;
     var state = req.query.state || null;
     var storedState = req.cookies ? req.cookies[stateKey] : null;
-  
     if (state === null || state !== storedState) {
       res.redirect('/#' +
         querystring.stringify({

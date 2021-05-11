@@ -19,9 +19,7 @@ function containsNew(originalArray, newArray){
     return false;
 }
 
-
 //route for liking a user
-
 router.post('/:id/like', async (req,res)=>{
     let userBeingLiked = await userData.getUserById(xss(req.params.id));
     let userThatLiked = await userData.getUserById(req.session.user);

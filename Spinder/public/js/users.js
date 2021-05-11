@@ -69,6 +69,9 @@ function spaces(x){
         var requestConfig = {
             method: 'GET',
             url: '/profiles/' + id,
+            headers: {
+                'not-url': true
+            },
             success: function (data) { },
             async: false,
             contentType: "application/json; charset=utf-8",
