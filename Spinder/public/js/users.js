@@ -112,7 +112,7 @@ function spaces(x){
     let curr_user_liked = $('#curr_user_liked').attr('value');
 
     var $userList = $('#card-deck');
-    var $users = $userList.children('.col');
+    var $users = $userList.children('.user');
     console.log($users.length);
 
     var sortList = Array.prototype.sort.bind($users);
@@ -219,7 +219,9 @@ function spaces(x){
             });
 
         });
+        $('#search').on('keyup', function(e){
 
+        });
         $('#submit').click(function(e){
             e.preventDefault();
             let search= $('#search').val();
