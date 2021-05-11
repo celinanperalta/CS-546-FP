@@ -70,14 +70,14 @@ app.use(function(req, res, next) {
   next();
 });
 
-// app.get('/login', async (req, res, next) => {
-//   if (req.session.AuthCookie) {
-//     res.redirect("/users");
-//   } 
-//   else {
-//     next();
-//   }
-// });
+app.get('/login', async (req, res, next) => {
+  if (req.session.AuthCookie) {
+    res.redirect("/users");
+  } 
+  else {
+    next();
+  }
+});
 
 app.get('/home', async (req, res, next) => {
    if (req.session.AuthCookie) {
