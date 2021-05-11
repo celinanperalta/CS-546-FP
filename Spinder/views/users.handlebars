@@ -2,12 +2,24 @@
     <input type="hidden" id="curr_user_profile" value={{curr_user.musicalProfile}} />
     <input type="hidden" id="curr_user_liked" value={{curr_user.likedProfiles}} />
 </div>
-<div class="card-deck">
+<div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+        aria-expanded="false">
+        Sort
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <li><a class="dropdown-item" id="name-sort-asc" href="#">Name A-Z</a></li>
+        <li><a class="dropdown-item" href="#" id="name-sort-dsc">Name Z-A</a></li>
+        <li><a class="dropdown-item" href="#" id="match-sort-asc">Match % 0-100</a></li>
+        <li><a class="dropdown-item" href="#" id="match-sort-dsc">Match % 100-0</a></li>
+    </ul>
+</div>
+<div class="row row-cols-1 row-cols-md-4 g-4" id="card-deck">
     {{#each users}}
     {{#compare this._id ../curr_user._id operator="!="}}
     {{#unless this.isPrivate }}
-    <div class="card-switch w-25">
-        <div class="card mb-3 shadow border-light">
+    <div class="col">
+        <div class="card mb-3 shadow border-light h-100">
             <div class="card-body bg-light" id={{this._id}}>
                 <div class="flip">
                     <div class="front">
@@ -22,12 +34,13 @@
             </div>
             <div class="card-header" id="{{this._id}}-match">
                 <span class="d-flex">
-                    <h5 class="card-title text-dark my-auto d-block">No Match Data</h5>
+                    <h5 class="card-title text-dark my-auto d-block" id="match-data">No Match Data</h5>
                     <span class="ml-auto material-icons text-primary" role="button" id="like_btn">favorite_border</span>
-                </span>                
+                </span>
             </div>
             <div class="card-footer bg-dark">
-                <h5 class="mr-auto card-title"><a href="/users/{{this._id}}">{{this.username}}</a></h5>
+                <h5 class="mr-auto card-title"><a href="/users/{{this._id}}" id="card-username">{{this.username}}</a>
+                </h5>
                 <p class="small card-text text-light">{{this.firstName}} {{this.lastName}}</p>
             </div>
         </div>
@@ -35,10 +48,9 @@
     {{/unless}}
     {{/compare}}
     {{/each}}
-
 </div>
-
+</div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.rawgit.com/nnattawat/flip/v1.0.11/dist/jquery.flip.min.js"></script>
-<script type="text/javascript" src="/public/js/userCard.js"></script>
+<script type="text/javascript" src="/public/js/users.js"></script>
