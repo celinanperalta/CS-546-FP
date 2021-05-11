@@ -51,13 +51,22 @@
   }
   
   #navbar {
-    background-color: black !important;
+    background-color: rgb(53, 53, 53) !important;
     font-family: "Gotham Bold";
     font-size: 1.3rem;
   }
   
+  #log-in-page {
+    font-family: "Gotham Bold";
+    font-size: 1.9rem;
+  }
+
+  #log-in-page .btn{
+    font-size: 1.1rem;
+  }
+
   #navbar .navbar-nav li {
-    padding-right: 1rem;
+    padding-right: 1.5rem;
   }
   
   #navbar .navbar-nav li a {
@@ -71,11 +80,15 @@
   }
   
   #home-page .hero-text {
-    font-size: 4rem;
+    font-size: 4.2rem;
   }
   
+  #home-page .btn {
+    font-size: 1.2rem;
+  }
+
   .homepage-main {
-    background-color: #171717;
+    background-color: rgb(53, 53, 53);
     display: flex;
     flex-flow: column;
     height: 100%;
@@ -111,20 +124,20 @@
   }
   
   .hero-graphics {
-    height: 75%;
+    height: 150%;
   }
   
   .hero-graphics img {
-    filter: drop-shadow(0 0 5px white);
+    filter: drop-shadow(0 0 8px white);
   }
   
   #home-page .graphic2 {
-    top: 110%;
+    top: 80%;
     right: 15rem;
   }
   
   #home-page .graphic3 {
-    top: 120%;
+    top: 90%;
     right: -4rem;
   }
   
