@@ -17,7 +17,12 @@
 <div id="search-bar">
     <form id="search-form">
         <label for="search" class="form-label">
-            <input name="username" type="text" id="search">
+            <input name="username" type="text" id="search" placeholder="@username" autocomplete="off" list="dropdown-users">
+            <datalist id="dropdown-users">
+                {{#each users}}
+                <option>{{this.username}}</option>
+                {{/each}}
+            </datalist>
         </label>
         <button type="submit" class="btn btn-primary" id="submit">Search</button>
     </form>
