@@ -36,6 +36,8 @@ const constructorMethod = (app) => {
   app.use('/songs', restrictUrlAccess, songRoutes);
   app.use('/spotify', spotifyRoutes);
 
+  app.use('/stats', isLoggedIn);
+
   app.get("/", async (req, res) => {
     if(req.session.AuthCookie) {
       console.log("root");
