@@ -13,7 +13,15 @@ const spotifyData = require('./spotify');
 const profileData = require('./profiles');
 //const songData = require('./songs');
 
-
+function parseId(id){
+    try{
+        ObjectID(id);
+        return true;
+    }
+    catch(e){
+        return false;
+    }
+}
 
 let exportedMethods = {
 
@@ -34,11 +42,14 @@ let exportedMethods = {
             throw new Error("Must provide valid string id");
         }
         const usersCollection = await users(); //obtain users collection
+       if(!parseId(id)){
+            throw new Error("Uh Oh, Invalid ID!");
+       }
         const user = await usersCollection.findOne({
             _id: ObjectID.ObjectID(id)
         });
         if (user === null) {
-            throw new Error("Uh Oh, No User Found");
+            throw new Error("Uh Oh, No User Found :(");
         }
         user._id = user._id.toString();
         return user;

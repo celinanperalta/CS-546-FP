@@ -239,7 +239,14 @@ router.get('/:id', async (req, res) => {
     }
     catch(e){
         console.log(e);
-        res.status(404).render('error', {status:'404', error:e.message, redirect:'users', redirectText:'All Users'});
+        let statusCode;
+        if (e.message==="Uh Oh, No User Found :("){
+            statusCode="404";
+        }
+        else if (e.message==="Uh Oh, Invalid ID!"){
+            statusCode="400";
+        }
+        res.status(statusCode).render('error', {status:statusCode, error:e.message, redirect:'users', redirectText:'All Users'});
     }
 });
 
