@@ -43,7 +43,7 @@ let exportedMethods = {
         }
         const usersCollection = await users(); //obtain users collection
        if(!parseId(id)){
-            throw new Error("Uh Oh, Invalid ID!");
+            throw new Error("Uh Oh, Page Not Found!");
        }
         const user = await usersCollection.findOne({
             _id: ObjectID.ObjectID(id)
