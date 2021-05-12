@@ -239,7 +239,7 @@ router.get('/:id', async (req, res) => {
     }
     catch(e){
         console.log(e);
-        res.status(500).send({error:e.message});
+        res.status(404).render('error', {status:'404', error:e.message, redirect:'users', redirectText:'All Users'});
     }
 });
 

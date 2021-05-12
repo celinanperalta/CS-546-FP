@@ -38,7 +38,7 @@ let exportedMethods = {
             _id: ObjectID.ObjectID(id)
         });
         if (user === null) {
-            throw new Error("User not found with that id");
+            throw new Error("Uh Oh, No User Found");
         }
         user._id = user._id.toString();
         return user;
