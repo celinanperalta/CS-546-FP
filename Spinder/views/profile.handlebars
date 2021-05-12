@@ -16,11 +16,11 @@
             </form>
             {{/unless}}
             {{#if user.access_token}}
-                
+
             <form action="/users/{{user._id}}/update" id="spotify-connect">
                 <input class="btn btn-primary" type="submit" value="Refresh Spotify Data" />
             </form>
-            
+
             {{/if}}
             {{/compare}}
         </div>
@@ -79,7 +79,11 @@
         </div>
     </div>
     {{#if user.access_token}}
-    {{#compare curr_user._id user._id comparator="equals"}}
+    {{log user._id}}
+    {{log curr_user._id}}
+    {{log "hello1"}}
+    {{#equals curr_user._id user._id}}
+    {{log user.visibility}}
     <div class="row">
         <div class="mb-4" id="top-artists">
             <h2>Top Artists</h2>
@@ -95,7 +99,7 @@
                 {{/each}}
             </ol>
             {{else}}
-                <p>No Top Artists Available</p>
+            <p>No Top Artists Available</p>
             {{/if}}
         </div>
         <div class="mb-4" id="top-songs">
@@ -113,7 +117,7 @@
                 {{/each}}
             </ol>
             {{else}}
-                <p>No Top Songs Available</p>
+            <p>No Top Songs Available</p>
             {{/if}}
         </div>
         <div class="mb-4" id="playlists">
@@ -134,10 +138,12 @@
             </ol>
         </div>
     </div>
-    {{/compare}}
-    {{log user._id}}
+    {{/equals}}
+    {{log "hello2"}}
     {{log curr_user._id}}
-    {{#compare curr_user._id user._id comparator="notEquals"}}
+    {{log user._id}}
+    {{#nequals curr_user._id user._id}}
+    {{log user.visibility}}
     <div class="row">
         {{#if user.visibility.showArtists}}
         <div class="mb-4" id="top-artists">
@@ -154,7 +160,7 @@
                 {{/each}}
             </ol>
             {{else}}
-                <p>No Top Artists Available</p>
+            <p>No Top Artists Available</p>
             {{/if}}
         </div>
         {{/if}}
@@ -174,7 +180,7 @@
                 {{/each}}
             </ol>
             {{else}}
-                <p>No Top Songs Available</p>
+            <p>No Top Songs Available</p>
             {{/if}}
         </div>
         {{/if}}
@@ -198,7 +204,7 @@
         </div>
         {{/if}}
     </div>
-    {{/compare}}
+    {{/nequals}}
     {{/if}}
 
 </div>

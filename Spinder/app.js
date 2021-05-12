@@ -33,6 +33,14 @@ hbs.handlebars.registerHelper('json', function(context) {
   return JSON.stringify(context);
 });
 
+hbs.handlebars.registerHelper('equals', function(lvalue, rvalue, options) {
+  return lvalue === rvalue ? options.fn(this) : options.inverse(this);
+});
+
+hbs.handlebars.registerHelper('nequals', function(lvalue, rvalue, options) {
+  return lvalue != rvalue ? options.fn(this) : options.inverse(this);
+});
+
 hbs.handlebars.registerHelper('compare', function(lvalue, rvalue, options) {
 
   if (arguments.length < 3)
@@ -50,8 +58,10 @@ hbs.handlebars.registerHelper('compare', function(lvalue, rvalue, options) {
       '<=':       function(l,r) { return l <= r; },
       '>=':       function(l,r) { return l >= r; },
       'typeof':   function(l,r) { return typeof l == r; },
-      'equals': function(l,r) {return l.equals(r);},
-      'notEquals': function(l,r) {return !l.equals(r);}
+      'equals': function(l,r) {return (new String(l).valueOf().equals(new String(r).valueOf()));},
+      'notEquals': function(l,r) {return !(new String(l).valueOf().equals(new String(r).valueOf()));},
+      'contains': function(l,r) {return l.contains(r)},
+      '!contains': function(l,r) {return !l.contains(r)},
   }
 
   if (!operators[operator])
