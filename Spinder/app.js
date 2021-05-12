@@ -44,11 +44,14 @@ hbs.handlebars.registerHelper('compare', function(lvalue, rvalue, options) {
       '==':       function(l,r) { return l == r; },
       '===':      function(l,r) { return l === r; },
       '!=':       function(l,r) { return l != r; },
+      '!==':       function(l,r) { return l !== r; },
       '<':        function(l,r) { return l < r; },
       '>':        function(l,r) { return l > r; },
       '<=':       function(l,r) { return l <= r; },
       '>=':       function(l,r) { return l >= r; },
-      'typeof':   function(l,r) { return typeof l == r; }
+      'typeof':   function(l,r) { return typeof l == r; },
+      'equals': function(l,r) {return l.equals(r);},
+      'notEquals': function(l,r) {return !l.equals(r);}
   }
 
   if (!operators[operator])
