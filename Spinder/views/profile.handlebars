@@ -16,11 +16,11 @@
             </form>
             {{/unless}}
             {{#if user.access_token}}
-                
+
             <form action="/users/{{user._id}}/update" id="spotify-connect">
                 <input class="btn btn-primary" type="submit" value="Refresh Spotify Data" />
             </form>
-            
+
             {{/if}}
             {{/compare}}
         </div>
@@ -79,6 +79,71 @@
         </div>
     </div>
     {{#if user.access_token}}
+    {{log user._id}}
+    {{log curr_user._id}}
+    {{log "hello1"}}
+    {{#equals curr_user._id user._id}}
+    {{log user.visibility}}
+    <div class="row">
+        <div class="mb-4" id="top-artists">
+            <h2>Top Artists</h2>
+            {{#if user.topArtists}}
+            <ol class="list-group-flush list-group list-group-numbered">
+                {{#each user.topArtists}}
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <span class="thumbnail ml-4"><img src="{{this.img}}"></span>
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold"><a href="{{this.spotify_url}}">{{this.name}}</a></div>
+                    </div>
+                </li>
+                {{/each}}
+            </ol>
+            {{else}}
+            <p>No Top Artists Available</p>
+            {{/if}}
+        </div>
+        <div class="mb-4" id="top-songs">
+            <h2>Top Songs</h2>
+            {{#if user.topSongs}}
+            <ol class="list-group-flush list-group list-group-numbered">
+                {{#each user.topSongs}}
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <span class="thumbnail ml-4"><img src="{{this.img}}"></span>
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold"><a href="{{this.spotify_url}}">{{this.name}}</a></div>
+                        <small class="text-muted">{{this.artists}}</small>
+                    </div>
+                </li>
+                {{/each}}
+            </ol>
+            {{else}}
+            <p>No Top Songs Available</p>
+            {{/if}}
+        </div>
+        <div class="mb-4" id="playlists">
+            <h2>Playlists</h2>
+            <ol class="list-group-flush list-group list-group-numbered">
+                {{#each user.playlists}}
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    {{#if this.img}}
+                    <span class="thumbnail ml-4"><img src="{{this.img}}"></span>
+                    {{else}}
+                    <span class="thumbnail ml-4"><img src="/public/images/default_song.jpg"></span>
+                    {{/if}}
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold"><a href="{{this.spotify_url}}">{{this.name}}</a></div>
+                    </div>
+                </li>
+                {{/each}}
+            </ol>
+        </div>
+    </div>
+    {{/equals}}
+    {{log "hello2"}}
+    {{log curr_user._id}}
+    {{log user._id}}
+    {{#nequals curr_user._id user._id}}
+    {{log user.visibility}}
     <div class="row">
         {{#if user.visibility.showArtists}}
         <div class="mb-4" id="top-artists">
@@ -95,7 +160,7 @@
                 {{/each}}
             </ol>
             {{else}}
-                <p>No Top Artists Available</p>
+            <p>No Top Artists Available</p>
             {{/if}}
         </div>
         {{/if}}
@@ -115,7 +180,7 @@
                 {{/each}}
             </ol>
             {{else}}
-                <p>No Top Songs Available</p>
+            <p>No Top Songs Available</p>
             {{/if}}
         </div>
         {{/if}}
@@ -139,6 +204,7 @@
         </div>
         {{/if}}
     </div>
+    {{/nequals}}
     {{/if}}
 
 </div>
