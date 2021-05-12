@@ -1,0 +1,11 @@
+<ol class="list-group-flush list-group list-group-numbered">
+    {{#each users}}
+    {{log this}}
+    <li class="list-group-item d-flex justify-content-between align-items-start">
+        <span class="thumbnail ml-4"><img src="{{this.img}}"></span>
+        <div class="ms-2 me-auto">
+            <div class="fw-bold"><a href="/users/{{this._id}}">{{this.username}}</a></div>
+        </div>
+    </li>
+    {{/each}}
+</ol>
