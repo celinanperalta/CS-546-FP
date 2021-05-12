@@ -209,7 +209,17 @@ function countriesDropdown(container) {
         ZAM: "Zambia",
         ZIM: "Zimbabwe"
     }
-    var out = "<option selected disabled value=\"\">Choose...</option>";
+
+    const temp = document.getElementById('country-settings');
+    if(temp){
+        container='country-settings';
+        const curr_country = countries[temp.innerHTML];
+        console.log(curr_country);
+        var out = `<option selected value=\"\">${curr_country}</option>`;
+    }
+    else{
+        var out = "<option selected disabled value=\"\">Choose...</option>";
+    }
     for (var key in countries) {
         out += "<option value='" + key + "'>" + countries[key] + "</option>";
     }
