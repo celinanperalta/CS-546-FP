@@ -182,7 +182,9 @@ const constructorMethod = (app) => {
   });
 
   app.use('*', (req, res) => {
-    res.status(404).redirect('/');
+    // console.log("all other routes");
+    // res.status(404).redirect('/');
+    res.status(404).render('error', {status:"404", error:"Uh Oh, Page Not Found!", redirect:'home', redirectText:'Home'});
   });
  
 };
