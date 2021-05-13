@@ -1,3 +1,4 @@
+<section class="container">
 <div class="hidden">
     <input type="hidden" id="curr_user_profile" value={{curr_user.musicalProfile}} />
     <input type="hidden" id="curr_user_liked" value={{curr_user.likedProfiles}} />
@@ -34,9 +35,9 @@
     {{#compare this._id ../curr_user._id operator="!="}}
     {{#unless this.isPrivate }}
     {{!-- <div class="col"> --}}
-    <div class="card-switch w-25 user mb-4" id="{{this.username}}">
+    <div class="card-switch w-25 user" id="{{this.username}}">
         <div class="card mb-3 shadow border-light h-100">
-            <div class="card-body bg-light" id={{this._id}}>
+            <div class="card-body bg-dark" id={{this._id}}>
                 <div class="flip">
                     <div class="front">
                         <img class="shadow circle mx-auto my-auto d-block" src="{{this.img}}" alt="user image">
@@ -50,12 +51,12 @@
             </div>
             <div class="card-header" id="{{this._id}}-match">
                 <span class="d-flex">
-                    <h5 class="card-title text-dark my-auto d-block" id="match-data">No Match Data</h5>
+                    <h5 class="card-title text-light my-auto d-block" id="match-data">No Match Data</h5>
                     <span class="ml-auto material-icons text-primary" role="button" id="like_btn">favorite_border</span>
                 </span>
             </div>
-            <div class="card-footer bg-dark">
-                <h5 class="mr-auto card-title"><a href="/users/{{this._id}}" id="card-username">{{this.username}}</a>
+            <div class="card-footer bg-primary">
+                <h5 class="mr-auto card-title"><a class ="text-light" href="/users/{{this._id}}" id="card-username">{{this.username}}</a>
                 </h5>
                 <p class="small card-text text-light">{{this.firstName}} {{this.lastName}}</p>
             </div>
@@ -66,6 +67,7 @@
     {{/each}}
 </div>
 </div>
+</section>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.rawgit.com/nnattawat/flip/v1.0.11/dist/jquery.flip.min.js"></script>
