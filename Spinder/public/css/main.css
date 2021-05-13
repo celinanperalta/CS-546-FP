@@ -4,7 +4,7 @@
     height: auto;
     width: 15vw;
     max-width: 100%;
-    max-height: 100%;
+    max-height: 75%;
 }
 
 .circle-lg {
@@ -67,6 +67,10 @@
   #log-in-page {
     font-family: "Gotham Bold";
     font-size: 1.9rem;
+  }
+
+  #form-div {
+    max-width: 350px;
   }
 
   #stats-header {
