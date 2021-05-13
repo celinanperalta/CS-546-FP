@@ -110,6 +110,11 @@
     height: 100%;
   }
   
+  #deleteModal .modal-content {
+    color: #171717 !important;
+    font-size: 1.2rem;
+  }
+
   .hero {
     display: flex;
     align-items: center;
