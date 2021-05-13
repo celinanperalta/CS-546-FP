@@ -1,20 +1,26 @@
 .circle {
     object-fit: cover;
     border-radius: 50%;
-    height: 15vw;
+    height: auto;
     width: 15vw;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 .circle-lg {
     object-fit: cover;
     border-radius: 50%;
-    height: 20vw;
-    width: 20vw;
+    height: 100%;
+    width: 100%;
+    border: .8rem solid #1db954;
+    filter: drop-shadow(0 0 8px white);
 }
 
 .circle img {
     width: 100%;
     height: auto;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 .thumbnail {
@@ -34,6 +40,8 @@
     clip-path: circle();
     width: 15vw;
     height: 15vw;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 .flip {
@@ -51,7 +59,7 @@
   }
   
   #navbar {
-    background-color: rgb(53, 53, 53) !important;
+    background-color: #171717 !important;
     font-family: "Gotham Bold";
     font-size: 1.3rem;
   }
@@ -88,7 +96,7 @@
   }
 
   .homepage-main {
-    background-color: rgb(53, 53, 53);
+    background-color: #171717 !important;
     display: flex;
     flex-flow: column;
     height: 100%;
@@ -151,4 +159,36 @@
     #home-page .graphic1 {
       margin-top: 8rem;
     }
+  }
+
+  body {
+    background-color: #171717 !important;
+    color: white !important;
+    font-family: "Gotham Bold" !important;
+  }
+
+  .card-deck .card-header {
+    background-color: #343a40;
+  }
+
+  .card {
+    border: none !important;
+  }
+
+  .card-switch.user {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .front {
+    display: flex;
+  }
+
+  .list-group li {
+    background-color: #343a40 !important;
+    border-bottom: 1px solid #171717;
+  }
+
+  .list-group li::before {
+    color: white;
   }
