@@ -66,6 +66,8 @@ function spaces(x){
     }
 
     function getMusicalProfileAjax(id) {
+        if (!id)
+            return;
         var requestConfig = {
             method: 'GET',
             url: '/profiles/' + id,
@@ -192,7 +194,7 @@ function spaces(x){
 
             if (curr_profile && profile) {
                 let response = getMusicalProfileAjax(profile.attr('id'));
-                if (curr_profile.averageAudioFeatures && response.averageAudioFeatures) {
+                if (curr_profile && response && curr_profile.averageAudioFeatures && response.averageAudioFeatures) {
                     createChart(`${user_id}-chart`, curr_profile.averageAudioFeatures, response.averageAudioFeatures);
                     getMatchPercent(user_id, curr_profile.averageAudioFeatures, response.averageAudioFeatures);
                     $(this).find('.flip').flip({
