@@ -15,13 +15,13 @@
                 </div>
              </div>
          </div>
-         <div class="mb-4 col-md-4" id="user-count">
+         <div class="mb-4 col-md-4" id="top-song">
              <div class="card bg-dark">
                 <h1 class="card-header">Top Song</h1>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
-                    <li class="bg-dark list-group-item d-flex justify-content-between align-items-start">
-                            <span class="thumbnail ml-4"><img src="{{topSongs.0.img}}"></span>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <span class="thumbnail ml-4"><img src="{{topSongs.0.img}}" alt="image for {{topSongs.0.name}}"></span>
                             <div class="ms-2 me-auto">
                                 <h2 class="fw-bold"><a href="{{topSongs.0.spotify_url}}">{{topSongs.0.name}}</a></h2>
                             </div>
@@ -30,13 +30,13 @@
                 </div>
              </div>
          </div>
-         <div class="mb-4 col-md-4" id="user-count">
+         <div class="mb-4 col-md-4" id="top-artist">
              <div class="card bg-dark">
                 <h1 class="card-header">Top Artist</h1>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
-                    <li class="bg-dark list-group-item d-flex justify-content-between align-items-start">
-                        <span class="thumbnail ml-4"><img src="{{topArtists.0.img}}"></span>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <span class="thumbnail ml-4"><img src="{{topArtists.0.img}}" alt="image for {{topArtists.0.name}}"></span>
                         <div class="ms-2 me-auto">
                             <h2 class="fw-bold"><a href="{{topArtist.0.spotify_url}}">{{topArtists.0.name}}</a></h2>
                             <small class="text-muted">{{topArtist.0.artists}}</small>
@@ -55,7 +55,7 @@
                 <ol class="list-group list-group-numbered">
                     {{#each topSongs}}
                         <li class="list-group-item d-flex justify-content-between align-items-start">
-                            <span class="thumbnail ml-4"><img src="{{this.img}}"></span>
+                            <span class="thumbnail ml-4"><img src="{{this.img}}" alt="image for {{this.name}}"></span>
                             <div class="ms-2 me-auto">
                                 <div class="fw-bold"><a href="{{this.spotify_url}}">{{this.name}}</a></div>
                                 <small class="text-muted">{{this.artists}}</small>
@@ -74,7 +74,7 @@
                 <ol class="list-group list-group-numbered">
                     {{#each topArtists}}
                         <li class="list-group-item d-flex justify-content-between align-items-start">
-                            <span class="thumbnail ml-4"><img src="{{this.img}}"></span>
+                            <span class="thumbnail ml-4"><img src="{{this.img}}" alt="image for {{this.name}}"></span>
                             <div class="ms-2 me-auto">
                                 <div class="fw-bold"><a href="{{this.spotify_url}}">{{this.name}}</a></div>
                             </div>
