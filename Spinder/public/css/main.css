@@ -85,6 +85,10 @@
     font-size: 1.1rem;
   }
 
+  #no-followers .no-followers1{
+    color: white;
+  }
+
   #navbar .navbar-nav li {
     padding-right: 1.5rem;
   }

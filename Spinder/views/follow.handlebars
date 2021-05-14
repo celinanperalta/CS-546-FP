@@ -1,6 +1,7 @@
+<section class="container">
 <input type="hidden" id="curr_user_liked" value={{curr_user.likedProfiles}} />
 <div class="row p-5">
-    <div class="col">
+    <div id="no-followers" class="col">
         <h1>Followers</h1>
         <ul class="list-group" id="followers">
             {{#if followers}}
@@ -53,3 +54,4 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="/public/js/follow.js"></script>
+<section>
