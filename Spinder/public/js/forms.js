@@ -239,7 +239,11 @@ function checkPassword(input) {
     'use strict'
     countriesDropdown("country")
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.querySelectorAll('.needs-validation')
+
+    var registration_form = document.getElementById("new-user-form");
+    var forms = document.querySelectorAll('.needs-validation');
+
+    // registration_form.addEventListener('oninput')
     
     // Loop over them and prevent submission
     Array.prototype.slice.call(forms)
