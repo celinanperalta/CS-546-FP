@@ -215,7 +215,7 @@ function countriesDropdown(container) {
         container='country-settings';
         const curr_country = countries[temp.innerHTML];
         console.log(curr_country);
-        var out = `<option selected value=\"\">${curr_country}</option>`;
+        var out = `<option value="none" selected disabled hidden>Select a Country</option>`;
     }
     else{
         var out = "<option selected disabled value=\"\">Choose...</option>";
