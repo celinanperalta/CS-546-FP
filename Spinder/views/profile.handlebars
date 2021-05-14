@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row align-items-center">
         <div class="col-md-4">
-            <img src="{{user.img}}" id="user-img" class="circle-lg">
+            <img src="{{user.img}}" id="user-img" class="circle-lg" alt="user profile picture">
         </div>
         <div class="col-md-3">
             <h1>{{user.firstName}} {{user.lastName}}</h1>
@@ -29,14 +29,14 @@
         </div>
         <div class="col-md-5">
             <div id="musical-profile">
-                <div id="musical-profile-vals" type="hidden">
+                <div id="musical-profile-vals" style="display: none">
                     <input type="hidden" id="danceability" value={{musicalProfile.averageAudioFeatures.danceability}} />
                     <input type="hidden" id="energy" value={{musicalProfile.averageAudioFeatures.energy}} />
                     <input type="hidden" id="loudness" value={{musicalProfile.averageAudioFeatures.loudness}} />
                     <input type="hidden" id="acousticness" value={{musicalProfile.averageAudioFeatures.acousticness}} />
                     <input type="hidden" id="valence" value={{musicalProfile.averageAudioFeatures.valence}} />
                 </div>
-                <div class="card center border-light shadow">
+                <div class="bg-dark center border-light shadow">
                     <div class="card-header">
                         <h3 class="card-title text-center my-auto">Musical Profile</h3>
                     </div>
@@ -94,7 +94,7 @@
             <ol class="list-group-flush list-group list-group-numbered">
                 {{#each user.topArtists}}
                 <li class="list-group-item d-flex justify-content-between align-items-start">
-                    <span class="thumbnail ml-4"><img src="{{this.img}}"></span>
+                    <span class="thumbnail ml-4"><img src="{{this.img}}" alt="artist cover art"></span>
                     <div class="ms-2 me-auto">
                         <div class="fw-bold"><a href="{{this.spotify_url}}">{{this.name}}</a></div>
                     </div>
@@ -111,7 +111,7 @@
             <ol class="list-group-flush list-group list-group-numbered">
                 {{#each user.topSongs}}
                 <li class="list-group-item d-flex justify-content-between align-items-start">
-                    <span class="thumbnail ml-4"><img src="{{this.img}}"></span>
+                    <span class="thumbnail ml-4"><img src="{{this.img}}" alt="song cover art"></span>
                     <div class="ms-2 me-auto">
                         <div class="fw-bold"><a href="{{this.spotify_url}}">{{this.name}}</a></div>
                         <small class="text-muted">{{this.artists}}</small>
@@ -129,9 +129,9 @@
                 {{#each user.playlists}}
                 <li class="list-group-item d-flex justify-content-between align-items-start">
                     {{#if this.img}}
-                    <span class="thumbnail ml-4"><img src="{{this.img}}"></span>
+                    <span class="thumbnail ml-4"><img src="{{this.img}}" alt="playlist cover art"></span>
                     {{else}}
-                    <span class="thumbnail ml-4"><img src="/public/images/default_song.jpg"></span>
+                    <span class="thumbnail ml-4"><img src="/public/images/default_song.jpg" alt="playlist cover art"></span>
                     {{/if}}
                     <div class="ms-2 me-auto">
                         <div class="fw-bold"><a href="{{this.spotify_url}}">{{this.name}}</a></div>

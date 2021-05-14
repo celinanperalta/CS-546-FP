@@ -1,12 +1,12 @@
 <div class="container">
     {{#if userCount}}
-    <div class="row">
+    <div id="stats-header" class="row">
          <div class="mb-4 col-md-4" id="user-count">
-             <div class="card">
-                <h4 class="card-header">Number of Users</h4>
+             <div class="card bg-dark">
+                <h1 class="card-header">Number Of Users</h1>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
-                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <li class="bg-dark list-group-item d-flex justify-content-between align-items-start">
                         <div class="ms-2 me-auto">
                             <h1 class="card-text"><a href="/users">{{userCount}}</a></h1>
                         </div>
@@ -16,8 +16,8 @@
              </div>
          </div>
          <div class="mb-4 col-md-4" id="top-song">
-             <div class="card">
-                <h4 class="card-header">Top Song</h4>
+             <div class="card bg-dark">
+                <h1 class="card-header">Top Song</h1>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                     <li class="list-group-item d-flex justify-content-between align-items-start">
@@ -31,8 +31,8 @@
              </div>
          </div>
          <div class="mb-4 col-md-4" id="top-artist">
-             <div class="card">
-                <h4 class="card-header">Top Artist</h4>
+             <div class="card bg-dark">
+                <h1 class="card-header">Top Artist</h1>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                     <li class="list-group-item d-flex justify-content-between align-items-start">
@@ -50,7 +50,7 @@
     {{/if}}
     <div class="row">
         <div class="mb-4 col-md-6" id="top-songs-all-users">
-            <h2>Top Songs</h2>
+            <h1>Top Songs</h1>
             {{#if topSongs}}
                 <ol class="list-group list-group-numbered">
                     {{#each topSongs}}
@@ -69,7 +69,7 @@
         </div>
 
         <div class="mb-4 col-md-6" id="top-artists-all-users">
-            <h2>Top Artists</h2>
+            <h1>Top Artists</h1>
             {{#if topArtists}}
                 <ol class="list-group list-group-numbered">
                     {{#each topArtists}}

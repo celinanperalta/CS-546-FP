@@ -14,6 +14,8 @@
         </div>
     </div>
 </div>
+<section class="container">
+<p></p>
 <h1>Settings</h1>
 <h2>Profile Settings</h2>
 <form id="edit-profile-form" action="/users/settings/{{curr_user._id}}" method="POST">
@@ -31,9 +33,11 @@
             </div>
         </div>
         <div class="form-row">
+            <input type="hidden" id="curr-country" value="{{curr_user.location.country}}">
             <div class="form-group col-md-6">
                 <label>Country</label>
-                <select name="country" class="form-select" id="country-settings" selected="{{curr_user.location.country}}">{{curr_user.location.country}}</select>
+                <select name="country" class="form-select" id="country-settings">
+                </select>
             </div>
             <div class="form-group col-md-6">
                 <label>City</label>
@@ -51,7 +55,7 @@
             <div class="custom-control custom-switch">
                 {{#if visibility.isPrivate}}
                 <input name="isPrivate" type="checkbox" class="custom-control-input" id="profileSwitch" value="true"
-                    checked="true">
+                    checked>
                 {{/if}}
                 {{#unless visibility.isPrivate}}
                 <input name="isPrivate" type="checkbox" class="custom-control-input" value="true" id="profileSwitch">
@@ -61,7 +65,7 @@
             <div class="custom-control custom-switch">
                 {{#if visibility.showSongs}}
                 <input name="showSongs" type="checkbox" class="custom-control-input" id="songSwitch" value="true"
-                    checked="true">
+                    checked>
                 {{/if}}
                 {{#unless visibility.showSongs}}
                 <input name="showSongs" type="checkbox" class="custom-control-input" value="true" id="songSwitch">
@@ -71,7 +75,7 @@
             <div class="custom-control custom-switch">
                 {{#if visibility.showArtists}}
                 <input name="showArtists" type="checkbox" class="custom-control-input" id="artistSwitch" value="true"
-                    checked="true">
+                    checked>
                 {{/if}}
                 {{#unless visibility.showArtists}}
                 <input name="showArtists" type="checkbox" class="custom-control-input" value="true" id="artistSwitch">
@@ -81,7 +85,7 @@
             <div class="custom-control custom-switch">
                 {{#if visibility.showPlaylists}}
                 <input name="showPlaylists" type="checkbox" class="custom-control-input" id="playlistShwitch" value="true"
-                    checked="true">
+                    checked>
                 {{/if}}
                 {{#unless visibility.showPlaylists}}
                 <input name="showPlaylists" type="checkbox" class="custom-control-input" value="true" id="playlistShwitch">
@@ -103,7 +107,7 @@
 
 <h2>Delete Account</h2>
 <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" id="show-delete-modal">Delete Account</button>
-
+</section>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

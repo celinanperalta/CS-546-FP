@@ -211,17 +211,23 @@ function countriesDropdown(container) {
     }
 
     const temp = document.getElementById('country-settings');
-    if(temp){
+    var curr_country = document.getElementById('curr-country');
+    if (curr_country)
+        curr_country = curr_country.value;
+    if (temp) {
         container='country-settings';
-        const curr_country = countries[temp.innerHTML];
         console.log(curr_country);
-        var out = `<option selected value=\"\">${curr_country}</option>`;
+        var out = `<option value="none" selected disabled>${curr_country}</option>`;
     }
-    else{
+    else {
         var out = "<option selected disabled value=\"\">Choose...</option>";
     }
     for (var key in countries) {
-        out += "<option value='" + key + "'>" + countries[key] + "</option>";
+        if (curr_country && countries[key] == curr_country) {
+            out += "<option value='" + key + "' selected>" + countries[key] + "</option>";
+        } else{
+            out += "<option value='" + key + "'>" + countries[key] + "</option>";
+        }
     }
 
     document.getElementById(container).innerHTML = out;
