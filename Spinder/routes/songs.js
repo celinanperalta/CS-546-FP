@@ -132,7 +132,7 @@ router.patch('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
     try{
-        await songData.getById(req.params.id);
+        await songData.getById(xss(req.params.id));
     }
     catch(e){
         res.status(404).json({ error: 'Song not found' });
