@@ -23,7 +23,7 @@
                     <li class="list-group-item d-flex justify-content-between align-items-start">
                             <span class="thumbnail ml-4"><img src="{{topSongs.0.img}}" alt="image for {{topSongs.0.name}}"></span>
                             <div class="ms-2 me-auto">
-                                <h2 class="fw-bold"><a href="{{topSongs.0.spotify_url}}">{{topSongs.0.name}}</a></h2>
+                                <h2 class="fw-bold"><a href="{{topSongs.0.spotify_url}}" target="_blank">{{topSongs.0.name}}</a></h2>
                             </div>
                         </li>
                     </ul>
@@ -38,7 +38,7 @@
                     <li class="list-group-item d-flex justify-content-between align-items-start">
                         <span class="thumbnail ml-4"><img src="{{topArtists.0.img}}" alt="image for {{topArtists.0.name}}"></span>
                         <div class="ms-2 me-auto">
-                            <h2 class="fw-bold"><a href="{{topArtist.0.spotify_url}}">{{topArtists.0.name}}</a></h2>
+                            <h2 class="fw-bold"><a href="{{topArtist.0.spotify_url}}" target="_blank">{{topArtists.0.name}}</a></h2>
                             <small class="text-muted">{{topArtist.0.artists}}</small>
                         </div>
                     </li>
@@ -57,7 +57,7 @@
                         <li class="list-group-item d-flex justify-content-between align-items-start">
                             <span class="thumbnail ml-4"><img src="{{this.img}}" alt="image for {{this.name}}"></span>
                             <div class="ms-2 me-auto">
-                                <div class="fw-bold"><a href="{{this.spotify_url}}">{{this.name}}</a></div>
+                                <div class="fw-bold"><a href="{{this.spotify_url}}" target="_blank">{{this.name}}</a></div>
                                 <small class="text-muted">{{this.artists}}</small>
                             </div>
                         </li>
@@ -76,7 +76,7 @@
                         <li class="list-group-item d-flex justify-content-between align-items-start">
                             <span class="thumbnail ml-4"><img src="{{this.img}}" alt="image for {{this.name}}"></span>
                             <div class="ms-2 me-auto">
-                                <div class="fw-bold"><a href="{{this.spotify_url}}">{{this.name}}</a></div>
+                                <div class="fw-bold"><a href="{{this.spotify_url}}" target="_blank">{{this.name}}</a></div>
                             </div>
                         </li>
                     {{/each}}
