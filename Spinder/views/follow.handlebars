@@ -7,16 +7,16 @@
             {{#each followers}}
             <li class="list-group-item d-flex justify-content-between align-items-start" id="{{this._id}}">
                 {{#nequals this.img "../public/images/default_user.jpg"}}
-                <span class="thumbnail ml-4"><img src="{{this.img}}"></span>
+                <span class="thumbnail ml-4"><img src="{{this.img}}" alt="user"></span>
                 {{/nequals}}
                 {{#equals this.img "../public/images/default_user.jpg"}}
-                <span class="thumbnail ml-4"><img src="../{{this.img}}"></span>
+                <span class="thumbnail ml-4"><img src="../{{this.img}}" alt="default"></span>
                 {{/equals}}
                 <div class="ms-2 me-auto">
                     <div class="fw-bold"><a href="/users/{{this._id}}">{{this.username}}</a></div>
                 </div>
                 <span class="d-flex">
-                    <span class="ml-auto material-icons text-primary" role="button" id="like_btn">favorite_border</span>
+                    <span class="ml-auto material-icons text-primary" role="button" id="like_btn{{this._id}}">favorite_border</span>
                 </span>
             </li>
             {{/each}}
@@ -27,21 +27,21 @@
     </div>
     <div class="col">
         <h1>Following</h1>
-        <ul class="list-group" id="followers">
+        <ul class="list-group" id="following">
             {{#if following}}
             {{#each following}}
             <li class="list-group-item d-flex justify-content-between align-items-start" id="{{this._id}}">
                 {{#nequals this.img "../public/images/default_user.jpg"}}
-                <span class="thumbnail ml-4"><img src="{{this.img}}"></span>
+                <span class="thumbnail ml-4"><img src="{{this.img}}" alt="user"></span>
                 {{/nequals}}
                 {{#equals this.img "../public/images/default_user.jpg"}}
-                <span class="thumbnail ml-4"><img src="../{{this.img}}"></span>
+                <span class="thumbnail ml-4"><img src="../{{this.img}}" alt="default"></span>
                 {{/equals}}
                 <div class="ms-2 me-auto">
                     <div class="fw-bold"><a href="/users/{{this._id}}">{{this.username}}</a></div>
                 </div>
                 <span class="d-flex">
-                    <span class="ml-auto material-icons text-primary" role="button" id="like_btn">favorite_border</span>
+                    <span class="ml-auto material-icons text-primary" role="button" id="like_btn{{this._id}}">favorite_border</span>
                 </span>
             </li>
             {{/each}}

@@ -28,7 +28,7 @@
 
         $('.list-group-item').each(function (i, obj) {
             let user_id = $(this).attr('id');
-            let like_btn = $(this).find('#like_btn');
+            let like_btn = $(this).find(`#like_btn${user_id}`);
 
             if (curr_user_liked.indexOf(user_id) != -1) {
                 like_btn.text("favorite");
