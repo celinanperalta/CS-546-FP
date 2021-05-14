@@ -14,6 +14,8 @@
         </div>
     </div>
 </div>
+<section class="container">
+<p></p>
 <h1>Settings</h1>
 <h2>Profile Settings</h2>
 <form id="edit-profile-form" action="/users/settings/{{curr_user._id}}" method="POST">
@@ -105,11 +107,11 @@
 
 <h2>Delete Account</h2>
 <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" id="show-delete-modal">Delete Account</button>
-
+</section>
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
+<script type="text/javascript" language="javascript">
     (function ($) {
         $(document).ready(function () {
             $('#form-button-display').hide();
