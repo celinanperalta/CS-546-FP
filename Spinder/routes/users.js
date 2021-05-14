@@ -229,12 +229,13 @@ router.get('/:id', async (req, res) => {
     try{
         const user = await userData.getUserById(req.params.id);
         const curr_user = await userData.getUserById(req.session.user);
+        let followers = await userData.getFollowers(req.params.id);
         //console.log(user);
         let musicalProfile = undefined;
         if (user.musicalProfile)
             musicalProfile = await profileData.getProfileById(user.musicalProfile);
         //console.log(musicalProfile);
-        res.render('profile',{curr_user: curr_user, user : user, musicalProfile: musicalProfile, isLoggedIn: true});
+        res.render('profile',{curr_user: curr_user, user : user, musicalProfile: musicalProfile, followers: followers, isLoggedIn: true});
         //res.status(200).json(user);
     }
     catch(e){
@@ -264,6 +265,20 @@ router.get('/:id/update', async (req, res) => {
         }
     } else {
         res.redirect("/users");
+    }
+});
+
+// Routes for getting followers and following
+router.get('/:id/follow', async (req, res) => {
+    try{
+        let followers = await userData.getFollowers(req.params.id);
+        let following = await userData.getFollowing(req.params.id);
+        const curr_user = await userData.getUserById(req.session.user);
+        res.render('follow', {curr_user: curr_user, followers: followers, following: following, isLoggedIn: true});
+    }
+    catch(e){
+        console.log(e);
+        res.status(500).send({error:e.message});
     }
 });
 
