@@ -22,29 +22,29 @@
             <div class="form-group col-md-6">
                 <label>First Name</label>
                 <input name="firstName" placeholder="Update First Name" class="form-control" minlength="1"
-                    pattern="^[a-zA-Z]+( [a-zA-Z]+)*$" />
+                    pattern="^[a-zA-Z]+( [a-zA-Z]+)*$" value="{{curr_user.firstName}}"/>
             </div>
             <div class="form-group col-md-6">
                 <label>Last Name</label>
                 <input name="lastName" placeholder="Update Last Name" class="form-control" minlength="1"
-                    pattern="^[a-zA-Z]+( [a-zA-Z]+)*$" />
+                    pattern="^[a-zA-Z]+( [a-zA-Z]+)*$" value="{{curr_user.lastName}}"/>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label>Country</label>
-                <select name="country" class="form-select" id="country"></select>
+                <select name="country" class="form-select" id="country-settings" selected="{{curr_user.location.country}}">{{curr_user.location.country}}</select>
             </div>
             <div class="form-group col-md-6">
                 <label>City</label>
                 <input name="city" placeholder="Update City" class="form-control" minlength="1"
-                    pattern="^[a-zA-Z]+( [a-zA-Z]+)*$" />
+                    pattern="^[a-zA-Z]+( [a-zA-Z]+)*$" value="{{curr_user.location.city}}" />
             </div>
         </div>
         <div class="form-group">
             <label>Bio</label>
             <textarea name="bio" placeholder="Update Bio" class="form-control" form="edit-profile-form"
-                rows="3"></textarea>
+                rows="3">{{curr_user.bio}}</textarea>
         </div>
         <div class="form-group">
             <label>Profile Visibility</label>
