@@ -159,6 +159,7 @@ function spaces(x){
 
 
     $(document).ready(function () {
+        $('#no-results-display').hide();
         $('#name-sort-asc').on('click', function (e) {
             console.log("name ascending");
             e.preventDefault();
@@ -231,6 +232,10 @@ function spaces(x){
                     $(`#${this.innerHTML}`).hide();
                 }
             });
+            if ($(".user:hidden").length == $(".user").length)
+                $('#no-results-display').show();
+            else
+                $('#no-results-display').hide();
         });
 
         $('#submit').click(function(e){
