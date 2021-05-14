@@ -31,12 +31,10 @@
             </div>
         </div>
         <div class="form-row">
+            <input type="hidden" id="curr-country" value="{{curr_user.location.country}}">
             <div class="form-group col-md-6">
                 <label>Country</label>
                 <select name="country" class="form-select" id="country-settings">
-                    <option value="none" selected disabled hidden>
-                        Select an Country
-                    </option>
                 </select>
             </div>
             <div class="form-group col-md-6">
