@@ -269,23 +269,12 @@ router.get('/:id/update', async (req, res) => {
 });
 
 // Routes for getting followers and following
-router.get('/:id/followers', async (req, res) => {
+router.get('/:id/follow', async (req, res) => {
     try{
         let followers = await userData.getFollowers(req.params.id);
+        let following = await userData.getFollowing(req.params.id);
         const curr_user = await userData.getUserById(req.session.user);
-        res.render('follow', {curr_user: curr_user, users: followers, isLoggedIn: true});
-    }
-    catch(e){
-        console.log(e);
-        res.status(500).send({error:e.message});
-    }
-});
-
-router.get('/:id/following', async (req, res) => {
-    try{
-        let followers = await userData.getFollowing(req.params.id);
-        const curr_user = await userData.getUserById(req.session.user);
-        res.render('follow', {curr_user:curr_user, users: followers, isLoggedIn: true});
+        res.render('follow', {curr_user: curr_user, followers: followers, following: following, isLoggedIn: true});
     }
     catch(e){
         console.log(e);
