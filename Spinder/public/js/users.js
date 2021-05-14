@@ -125,11 +125,11 @@ function spaces(x){
             var aText;
             var bText;
             if (type === "name") {
-                aText = $(a).find("#card-username").text();
-                bText = $(b).find("#card-username").text();
+                aText = $(a).find(".card-username").text();
+                bText = $(b).find(".card-username").text();
             } else if (type === "match") {
-                aText = $(a).find("#match-data").text();
-                bText = $(b).find("#match-data").text();
+                aText = $(a).find(".match-data").text();
+                bText = $(b).find(".match-data").text();
 
                 if (aText === "No Match Data")
                     aText = "";
@@ -159,6 +159,7 @@ function spaces(x){
 
 
     $(document).ready(function () {
+        $('#no-results-display').hide();
         $('#name-sort-asc').on('click', function (e) {
             console.log("name ascending");
             e.preventDefault();
@@ -186,11 +187,11 @@ function spaces(x){
 
         $('.card').each(function (i, obj) {
             let user_id = $(this).find('.card-body').attr('id');
-            let like_btn = $(this).find('#like_btn');
-            let profile = $(`#${user_id}-chart`).attr('href');
+            let like_btn = $(this).find('.like_btn');
+            let profile = $(this).find('.back');
 
             if (curr_profile && profile) {
-                let response = getMusicalProfileAjax(profile);
+                let response = getMusicalProfileAjax(profile.attr('id'));
                 if (curr_profile.averageAudioFeatures && response.averageAudioFeatures) {
                     createChart(`${user_id}-chart`, curr_profile.averageAudioFeatures, response.averageAudioFeatures);
                     getMatchPercent(user_id, curr_profile.averageAudioFeatures, response.averageAudioFeatures);
@@ -231,6 +232,10 @@ function spaces(x){
                     $(`#${this.innerHTML}`).hide();
                 }
             });
+            if ($(".user:hidden").length == $(".user").length)
+                $('#no-results-display').show();
+            else
+                $('#no-results-display').hide();
         });
 
         $('#submit').click(function(e){
