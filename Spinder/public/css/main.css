@@ -1,154 +1,215 @@
 .circle {
-    object-fit: cover;
-    border-radius: 50%;
-    height: 15vw;
-    width: 15vw;
+  object-fit: cover;
+  border-radius: 50%;
+  height: auto;
+  width: 15vw;
+  max-width: 100%;
+  max-height: 75%;
 }
 
 .circle-lg {
-    object-fit: cover;
-    border-radius: 50%;
-    height: 20vw;
-    width: 20vw;
+  object-fit: cover;
+  border-radius: 50%;
+  height: 100%;
+  width: 100%;
+  border: .8rem solid #1db954;
+  filter: drop-shadow(0 0 15px white);
 }
 
 .circle img {
-    width: 100%;
-    height: auto;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .thumbnail {
-    max-width: 50px;
-    max-height: 50px;
-    overflow: hidden;
+  max-width: 50px;
+  max-height: 50px;
+  overflow: hidden;
 }
 
 .thumbnail>img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
 }
 
 .user-chart {
-    clip-path: circle();
-    width: 15vw;
-    height: 15vw;
+  clip-path: circle();
+  width: 15vw;
+  height: 15vw;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .flip {
-    height: 15vw;
+  height: 15vw;
 }
 
 .material-icons {
-    display:inline-flex;
-    vertical-align:top;
+  display:inline-flex;
+  vertical-align:top;
 }
 
 @font-face {
-    font-family: "Gotham Bold";
-    src: url('../fonts/GothamBold.ttf')
-  }
-  
-  #navbar {
-    background-color: rgb(53, 53, 53) !important;
-    font-family: "Gotham Bold";
-    font-size: 1.3rem;
-  }
-  
-  #log-in-page {
-    font-family: "Gotham Bold";
-    font-size: 1.9rem;
-  }
+  font-family: "Gotham Bold";
+  src: url('../fonts/GothamBold.ttf')
+}
 
-  #log-in-page .btn{
-    font-size: 1.1rem;
-  }
+#navbar {
+  background-color: #171717 !important;
+  font-family: "Gotham Bold";
+  font-size: 1.3rem;
+}
 
-  #navbar .navbar-nav li {
-    padding-right: 1.5rem;
-  }
-  
-  #navbar .navbar-nav li a {
-    padding: 0;
-  }
-  
-  #home-page {
-    font-family: "Gotham Bold";
-    color: white;
-    height: 100%;
-  }
-  
-  #home-page .hero-text {
-    font-size: 4.2rem;
-  }
-  
-  #home-page .btn {
-    font-size: 1.2rem;
-  }
+#log-in-page {
+  font-family: "Gotham Bold";
+  font-size: 1.9rem;
+}
 
-  .homepage-main {
-    background-color: rgb(53, 53, 53);
-    display: flex;
-    flex-flow: column;
-    height: 100%;
-  }
-  
-  .hero {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 100%;
-  }
-  
-  .hero-underline {
-    border-bottom: 8px solid #46ed82;
-  }
-  
-  html, body {
-    height: 100%;
-    margin: 0;
-  }
-  
-  #home-page .btn {
-    border-radius: 5rem;
-    padding: 1rem 5rem;
-    margin-right: 4rem;
-  }
-  
+#form-div {
+  max-width: 350px;
+}
+
+#stats-header {
+  text-align: center;
+}
+
+#stats-header .card-header{
+  font-size: 1.9rem;
+}
+
+#log-in-page .btn{
+  font-size: 1.1rem;
+}
+
+#no-followers .no-followers1{
+  color: white;
+}
+
+#navbar .navbar-nav li {
+  padding-right: 1.5rem;
+}
+
+#navbar .navbar-nav li a {
+  padding: 0;
+}
+
+#home-page {
+  font-family: "Gotham Bold";
+  color: white;
+  height: 100%;
+}
+
+#home-page .hero-text {
+  font-size: 4.2rem;
+}
+
+#home-page .btn {
+  font-size: 1.2rem;
+}
+
+.homepage-main {
+  background-color: #171717 !important;
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
+#deleteModal .modal-content {
+  color: #171717 !important;
+  font-size: 1.2rem;
+}
+
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40%;
+}
+
+.hero-underline {
+  border-bottom: 8px solid #46ed82;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+#home-page .btn {
+  border-radius: 5rem;
+  padding: 1rem 5rem;
+  margin-right: 4rem;
+}
+
+.hero-graphics-container {
+  align-self: start;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.hero-graphics {
+  height: 150%;
+}
+
+.hero-graphics img {
+  filter: drop-shadow(0 0 15px white);
+}
+
+#home-page .graphic2 {
+  top: 80%;
+  right: 15rem;
+}
+
+#home-page .graphic3 {
+  top: 90%;
+  right: -4rem;
+}
+
+@media screen and (max-width:1200px){
   .hero-graphics-container {
-    align-self: start;
-    height: 100%;
-    display: flex;
-    align-items: center;
+    display: none;
   }
-  
-  .hero-graphics {
-    height: 150%;
+}
+
+@media screen and (min-height: 1200px) {
+  #home-page .graphic1 {
+    margin-top: 8rem;
   }
-  
-  .hero-graphics img {
-    filter: drop-shadow(0 0 8px white);
-  }
-  
-  #home-page .graphic2 {
-    top: 80%;
-    right: 15rem;
-  }
-  
-  #home-page .graphic3 {
-    top: 90%;
-    right: -4rem;
-  }
-  
-  @media screen and (max-width:1200px){
-    .hero-graphics-container {
-      display: none;
-    }
-  }
-  
-  @media screen and (min-height: 1200px) {
-    #home-page .graphic1 {
-      margin-top: 8rem;
-    }
-  }
+}
+
+body {
+  background-color: #171717 !important;
+  color: white !important;
+  font-family: "Gotham Bold" !important;
+}
+
+.card-deck .card-header {
+  background-color: #343a40;
+}
+
+.card {
+  border: none !important;
+}
+
+.card-switch.user {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.front {
+  display: flex;
+}
+
+.list-group li {
+  background-color: #343a40 !important;
+  border-bottom: 1px solid #171717;
+}
+
+.list-group li::before {
+  color: white;
+}
