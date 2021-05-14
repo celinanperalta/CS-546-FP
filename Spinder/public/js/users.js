@@ -219,19 +219,20 @@ function spaces(x){
             });
 
         });
-        // $('#search').on('keyup', function(e){
-        //     let search = $('#search').val();
-        //     console.log(search);
-        //     if($(`h5:contains(${search})`)){
-        //         let username=$(`h5:contains(${search})`);
-        //         $(".user").hide();
-        //         for (user of username){
-        //             console.log(user["h5"]);
-        //            // $(`#${user})`).show();
-        //         }
-        //         console.log("hii");
-        //     }
-        // });
+        
+        $('#search').on('keyup', function(e){
+            e.preventDefault;
+            let search = $('#search').val();
+            $('.card-username').each(function(){
+                if(this.innerHTML.includes(search)){
+                    $(`#${this.innerHTML}`).show();
+                }
+                else{
+                    $(`#${this.innerHTML}`).hide();
+                }
+            });
+        });
+
         $('#submit').click(function(e){
             e.preventDefault();
             let search= $('#search').val();
