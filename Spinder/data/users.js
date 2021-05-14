@@ -13,12 +13,11 @@ const spotifyData = require('./spotify');
 const profileData = require('./profiles');
 //const songData = require('./songs');
 
-function parseId(id){
-    try{
+function parseId(id) {
+    try {
         ObjectID(id);
         return true;
-    }
-    catch(e){
+    } catch (e) {
         return false;
     }
 }
@@ -42,9 +41,9 @@ let exportedMethods = {
             throw new Error("Must provide valid string id");
         }
         const usersCollection = await users(); //obtain users collection
-       if(!parseId(id)){
+        if (!parseId(id)) {
             throw new Error("Uh Oh, Page Not Found!");
-       }
+        }
         const user = await usersCollection.findOne({
             _id: ObjectID.ObjectID(id)
         });
@@ -135,7 +134,7 @@ let exportedMethods = {
         }
         const usersCollections = await users();
         const updatedUserData = result.value;
-        
+
         // id already exists
         delete updatedUserData["_id"];
 
@@ -172,15 +171,17 @@ let exportedMethods = {
         var refresh_token = user.refresh_token;
         var authOptions = {
             url: 'https://accounts.spotify.com/api/token',
-            headers: { 'Authorization': 'Basic ' + (new Buffer(spotifyConfig.client_id + ':' + spotifyConfig.client_secret).toString('base64')) },
+            headers: {
+                'Authorization': 'Basic ' + (new Buffer(spotifyConfig.client_id + ':' + spotifyConfig.client_secret).toString('base64'))
+            },
             form: {
-            grant_type: 'refresh_token',
-            refresh_token: refresh_token
+                grant_type: 'refresh_token',
+                refresh_token: refresh_token
             },
             json: true
         };
 
-        request.post(authOptions, async function(error, response, body) {
+        request.post(authOptions, async function (error, response, body) {
             if (!error && response.statusCode === 200) {
                 access_token = body.access_token;
                 user.access_token = body.access_token;
@@ -190,10 +191,10 @@ let exportedMethods = {
             }
         });
 
-        if (access_token){
+        if (access_token) {
             await this.updateUser(user_id, user);
         }
-        if (callback){
+        if (callback) {
             callback();
         }
     },
@@ -206,7 +207,7 @@ let exportedMethods = {
             let artists = await spotifyData.getUserTopArtists(user._id, user.access_token);
             user.topArtists = artists;
             await this.updateUser(user_id, user);
-        } catch(e) {
+        } catch (e) {
             console.log(e);
         }
     },
@@ -219,7 +220,7 @@ let exportedMethods = {
             let songs = await spotifyData.getUserTopSongs(user._id, user.access_token);
             user.topSongs = songs;
             await this.updateUser(user_id, user);
-        } catch(e) {
+        } catch (e) {
             console.log(e);
         }
     },
@@ -250,7 +251,7 @@ let exportedMethods = {
         }
 
         // why can't we have nice things like python <LOL>
-        profile.topGenres = Object.entries(topGenreCount).sort((a,b) => b[1] - a[1]);
+        profile.topGenres = Object.entries(topGenreCount).sort((a, b) => b[1] - a[1]);
 
         profile.topGenres = profile.topGenres.slice(0, Math.min(5, profile.topGenres.length));
 
@@ -275,7 +276,7 @@ let exportedMethods = {
         let musicalProfile = null;
         if (user.musicalProfile)
             musicalProfile = await profileData.updateProfile(user.musicalProfile, profile);
-        else 
+        else
             musicalProfile = await profileData.addProfile(profile);
 
         user.musicalProfile = musicalProfile._id;
@@ -287,35 +288,36 @@ let exportedMethods = {
 
     async loadTopSongs() {
         let users = await this.getAllUsers();
-        let topSongs={};
-        for (x of users){
-            for (song of await x.topSongs){
-                let name=song.name;
-                if (Object.keys(topSongs).includes(name)){
-                    topSongs[name]=topSongs[name]+1;
+        let topSongs = {};
+        for (x of users) {
+            for (song of await x.topSongs) {
+                let name = song.name;
+                if (Object.keys(topSongs).includes(name)) {
+                    topSongs[name] = topSongs[name] + 1;
+                } else {
+                    topSongs[name] = 1;
                 }
-                else{
-                    topSongs[name]=1;
-                }
-             }
+            }
         }
-        let topSongsSort=[]
-        for (song of Object.keys(topSongs)){
-            let temp=[];
+        let topSongsSort = []
+        for (song of Object.keys(topSongs)) {
+            let temp = [];
             temp.push(song);
             temp.push(topSongs[song]);
             topSongsSort.push(temp);
         }
-        topSongsSort=topSongsSort.sort((a, b) => b[1]-a[1]);
-        let topTenArray=topSongsSort.slice(0,10);
-        let topTen=[];
-        for (song of topTenArray){
+        topSongsSort = topSongsSort.sort((a, b) => b[1] - a[1]);
+        let topTenArray = topSongsSort.slice(0, 10);
+        let topTen = [];
+        for (song of topTenArray) {
             topTen.push(song[0]);
         }
-        topTenFull=[];
-        for(song of topTen){
+        topTenFull = [];
+        for (song of topTen) {
             const songsCollection = await songs();
-            const s = await songsCollection.findOne({ name:song});
+            const s = await songsCollection.findOne({
+                name: song
+            });
             topTenFull.push(s);
         }
         return topTenFull;
@@ -323,38 +325,69 @@ let exportedMethods = {
 
     async loadTopArtists() {
         let users = await this.getAllUsers();
-        let topArtists={};
-        for (x of users){
-            for (artist of await x.topArtists){
-                let name=artist.name;
-                if (Object.keys(topArtists).includes(name)){
-                    topArtists[name]=topArtists[name]+1;
+        let topArtists = {};
+        for (x of users) {
+            for (artist of await x.topArtists) {
+                let name = artist.name;
+                if (Object.keys(topArtists).includes(name)) {
+                    topArtists[name] = topArtists[name] + 1;
+                } else {
+                    topArtists[name] = 1;
                 }
-                else{
-                    topArtists[name]=1;
-                }
-             }
+            }
         }
-        let topArtistsSort=[]
-        for (artist of Object.keys(topArtists)){
-            let temp=[];
+        let topArtistsSort = []
+        for (artist of Object.keys(topArtists)) {
+            let temp = [];
             temp.push(artist);
             temp.push(topArtists[artist]);
             topArtistsSort.push(temp);
         }
-        topArtistsSort=topArtistsSort.sort((a, b) => b[1]-a[1]);
-        let topTenArray=topArtistsSort.slice(0,10);
-        let topTen=[];
-        for (song of topTenArray){
+        topArtistsSort = topArtistsSort.sort((a, b) => b[1] - a[1]);
+        let topTenArray = topArtistsSort.slice(0, 10);
+        let topTen = [];
+        for (song of topTenArray) {
             topTen.push(song[0]);
         }
-        topTenFull=[];
-        for(artist of topTen){
+        topTenFull = [];
+        for (artist of topTen) {
             const artistsCollection = await artists();
-            const a = await artistsCollection.findOne({name:artist});
+            const a = await artistsCollection.findOne({
+                name: artist
+            });
             topTenFull.push(a);
         }
         return topTenFull;
+    },
+
+    async getFollowers(id) {
+        let user = await this.getUserById(id);
+
+        const usersCollection = await users(); //Obtain user collection
+        const usersList = await usersCollection.find({
+            likedProfiles: id
+        }).toArray(); //get all users who have liked this user
+
+        return usersList;
+    },
+
+    async getFollowing(id) {
+        let user = await this.getUserById(id);
+
+        let likedUsers = [];
+
+        if (user.likedProfiles) {
+            for (let user_id of user.likedProfiles) {
+                try {
+                    let profile = await this.getUserById(user_id);
+                    likedUsers.push(profile);
+                } catch (e) {
+                    continue;
+                }
+            }
+        }
+
+        return likedUsers;
     }
 };
 

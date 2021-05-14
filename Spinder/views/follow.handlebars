@@ -1,0 +1,55 @@
+<input type="hidden" id="curr_user_liked" value={{curr_user.likedProfiles}} />
+<div class="row p-5">
+    <div class="col">
+        <h1>Followers</h1>
+        <ul class="list-group" id="followers">
+            {{#if followers}}
+            {{#each followers}}
+            <li class="list-group-item d-flex justify-content-between align-items-start" id="{{this._id}}">
+                {{#nequals this.img "../public/images/default_user.jpg"}}
+                <span class="thumbnail ml-4"><img src="{{this.img}}"></span>
+                {{/nequals}}
+                {{#equals this.img "../public/images/default_user.jpg"}}
+                <span class="thumbnail ml-4"><img src="../{{this.img}}"></span>
+                {{/equals}}
+                <div class="ms-2 me-auto">
+                    <div class="fw-bold"><a href="/users/{{this._id}}">{{this.username}}</a></div>
+                </div>
+                <span class="d-flex">
+                    <span class="ml-auto material-icons text-primary" role="button" id="like_btn">favorite_border</span>
+                </span>
+            </li>
+            {{/each}}
+            {{else}}
+            <li class="list-group-item d-flex justify-content-between align-items-start">None</li>
+            {{/if}}
+        </ul>
+    </div>
+    <div class="col">
+        <h1>Following</h1>
+        <ul class="list-group" id="followers">
+            {{#if following}}
+            {{#each following}}
+            <li class="list-group-item d-flex justify-content-between align-items-start" id="{{this._id}}">
+                {{#nequals this.img "../public/images/default_user.jpg"}}
+                <span class="thumbnail ml-4"><img src="{{this.img}}"></span>
+                {{/nequals}}
+                {{#equals this.img "../public/images/default_user.jpg"}}
+                <span class="thumbnail ml-4"><img src="../{{this.img}}"></span>
+                {{/equals}}
+                <div class="ms-2 me-auto">
+                    <div class="fw-bold"><a href="/users/{{this._id}}">{{this.username}}</a></div>
+                </div>
+                <span class="d-flex">
+                    <span class="ml-auto material-icons text-primary" role="button" id="like_btn">favorite_border</span>
+                </span>
+            </li>
+            {{/each}}
+            {{else}}
+            <li class="list-group-item d-flex justify-content-between align-items-start">None</li>
+            {{/if}}
+        </ul>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/public/js/follow.js"></script>
