@@ -163,6 +163,12 @@ html, body {
   align-items: center;
 }
 
+.hero-text-container {
+  height: 100%;
+  margin: auto;
+  margin-top: 10%;
+}
+
 .hero-graphics {
   height: 150%;
 }
