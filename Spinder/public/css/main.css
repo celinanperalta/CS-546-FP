@@ -19,8 +19,10 @@
 .circle-lg {
   object-fit: cover;
   border-radius: 50%;
-  height: 100%;
-  width: 100%;
+  height: auto;
+  width: 20vw;
+  max-width: auto;
+  max-height: 20vw;
   border: .8rem solid #1db954;
   filter: drop-shadow(0 0 15px white);
 }
