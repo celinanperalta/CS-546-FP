@@ -13,7 +13,7 @@ const { ObjectId } = require('bson');
 const saltRounds = 16;
 
 function isLoggedIn(req,res,next) {
-  if (xss(req.session.AuthCookie)) {
+  if (req.session.AuthCookie) {
     next();
   } else {
     res.redirect('/login');
@@ -21,7 +21,7 @@ function isLoggedIn(req,res,next) {
 };
 
 function restrictUrlAccess(req, res, next){
-  if (xss(req.headers['not-url'])) {
+  if (req.headers['not-url']) {
     // custom header exists, then call next() to pass to the next function
     next();
   } else {
@@ -39,7 +39,7 @@ const constructorMethod = (app) => {
   app.use('/stats', isLoggedIn);
 
   app.get("/", async (req, res) => {
-    if(xss(req.session.AuthCookie)) {
+    if(req.session.AuthCookie) {
       console.log("root");
       res.redirect('/users');
     } else {
@@ -66,14 +66,14 @@ const constructorMethod = (app) => {
   });
 
   app.get("/stats", async (req, res) => {
-    const curr_user = await userData.getUserById(xss(req.session.user));
+    const curr_user = await userData.getUserById(req.session.user);
     const topSongs = await userData.loadTopSongs();
     const topArtists = await userData.loadTopArtists();
     const users = await userData.getAllUsers();
     res.render('stats', {
       title: 'User Statistics',
       curr_user: curr_user,
-      isLoggedIn: xss(req.session.AuthCookie),
+      isLoggedIn: req.session.AuthCookie,
       topSongs: topSongs,
       topArtists: topArtists,
       userCount: users.length
@@ -140,7 +140,7 @@ const constructorMethod = (app) => {
     let user = await userData.getUserByUsername(username).catch(exception => {
       return undefined;
     });
-    if (xss(req.session.AuthCookie)) {
+    if (req.session.AuthCookie) {
       // If authenticated, show them all users
       if(user.access_token != ""){
         await userData.refreshAuthToken(user._id);

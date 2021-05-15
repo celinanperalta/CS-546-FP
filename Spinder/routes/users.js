@@ -22,12 +22,12 @@ function containsNew(originalArray, newArray){
 //route for liking a user
 router.post('/:id/like', async (req,res)=>{
     let userBeingLiked = await userData.getUserById(xss(req.params.id));
-    let userThatLiked = await userData.getUserById(xss(req.session.user));
+    let userThatLiked = await userData.getUserById(req.session.user);
     
     let likedProfiles = userThatLiked.likedProfiles;
     let alreadyLiked = false;
     for(let profile of likedProfiles){
-        if(profile == xss(req.params.id)){
+        if(profile == req.params.id){
             alreadyLiked = true;
             break;
         }
@@ -40,7 +40,7 @@ router.post('/:id/like', async (req,res)=>{
         likedProfiles: likedProfiles
     }
     try{
-        const newUser = await userData.updateUser(xss(req.session.user),updatedUserData);
+        const newUser = await userData.updateUser(req.session.user,updatedUserData);
         res.redirect('/users/');
     }catch(e){
         console.log(e);
@@ -54,7 +54,7 @@ router.post('/:id/like', async (req,res)=>{
 
 router.post('/:id/unlike', async (req,res)=>{
     let userBeingUnliked = await userData.getUserById(xss(req.params.id));
-    let userThatUnliked = await userData.getUserById(xss(req.session.user));
+    let userThatUnliked = await userData.getUserById(req.session.user);
     
     let likedProfiles = userThatUnliked.likedProfiles;
     for(i = 0; i < likedProfiles.length; i++){
@@ -68,7 +68,7 @@ router.post('/:id/unlike', async (req,res)=>{
         likedProfiles: likedProfiles
     }
     try{
-        const newUser = await userData.updateUser(xss(req.session.user),updatedUserData);
+        const newUser = await userData.updateUser(req.session.user,updatedUserData);
         res.redirect('/users/');
     }catch(e){
         console.log(e);
@@ -167,7 +167,7 @@ router.post('/settings/:id', async (req,res)=> {
 
 router.get('/settings', async (req,res)=>{ 
     try{
-        const curr_user = await userData.getUserById(xss(req.session.user));
+        const curr_user = await userData.getUserById(req.session.user);
         let visibility = {
             isPrivate: false,
             showSongs: true,
@@ -204,7 +204,7 @@ router.get('/settings', async (req,res)=>{
         else{
             curr_user.visibility = visibility;
         }
-        res.render('settings',{curr_user: curr_user,  _id: xss(req.session.user), isLoggedIn: true, visibility: visibility});
+        res.render('settings',{curr_user: curr_user,  _id: req.session.user, isLoggedIn: true, visibility: visibility});
     }catch(e){
         console.log(e);
         res.json({error: e.message});
@@ -214,7 +214,7 @@ router.get('/settings', async (req,res)=>{
 router.get('/', async (req, res) => {
     try{
         const userList = await userData.getAllUsers();
-        const curr_user = await userData.getUserById(xss(req.session.user));
+        const curr_user = await userData.getUserById(req.session.user);
         res.status(200).render('users', {curr_user: curr_user, title: "Users", users : userList, isLoggedIn: true, partial: 'userSingle'});
     }
     catch(e){
@@ -227,9 +227,9 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     // console.log(req.session);
     try{
-        const user = await userData.getUserById(xss(req.params.id));
-        const curr_user = await userData.getUserById(xss(req.session.user));
-        let followers = await userData.getFollowers(xss(req.params.id));
+        const user = await userData.getUserById(req.params.id);
+        const curr_user = await userData.getUserById(req.session.user);
+        let followers = await userData.getFollowers(req.params.id);
         //console.log(user);
         let musicalProfile = undefined;
         if (user.musicalProfile)
@@ -253,9 +253,9 @@ router.get('/:id', async (req, res) => {
 
 router.get('/:id/update', async (req, res) => {
     // console.log(req.session);
-    if (xss(req.params.id) == xss(req.session.user)) {
+    if (req.params.id == req.session.user) {
         try{
-            await userData.loadUserSpotifyData(xss(req.session.user));
+            await userData.loadUserSpotifyData(req.session.user);
             res.redirect('/users/' + xss(req.params.id));
             //res.status(200).json(user);
         }
@@ -271,9 +271,9 @@ router.get('/:id/update', async (req, res) => {
 // Routes for getting followers and following
 router.get('/:id/follow', async (req, res) => {
     try{
-        let followers = await userData.getFollowers(xss(req.params.id));
-        let following = await userData.getFollowing(xss(req.params.id));
-        const curr_user = await userData.getUserById(xss(req.session.user));
+        let followers = await userData.getFollowers(req.params.id);
+        let following = await userData.getFollowing(req.params.id);
+        const curr_user = await userData.getUserById(req.session.user);
         res.render('follow', {curr_user: curr_user, followers: followers, following: following, isLoggedIn: true});
     }
     catch(e){
@@ -309,14 +309,14 @@ router.put('/:id', async(req, res)=> {
     }
     let updatedInfo=result.value;
     try{
-        await userData.getUserById(xss(req.params.id));
+        await userData.getUserById(req.params.id);
     }
     catch(e){
         res.status(404).json({ error: 'User not found' });
         return;
     }
     try {
-        const updatedUser = await userData.updateUser(xss(req.params.id), updatedInfo);
+        const updatedUser = await userData.updateUser(req.params.id, updatedInfo);
         res.status(200).json(updatedUser);
     }
     catch(e){
@@ -327,7 +327,7 @@ router.put('/:id', async(req, res)=> {
 router.patch('/:id', async (req, res) => {
     console.log("why here")
     try{
-        await userData.getUserById(xss(req.params.id));
+        await userData.getUserById(req.params.id);
     }
     catch(e){
         res.status(404).json({ error: 'User not found' });
@@ -339,7 +339,7 @@ router.patch('/:id', async (req, res) => {
         res.status(400).json({error:result.error});
         return;
     }
-    let oldUser = await userData.getUserById(xss(req.params.id));
+    let oldUser = await userData.getUserById(req.params.id);
     let updatedInfo=result.value;
     let updatedData = {};
     if(updatedInfo.firstName && updatedInfo.firstName != oldUser.firstName){
@@ -394,7 +394,7 @@ router.patch('/:id', async (req, res) => {
         return;
     }
     try{
-        const updatedArtist = await userData.updateUser(xss(req.params.id), updatedData);
+        const updatedArtist = await userData.updateUser(req.params.id, updatedData);
         res.status(200).json(updatedArtist);
 
     }
@@ -406,10 +406,10 @@ router.patch('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
     try {
         // dont check for deletion count in case user is not connected to spotify
-        const deletedProfile = await profileData.removeProfileByUserId(xss(req.params.id));
-        const artistDeletion = await artistData.removeUserFromArtists(xss(req.params.id));
-        const songDeletion = await songData.removeUserFromSongs(xss(req.params.id));
-        const deletedUser = await userData.removeUser(xss(req.params.id));
+        const deletedProfile = await profileData.removeProfileByUserId(req.params.id);
+        const artistDeletion = await artistData.removeUserFromArtists(req.params.id);
+        const songDeletion = await songData.removeUserFromSongs(req.params.id);
+        const deletedUser = await userData.removeUser(req.params.id);
         
         return res.status(200).send({result: 'redirect', url:'/logout'});
     } catch (e) {
