@@ -16,7 +16,7 @@
             <p><em>{{user.bio}}</em></p>
             {{#compare curr_user._id user._id comparator="==="}}
             {{#unless user.access_token}}
-            <form action="/spotify/login" id="spotify-connect">
+            <form action="/spotify/login" id="spotify-connect" method="POST">
                 <input class="btn btn-primary" type="submit" value="Connect to Spotify" />
             </form>
             {{/unless}}
