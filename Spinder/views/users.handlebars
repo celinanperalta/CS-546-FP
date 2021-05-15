@@ -1,3 +1,4 @@
+<section class="container">
 <div class="hidden">
     <input type="hidden" id="curr_user_profile" value={{curr_user.musicalProfile}} />
     <input type="hidden" id="curr_user_liked" value={{curr_user.likedProfiles}} />
@@ -46,7 +47,7 @@
                     <span class="ml-auto material-icons text-primary like_btn" role="button">favorite_border</span>
                 </div>
             </div>
-            <div class="card-body bg-light" id={{this._id}}>
+            <div class="card-body bg-dark" id={{this._id}}>
                 <div class="flip">
                     <div class="front">
                         <img class="shadow circle-alt mx-auto my-auto d-block" src="{{this.img}}" alt="user image">
@@ -59,8 +60,8 @@
                     {{/if}}
                 </div>
             </div>
-            <div class="card-footer bg-dark">
-                <h5 class="mr-auto card-title"><a href="/users/{{this._id}}" class="card-username">{{this.username}}</a>
+            <div class="card-footer bg-primary">
+                <h5 class="mr-auto card-title"><a href="/users/{{this._id}}" class="text-light" id="card-username">{{this.username}}</a>
                 </h5>
                 <p class="small card-text text-light">{{this.firstName}} {{this.lastName}}</p>
             </div>

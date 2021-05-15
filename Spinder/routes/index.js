@@ -179,7 +179,7 @@ const constructorMethod = (app) => {
   });
 
   app.get('/logout', async (req, res) => {
-    xss(req.session).destroy();
+    req.session.destroy();
     res.redirect('/home');
   });
 
