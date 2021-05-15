@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <section class="container">
 <p></p>
 <h1>Sign Up</h1>
@@ -87,4 +88,90 @@
       </div>
   </form>
 </section>
+=======
+<form action="/register" method="POST" id="new-user-form"
+    class="row g-3 needs-validation" novalidate>
+    <div class="col-md-4">
+        <label for="username" class="form-label">Username</label>
+        <input name="username" type="text" class="form-control" id="username" value="" minlength="5" maxlength="25"
+            pattern="^[a-zA-Z0-9_]*$" required>
+        <div class="invalid-feedback">
+            Please choose a username with 5-25 characters.
+        </div>
+    </div>
+    <div class="col-md-4">
+        <label for="firstName" class="form-label">First Name</label>
+        <input name="firstName" type="text" class="form-control" id="firstName" value="" minlength="1" pattern="^[a-zA-Z]+( [a-zA-Z]+)*$"
+            required>
+        <div class="invalid-feedback">
+            Please enter your first name.
+        </div>
+    </div>
+    <div class="col-md-4">
+        <label for="lastName" class="form-label">Last Name</label>
+        <input name="lastName" type="text" class="form-control" id="lastName" value="" minlength="1" pattern="^[a-zA-Z]+( [a-zA-Z]+)*$"
+            required>
+        <div class="invalid-feedback">
+            Please enter your last name.
+        </div>
+    </div>
+    <div class="col-md-4">
+        <label for="city" class="form-label">City</label>
+        <input name="city" type="text" class="form-control" id="city" value="" minlength="1" pattern="^[a-zA-Z]+( [a-zA-Z]+)*$"
+            required>
+        <div class="invalid-feedback">
+            Please enter the name of your city.
+        </div>
+    </div>
+    <div class="col-md-4">
+        <label for="country" class="form-label">Country</label>
+        <select name="country" class="form-select" id="country" required></select>
+        <div class="invalid-feedback">
+            Please select a country.
+        </div>
+    </div>
+    {{!-- 
+    Password must contain at least one digit [0-9].
+    Password must contain at least one lowercase Latin character [a-z].
+    Password must contain at least one uppercase Latin character [A-Z].
+    Password must contain at least one special character like ! @ # & ( ).
+    Password must contain a length of at least 8 characters and a maximum of 20 characters.
+     --}}
+    <div class="col-md-4">
+        <label for="password" class="form-label">Password</label>
+        <input name="password" type="password" class="form-control" id="password" value=""
+            pattern="^(?=.*\d)(?=(.*\W){2})(?=.*[a-zA-Z])(?!.*\s).{1,15}$" required>
+        <div class="invalid-feedback">
+            <ul>
+               <li>Password must contain at least 1 digit.</li>
+               <li>
+                   Password must contain at least 2 special characters.
+               </li>
+               <li>
+                   Password must contain at least 1 alphabetic character.
+               </li>
+               <li>Password must not contain blank spaces.</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <label for="confirm-password" class="form-label">Confirm Password</label>
+        <input name="confirmPassword" type="password" class="form-control" id="confirm-password" value=""
+            oninput="checkPassword(this)" required>
+             <div class="invalid-feedback">
+                 Passwords must match.
+             </div>
+    </div>
+    {{#if error}}
+    <div id="error">
+        <p>{{error}}</p>
+    </div>
+    {{/if}}
+    <div class="row g-3">
+        <div class="col-md-4">
+            <button class="form" type="submit">Register</button>
+        </div>
+    </div>
+</form>
+>>>>>>> parent of cd74565 (Fix validation for password/confirm password)
 <script src="../public/js/forms.js"></script>
