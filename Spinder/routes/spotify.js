@@ -32,7 +32,7 @@ var stateKey = 'spotify_auth_state'; // Sent in 1st call as state, not required 
  };
 
 // Responsible for first login, response return authorization code
-router.post('/login', async function(req, res) {
+router.get('/login', async function(req, res) {
  
     var state = generateRandomString(16);
     res.cookie(stateKey, state);

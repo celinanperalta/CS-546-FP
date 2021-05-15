@@ -34,7 +34,7 @@ const constructorMethod = (app) => {
   app.use('/profiles', restrictUrlAccess, profileRoutes);
   app.use('/artists', restrictUrlAccess, artistRoutes);
   app.use('/songs', restrictUrlAccess, songRoutes);
-  app.use('/spotify', isLoggedIn, spotifyRoutes);
+  app.use('/spotify', spotifyRoutes);
 
   app.use('/stats', isLoggedIn);
 
