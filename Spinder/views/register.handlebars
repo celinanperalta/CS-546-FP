@@ -2,7 +2,7 @@
 <p></p>
 <h1>Sign Up</h1>
   <form action="/register" method="POST" id="new-user-form"
-      class="row g-3 needs-validation" novalidate>
+      class="row g-3 needs-validation" oninput='confirmPassword.setCustomValidity(confirmPassword.value != password.value ? "Passwords do not match." : "")' novalidate>
       <div class="col-md-4">
           <label for="username" class="form-label">Username</label>
           <input name="username" type="text" class="form-control" id="username" value="" minlength="5" maxlength="25"
@@ -67,7 +67,7 @@
           </div>
       </div>
       <div class="col-md-4">
-          <label for="confirm-password" class="form-label">Confirm Password</label>
+          <label for="confirmPassword" class="form-label">Confirm Password</label>
           <input name="confirmPassword" type="password" class="form-control" id="confirm-password" value=""
               oninput="checkPassword(this)" required>
                <div class="invalid-feedback">
