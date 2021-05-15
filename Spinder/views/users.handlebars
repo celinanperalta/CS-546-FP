@@ -36,7 +36,7 @@
 <div class="card-deck" id="card-deck">
     {{#each users}}
     {{#compare this._id ../curr_user._id operator="!="}}
-    {{#unless this.isPrivate }}
+    {{#unless this.visibility.isPrivate}}
     {{!-- <div class="col"> --}}
     <div class="card-switch w-25 user mb-4" id="{{this.username}}">
         <div class="card mb-3 shadow border-light h-100">
@@ -46,7 +46,7 @@
                     <span class="ml-auto material-icons text-primary like_btn" role="button">favorite_border</span>
                 </div>
             </div>
-            <div class="card-body bg-light" id={{this._id}}>
+            <div class="card-body bg-dark" id={{this._id}}>
                 <div class="flip">
                     <div class="front">
                         <img class="shadow circle-alt mx-auto my-auto d-block" src="{{this.img}}" alt="user image">
