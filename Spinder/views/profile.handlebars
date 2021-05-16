@@ -1,9 +1,9 @@
 <div class="container">
     <div class="row align-items-center">
-        <div class="col-md-3">
+        <div class="col-md-4">
             <img src="{{user.img}}" id="user-img" class="circle-lg" alt="user profile picture">
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <h1>{{user.firstName}} {{user.lastName}}</h1>
             <h2 class="text-muted">@{{user.username}}</h2>
             <h6 class="text-muted">{{user.location.city}}, {{user.location.country}}</h6>
@@ -93,7 +93,7 @@
                 <li class="list-group-item d-flex justify-content-between align-items-start">
                     <span class="thumbnail ml-4"><img src="{{this.img}}" alt="artist cover art"></span>
                     <div class="ms-2 me-auto">
-                        <div class="fw-bold"><a href="{{this.spotify_url}}">{{this.name}}</a></div>
+                        <div class="fw-bold"><a href="{{this.spotify_url}}" target="_blank">{{this.name}}</a></div>
                     </div>
                 </li>
                 {{/each}}
@@ -110,7 +110,7 @@
                 <li class="list-group-item d-flex justify-content-between align-items-start">
                     <span class="thumbnail ml-4"><img src="{{this.img}}" alt="song cover art"></span>
                     <div class="ms-2 me-auto">
-                        <div class="fw-bold"><a href="{{this.spotify_url}}">{{this.name}}</a></div>
+                        <div class="fw-bold"><a href="{{this.spotify_url}}" target="_blank">{{this.name}}</a></div>
                         <small class="text-muted">{{this.artists}}</small>
                     </div>
                 </li>
@@ -132,7 +132,7 @@
                             alt="playlist cover art"></span>
                     {{/if}}
                     <div class="ms-2 me-auto">
-                        <div class="fw-bold"><a href="{{this.spotify_url}}">{{this.name}}</a></div>
+                        <div class="fw-bold"><a href="{{this.spotify_url}}" target="_blank">{{this.name}}</a></div>
                     </div>
                 </li>
                 {{/each}}
@@ -155,7 +155,7 @@
                 <li class="list-group-item d-flex justify-content-between align-items-start">
                     <span class="thumbnail ml-4"><img src="{{this.img}}"></span>
                     <div class="ms-2 me-auto">
-                        <div class="fw-bold"><a href="{{this.spotify_url}}">{{this.name}}</a></div>
+                        <div class="fw-bold"><a href="{{this.spotify_url}}" target="_blank">{{this.name}}</a></div>
                     </div>
                 </li>
                 {{/each}}
@@ -174,7 +174,7 @@
                 <li class="list-group-item d-flex justify-content-between align-items-start">
                     <span class="thumbnail ml-4"><img src="{{this.img}}"></span>
                     <div class="ms-2 me-auto">
-                        <div class="fw-bold"><a href="{{this.spotify_url}}">{{this.name}}</a></div>
+                        <div class="fw-bold"><a href="{{this.spotify_url}}" target="_blank">{{this.name}}</a></div>
                         <small class="text-muted">{{this.artists}}</small>
                     </div>
                 </li>
@@ -197,7 +197,7 @@
                     <span class="thumbnail ml-4"><img src="/public/images/default_song.jpg"></span>
                     {{/if}}
                     <div class="ms-2 me-auto">
-                        <div class="fw-bold"><a href="{{this.spotify_url}}">{{this.name}}</a></div>
+                        <div class="fw-bold"><a href="{{this.spotify_url}}" target="_blank">{{this.name}}</a></div>
                     </div>
                 </li>
                 {{/each}}
