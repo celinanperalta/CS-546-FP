@@ -37,7 +37,7 @@
 <div class="card-deck" id="card-deck">
     {{#each users}}
     {{#compare this._id ../curr_user._id operator="!="}}
-    {{#unless this.isPrivate }}
+    {{#unless this.visibility.isPrivate}}
     {{!-- <div class="col"> --}}
     <div class="card-switch w-25 user mb-4" id="{{this.username}}">
         <div class="card mb-3 shadow border-light h-100">
